@@ -1,0 +1,37 @@
+/*
+Name: Multiplicar Brasil - Cotação
+URI: http://multiplicarbrasil.com.br/
+Author: Basic
+Author URI: http://www.basic.com.br/
+Description: Sistema de Cotação da Multiplicar Brasil
+
+
+Version: 1.0
+
+*/
+
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Import
+# Typography
+
+--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+# Import
+--------------------------------------------------------------*/
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css');
+
+/*--------------------------------------------------------------
+# Typography
+--------------------------------------------------------------*/
+
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}

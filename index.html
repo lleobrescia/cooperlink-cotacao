@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7 no-js" lang="pt-BR" ng-app="app">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8 no-js" lang="pt-BR" ng-app="app">
+<![endif]-->
+<!--[if !(IE 7) & !(IE 8)]><!-->
+<html lang="pt-BR" class="no-js" ng-app="app">
+
+<head>
+  <title>Multiplicar Brasil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="fragment" content="!">
+
+  <base href="/multiplicar/cotacao/">
+
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body ng-controller="MainController as main">
+
+  <div ui-view></div>
+
+  <!--ANGULAR-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
+  <!--ANGULAR BR-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/i18n/angular-locale_pt-br.js"></script>
+  <!--ROTA-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+  <!--ANIMACAO-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-animate.min.js"></script>
+  <!--MENSAGENS FORM-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-messages.min.js"></script>
+  <!--MASCARA-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ngMask/3.1.1/ngMask.min.js"></script>
+
+  <!--STARTUP-->
+  <script src="js/app.js"></script>
+  <!--CONTROLES-->
+  <script src="js/app.controller.js"></script>
+</body>
+
+</html>
