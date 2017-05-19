@@ -55,9 +55,9 @@
     $locationProvider.html5Mode(true);
 
     $stateProvider
-      .state('main', {
+      .state('placa', {
         url: '/',
-        templateUrl: 'views/main.html'
+        templateUrl: 'views/placa.html'
       });
   }
 })();
