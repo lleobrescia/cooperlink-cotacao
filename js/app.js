@@ -58,6 +58,10 @@
       .state('placa', {
         url: '/',
         templateUrl: 'views/placa.html'
+      })
+      .state('cotacao', {
+        url: '/cotacao',
+        templateUrl: 'views/cotacao.html'
       });
   }
 })();

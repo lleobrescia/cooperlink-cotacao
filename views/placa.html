@@ -14,9 +14,9 @@
           <div class="form-group">
             <label class="control-label text-center" for="placa">Informe a placa do veículo</label>
             <div class="input-group">
-              <input type="text" class="form-control input-lg" name="placa" ng-model="main.placa" mask="%%%9999">
+              <input class="form-control input-lg" name="placa" ng-model="main.placa" type="text" mask="%%%9999" required>
               <div class="input-group-addon">
-                <button type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                <button ng-disabled="formPasso.$invalid" ng-click="main.GetDadosRequisicao()" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
               </div>
               <!--input-group-addon-->
             </div>

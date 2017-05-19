@@ -211,6 +211,10 @@ body {
   color: #1a4783;
 }
 
+.form__passo .input-group-addon button:focus {
+  outline: none;
+}
+
 .form__passo .help-block {
   font-size: 1.125em;
   color: white;
