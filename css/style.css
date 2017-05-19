@@ -19,6 +19,9 @@ Version: 1.0
 # Typography
 # Header
 # Footer
+# Content
+# Forms
+  ## Passo a Passo Form
 
 --------------------------------------------------------------*/
 
@@ -29,6 +32,8 @@ Version: 1.0
 
 @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
 
 /*--------------------------------------------------------------
 # Animation
@@ -47,6 +52,7 @@ Version: 1.0
 /* The starting CSS styles for the enter animation */
 
 .ng-enter {
+  -webkit-transition: 0.5s linear all;
   transition: 0.5s linear all;
   opacity: 0;
 }
@@ -66,6 +72,7 @@ Version: 1.0
 body {
   font-size: 16px;
   line-height: 1.5;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 
@@ -125,4 +132,87 @@ body {
 
 .footer span {
   color: #41c4ec;
+}
+
+
+/*--------------------------------------------------------------
+# Comntent
+--------------------------------------------------------------*/
+
+.bg__azul {
+  background: #1a4783 url('../img/bg.png') repeat;
+  min-height: 82vh;
+  color: white;
+}
+
+.title {
+  font-size: 3.125em;
+  color: white;
+  font-weight: bold;
+  margin-top: 89px;
+  margin-bottom: 0;
+}
+
+.title span {
+  color: #41c4ec;
+}
+
+.subtitulo {
+  font-size: 1.250em;
+}
+
+
+/*--------------------------------------------------------------
+# Forms
+--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+## Passo a Passo Form
+--------------------------------------------------------------*/
+
+.form__passo {
+  margin-top: 100px;
+}
+
+.form__passo .control-label {
+  width: 100%;
+  font-size: 1.875em;
+  font-weight: 400;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+
+.form__passo .form-control {
+  border: none;
+  border-bottom: solid 7px #12386a;
+  height: 94px;
+  font-size: 2.500em;
+}
+
+.form__passo .form-control:focus {
+  box-shadow: none;
+}
+
+.form__passo .input-group-addon {
+  background-color: #41c4ec;
+  border: none;
+  border-bottom: solid 7px #12386a;
+}
+
+.form__passo .input-group-addon:hover {
+  opacity: 0.9;
+}
+
+.form__passo .input-group-addon button {
+  background: transparent;
+  border: none;
+  font-size: 2.500em;
+  color: #1a4783;
+}
+
+.form__passo .help-block {
+  font-size: 1.125em;
+  color: white;
+  margin-top: 30px;
 }
