@@ -6,7 +6,7 @@
 <html class="ie ie8 no-js" lang="pt-BR" ng-app="app">
 <![endif]-->
 <!--[if !(IE 7) & !(IE 8)]><!-->
-<html lang="pt-BR" class="no-js" ng-app="app">
+<html class="no-js" ng-app="app" lang="pt-BR">
 
 <head>
   <title>Multiplicar Brasil</title>
@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="fragment" content="!">
 
-  <link rel="icon" type="image/png" href="img/favicon-multiplicar.png" />
+  <link type="image/png" href="img/favicon-multiplicar.png" rel="icon">
 
   <base href="/multiplicar/cotacao/">
 
@@ -23,8 +23,39 @@
 
 <body ng-controller="MainController as main">
 
-  <div ui-view></div>
+  <div class="container-fluid header">
 
+    <header class="container">
+      <div class="row">
+        <div class="col-sm-5">
+          <a href="https://multiplicarbrasil.com.br/" title="Multiplicar Brasil">
+            <img src="img/multiplicar_brasil.png" alt="Multiplicar Brasil">
+          </a>
+        </div>
+        <!--col-sm-5-->
+        <div class="col-sm-7 header__contato">
+          <div class="pull-right">
+            <span class="header_contato_tel">0800 800 800</span>
+            <span>
+            <strong>Horário de atendimento</strong> <br>
+            Segunda a Sexta 9h às 20h
+          </span>
+          </div>
+        </div>
+        <!--col-sm-7-->
+      </div>
+      <!--row-->
+    </header>
+    <!--container-->
+  </div>
+  <!--header-->
+  <div ng-cloak ui-view></div>
+
+  <footer>
+
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!--ANGULAR-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
   <!--ANGULAR BR-->
