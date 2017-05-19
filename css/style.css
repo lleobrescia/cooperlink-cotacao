@@ -18,6 +18,7 @@ Version: 1.0
 # Animation
 # Typography
 # Header
+# Footer
 
 --------------------------------------------------------------*/
 
@@ -107,4 +108,21 @@ body {
   padding: 9px 16px;
   margin-right: 20px;
   float: none;
+}
+
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+
+.footer {
+  min-height: 60px;
+  background-color: #00142f;
+  color: white;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+
+.footer span {
+  color: #41c4ec;
 }

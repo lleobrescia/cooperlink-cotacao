@@ -35,7 +35,7 @@
         <!--col-sm-5-->
         <div class="col-sm-7 header__contato">
           <div class="pull-right">
-            <span class="header_contato_tel">0800 800 800</span>
+            <span class="header_contato_tel" ng-bind="main.telefone"></span>
             <span>
             <strong>Horário de atendimento</strong> <br>
             Segunda a Sexta 9h às 20h
@@ -51,8 +51,9 @@
   <!--header-->
   <div ng-cloak ui-view></div>
 
-  <footer>
-
+  <footer class="container-fluid footer text-center">
+    COPYRIGHT &copy; 2017 - Todos os direitos reservados. Quer proteger seu veículo? Fale com um de nossos consultores:
+    <span ng-bind="main.telefone"></span>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
