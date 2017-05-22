@@ -10,13 +10,13 @@
     <!--row-->
     <div class="row">
       <div class="col-sm-8 col-sm-offset-2">
-        <form class="form__passo" name="formPasso">
+        <form class="form__passo" name="formPasso" ng-hide="main.carregando">
           <div class="form-group">
             <label class="control-label text-center" for="placa">Informe a placa do veículo</label>
             <div class="input-group">
-              <input class="form-control input-lg" name="placa" ng-model="main.placa" type="text" mask="%%%9999" required>
+              <input class="form-control input-lg" name="placa" ng-model="main.placa" type="text" mask="@@@9999" required>
               <div class="input-group-addon">
-                <button ng-disabled="formPasso.$invalid" ng-click="main.GetDadosRequisicao()" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                <button ng-click="main.GetDadosRequisicao()" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
               </div>
               <!--input-group-addon-->
             </div>
@@ -25,6 +25,7 @@
           </div>
           <!--form-group-->
         </form>
+        <div class="loader" ng-show="main.carregando"></div>
       </div>
       <!--col-sm-8 col-sm-offset-2-->
     </div>

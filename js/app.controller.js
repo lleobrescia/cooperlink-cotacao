@@ -5,7 +5,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$http', 'conversorService'];
+  MainController.$inject = ['$http', 'conversorService', '$state'];
 
   /**
    * @ngdoc main
@@ -28,7 +28,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($http, conversorService) {
+  function MainController($http, conversorService, $state) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -68,7 +68,7 @@
     };
     var url = '';
 
-
+    vm.carregando = false;
     vm.placa = '';
     vm.telefone = '0800 000 000';
     vm.usuario = {
@@ -99,6 +99,7 @@
      * @memberof MainController
      */
     function GetDadosRequisicao() {
+      vm.carregando = true;
       var dados = {};
 
       /**
@@ -140,6 +141,8 @@
         var fipe = ''; //Armazena os dados da tabela fipe
         var retorno = $(data).find('string'); // Recebe a resposta do servico
 
+        console.log(data);
+
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
         codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
 
@@ -164,6 +167,9 @@
         //Armazena os dados relevantes para dar continuidade a cotação
         vm.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
         vm.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
+
+        vm.carregando = false;
+        $state.go('cotacao');
       });
     }
   }
