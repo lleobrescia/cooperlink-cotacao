@@ -35,6 +35,7 @@ Version: 1.0
 @import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.min.css');
 
 /*--------------------------------------------------------------
 # Animation
@@ -53,9 +54,9 @@ Version: 1.0
 /* The starting CSS styles for the enter animation */
 
 .ng-enter {
+  opacity: 0;
   -webkit-transition: 0.5s linear all;
   transition: 0.5s linear all;
-  opacity: 0;
 }
 
 
@@ -66,18 +67,18 @@ Version: 1.0
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
-  /* Light grey */
-  border-top: 16px solid #41c4ec;
-  /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
+  border: 16px solid #f3f3f3;
+  /* Blue */
+  border-radius: 50%;
+  /* Light grey */
+  border-top: 16px solid #41c4ec;
+  height: 120px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 100px;
+  width: 120px;
 }
 
 @-webkit-keyframes spin {
@@ -108,9 +109,9 @@ Version: 1.0
 --------------------------------------------------------------*/
 
 body {
+  font-family: 'Fira Sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  font-family: 'Fira Sans', sans-serif;
 }
 
 
@@ -119,10 +120,10 @@ body {
 --------------------------------------------------------------*/
 
 .header {
-  min-height: 100px;
   background-color: #1a4783;
-  padding-top: 16px;
   color: white;
+  min-height: 100px;
+  padding-top: 16px;
 }
 
 .header__contato {
@@ -146,13 +147,13 @@ body {
 }
 
 .header .header_contato_tel {
-  color: #41c4ec;
-  font-size: 1.375em;
   border: solid;
   border-radius: 3px;
-  padding: 9px 16px;
-  margin-right: 20px;
+  color: #41c4ec;
   float: none;
+  font-size: 1.375em;
+  margin-right: 20px;
+  padding: 9px 16px;
 }
 
 
@@ -161,11 +162,11 @@ body {
 --------------------------------------------------------------*/
 
 .footer {
-  min-height: 60px;
   background-color: #00142f;
   color: white;
-  padding-top: 23px;
+  min-height: 60px;
   padding-bottom: 23px;
+  padding-top: 23px;
 }
 
 .footer span {
@@ -179,16 +180,16 @@ body {
 
 .bg__azul {
   background: #1a4783 url('../img/bg.png') repeat;
-  min-height: 82vh;
   color: white;
+  min-height: 82vh;
 }
 
 .title {
-  font-size: 3.125em;
   color: white;
+  font-size: 3.125em;
   font-weight: bold;
-  margin-top: 89px;
   margin-bottom: 0;
+  margin-top: 89px;
 }
 
 .title span {
@@ -225,30 +226,30 @@ body {
 
 @media(min-width:48.000em) {
   .contacao__header .btn-info {
-    float: right
+    float: right;
   }
 }
 
 .cotacoes {
-  border-radius: 3px;
   border: solid thin #dbdbdc;
+  border-radius: 3px;
 }
 
 @media(min-width:75.000em) {
   .cotacoes {
+    -webkit-box-pack: justify;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
   }
 }
 
 .cotacao__single {
-  padding: 48px 0 54px 50px;
   display: inline-block;
   min-height: 403px;
+  padding: 48px 0 54px 50px;
 }
 
 .cotacao__single>div {
@@ -271,21 +272,21 @@ body {
 }
 
 .cotacao__single:last-child>div {
-  border: none
+  border: none;
 }
 
 .cotacao__single h2 {
   color: #41434c;
   font-size: 1.250em;
-  margin-top: 0;
   margin-bottom: 15px;
+  margin-top: 0;
 }
 
 .cotacao__single h3 {
   color: #82ca70;
   font-size: 1.625em;
-  margin-top: 0;
   margin-bottom: 20px;
+  margin-top: 0;
 }
 
 .cotacao__assistencia {
@@ -304,9 +305,9 @@ body {
 }
 
 .cotacao__detalhes p {
-  padding-top: 25px;
   padding-bottom: 22px;
-  text-align: center
+  padding-top: 25px;
+  text-align: center;
 }
 
 @media(min-width:48.000em) {
@@ -330,18 +331,18 @@ body {
 }
 
 .form__passo .control-label {
-  width: 100%;
   font-size: 1.875em;
   font-weight: 400;
   margin-bottom: 30px;
   margin-top: 0;
+  width: 100%;
 }
 
 .form__passo .form-control {
   border: none;
   border-bottom: solid 7px #12386a;
-  height: 94px;
   font-size: 2.500em;
+  height: 94px;
 }
 
 .form__passo .form-control:focus {
@@ -361,8 +362,8 @@ body {
 .form__passo .input-group-addon button {
   background: transparent;
   border: none;
-  font-size: 2.500em;
   color: #1a4783;
+  font-size: 2.500em;
 }
 
 .form__passo .input-group-addon button:focus {
@@ -370,7 +371,7 @@ body {
 }
 
 .form__passo .help-block {
-  font-size: 1.125em;
   color: white;
+  font-size: 1.125em;
   margin-top: 30px;
 }
