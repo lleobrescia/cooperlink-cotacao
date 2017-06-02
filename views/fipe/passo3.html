@@ -1,0 +1,15 @@
+<label class="control-label text-center" for="placa">
+  <span>Qual é o veículo?</span>
+</label>
+<div class="input-group">
+  <select class="form-control input-lg" name="modelo" ng-model="main.veiculoEscolhido">
+    <option value="">Selecione um Veículo</option> <!-- not selected / blank option -->
+    <option ng-repeat="item in main.listaVeiculos | orderBy: 'fipe_name'" value="{{item.id}}" required>{{item.fipe_name}}</option> 
+  </select>
+
+  <div class="input-group-addon">
+    <button ng-click="main.GetModelos()" ng-disabled="!main.veiculoEscolhido" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+  </div>
+  <!--input-group-addon-->
+</div>
+<!--input-group-->

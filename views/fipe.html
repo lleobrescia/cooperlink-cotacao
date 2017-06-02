@@ -1,0 +1,40 @@
+<section class="bg__azul">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <form class="form__passo" name="formPasso" ng-hide="main.carregando">
+
+          <div class="animate-switch-container form-group" ng-switch on="main.fipePasso">
+
+            <div class="animate-switch" ng-switch-when="passo1">
+              <div ng-include="'views/fipe/passo1.html'"></div>
+            </div>
+            <!--passo1-->
+
+            <div class="animate-switch" ng-switch-when="passo2">
+              <div ng-include="'views/fipe/passo2.html'"></div>
+            </div>
+            <!--passo2-->
+
+            <div class="animate-switch" ng-switch-when="passo3">
+              <div ng-include="'views/fipe/passo3.html'"></div>
+            </div>
+            <!--passo3-->
+
+            <div class="animate-switch" ng-switch-when="passo4">
+              <div ng-include="'views/fipe/passo4.html'"></div>
+            </div>
+            <!--passo4-->
+          </div>
+          <!--form-group-->
+        </form>
+        <div class="loader" ng-show="main.carregando"></div>
+      </div>
+      <!--col-sm-8 col-sm-offset-2-->
+    </div>
+    <!--row-->
+  </div>
+  <!--container-->
+</section>
+<!--bg__azul-->

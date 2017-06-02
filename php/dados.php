@@ -6,7 +6,7 @@ if( $_SERVER['HTTP_HOST'] == 'localhost'){
     'senha'    => '12345678',
     'contrato' => '30100393',
     'pacote'   => 5,
-    'url'      => 'http://www.checkauto.com.br/ws20v2/WebService1.asmx/Consultar?strXMLSolicitacao='
+    'url'      => 'https://www.checkauto.com.br/ws20v2/WebService1.asmx/Consultar?strXMLSolicitacao='
     );
     echo json_encode($arr);
 }else{
