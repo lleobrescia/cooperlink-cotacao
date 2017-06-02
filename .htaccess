@@ -9,3 +9,9 @@
     # Rewrite everything else to index.html to allow html5 state links
     RewriteRule ^ index.html [L]
 </IfModule>
+
+<Files ~ "\.(php)$">
+    Order allow,deny
+    Allow from 127.0.0.1
+    # Require host  127.0.0.1
+</Files>
