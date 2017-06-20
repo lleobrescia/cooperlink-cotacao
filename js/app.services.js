@@ -287,7 +287,7 @@
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#factories} Para melhores praticas
    */
   function fipeService($q) {
-    var url = 'https://fipeapi.appspot.com/api/1/';
+    var url = 'https://fipe-parallelum.rhcloud.com/api/v1/';
 
     return {
       Consultar: Consultar,
@@ -322,7 +322,7 @@
       var deferred = $q.defer();
 
       var call = $.ajax({
-        url: url + 'carros/marcas.json'
+        url: url + 'carros/marcas'
       });
 
       call.then(function successCallback(response) {
@@ -338,7 +338,7 @@
       var deferred = $q.defer();
 
       var call = $.ajax({
-        url: url + 'motos/marcas.json'
+        url: url + 'motos/marcas'
       });
 
       call.then(function successCallback(response) {

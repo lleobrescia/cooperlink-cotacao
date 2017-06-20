@@ -15,6 +15,7 @@ Version: 1.0
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
 # Import
+# Ajustes
 # Animation
 # Typography
 # Header
@@ -35,7 +36,16 @@ Version: 1.0
 @import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/2.1.0/toaster.min.css');
+
+/*--------------------------------------------------------------
+# Ajustes
+--------------------------------------------------------------*/
+
+#toast-container>div {
+  opacity: 1;
+}
+
 
 /*--------------------------------------------------------------
 # Animation
@@ -101,6 +111,10 @@ Version: 1.0
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+.loader.ng-hide {
+  display: none
 }
 
 

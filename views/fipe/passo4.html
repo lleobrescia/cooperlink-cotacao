@@ -1,14 +1,14 @@
 <label class="control-label text-center" for="placa">
-  <span>Qual é o modelo?</span>
+  <span>Qual é o ano?</span>
 </label>
 <div class="input-group">
-  <select class="form-control input-lg" name="modelo" ng-model="main.modeloEstolhido">
-    <option value="">Selecione um Modelo</option> <!-- not selected / blank option -->
-    <option ng-repeat="item in main.listaModelos | orderBy: 'name'" value="{{item.id}}" required>{{item.name}}</option> 
+  <select class="form-control input-lg" name="modelo" ng-model="main.anoEscolhido">
+    <option value="">Selecione um ano</option> <!-- not selected / blank option -->
+    <option ng-repeat="item in main.listaAnos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
   </select>
 
   <div class="input-group-addon">
-    <button ng-click="main.GetModelos()" ng-disabled="!main.veiculoEscolhido" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    <button ng-click="main.GetPreco()" ng-disabled="!main.anoEscolhido" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
   </div>
   <!--input-group-addon-->
 </div>

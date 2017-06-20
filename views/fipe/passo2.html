@@ -4,12 +4,12 @@
 <div class="input-group">
   <select class="form-control input-lg" name="marca" ng-model="main.marcaEscolhida">
     <option value="">Selecione uma Marca</option> <!-- not selected / blank option -->
-    <option ng-if="main.automovel === 'carros'" ng-repeat="item in main.listaCarros | orderBy: 'fipe_name'" value="{{item.id}}" required>{{item.fipe_name}}</option> 
-    <option ng-if="main.automovel === 'motos'" ng-repeat="item in main.listaMotos | orderBy: 'fipe_name'" value="{{item.id}}" required>{{item.fipe_name}}</option> 
+    <option ng-if="main.veiculo === 'carros'" ng-repeat="item in main.listaCarros | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
+    <option ng-if="main.veiculo === 'motos'" ng-repeat="item in main.listaMotos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
   </select>
 
   <div class="input-group-addon">
-    <button ng-click="main.GetVeiculos()" ng-disabled="!main.marcaEscolhida" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    <button ng-click="main.GetModelos()" ng-disabled="!main.marcaEscolhida" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
   </div>
   <!--input-group-addon-->
 </div>
