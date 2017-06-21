@@ -75,9 +75,12 @@
       }
     };
 
+    vm.adesao = undefined;
     vm.anoEscolhido = '';
     vm.carregando = true;
     vm.fipePasso = 'passo1';
+    vm.franquia = undefined;
+    vm.hasRastreador = true;
     vm.listaAnos = [];
     vm.listaCarros = [];
     vm.listaModelos = [];
@@ -85,6 +88,12 @@
     vm.marcaEscolhida = '';
     vm.modeloEscolhido = '';
     vm.placa = '';
+    vm.preco = {
+      basico: 'R$29,90',
+      bronze: undefined,
+      ouro: undefined,
+      prata: undefined
+    };
     vm.telefone = '0800 000 000';
     vm.usuario = {
       'data': '',
