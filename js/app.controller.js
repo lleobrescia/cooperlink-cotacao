@@ -5,7 +5,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$http', 'conversorService', '$state', 'fipeService', 'toaster'];
+  MainController.$inject = ['$http', 'conversorService', '$state', 'fipeService', 'toaster', '$location', '$anchorScroll'];
 
   /**
    * @ngdoc main
@@ -36,7 +36,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($http, conversorService, $state, fipeService, toaster) {
+  function MainController($http, conversorService, $state, fipeService, toaster, $location, $anchorScroll) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -98,6 +98,7 @@
     vm.GetDadosRequisicao = GetDadosRequisicao;
     vm.GetModelos = GetModelos;
     vm.GetPreco = GetPreco;
+    vm.Scroll = Scroll;
 
     Activate();
 
@@ -233,6 +234,15 @@
         vm.carregando = false;
         $state.go('cotacao');
       });
+    }
+
+    function Scroll(scrollTo) {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash(scrollTo);
+
+      // call $anchorScroll()
+      $anchorScroll();
     }
   }
 })();
