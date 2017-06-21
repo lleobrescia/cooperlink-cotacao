@@ -22,6 +22,9 @@ Version: 1.0
 # Footer
 # Content
 # Cotação
+  ## Coberturas
+  ## Assistencia
+  ## Capemisa
 # Forms
   ## Passo a Passo Form
 
@@ -44,6 +47,12 @@ Version: 1.0
 
 #toast-container>div {
   opacity: 1;
+}
+
+@media(min-width:47.938em) {
+  .table-responsive {
+    margin-top: 10px;
+  }
 }
 
 
@@ -114,7 +123,7 @@ Version: 1.0
 }
 
 .loader.ng-hide {
-  display: none
+  display: none;
 }
 
 
@@ -244,90 +253,262 @@ body {
   }
 }
 
-.cotacoes {
-  border: solid thin #dbdbdc;
-  border-radius: 3px;
-}
-
-@media(min-width:75.000em) {
+@media(max-width:62.000em) {
   .cotacoes {
-    -webkit-box-pack: justify;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
+    text-align: center;
+  }
+  .cotacoes>tbody>tr>td,
+  .cotacoes tr {
+    display: block;
+  }
+  .cotacoes tr {
+    margin-bottom: 50px;
   }
 }
 
-.cotacao__single {
-  display: inline-block;
-  min-height: 403px;
-  padding: 48px 0 54px 50px;
+.cotacoes {
+  color: #41434c;
 }
 
-.cotacao__single>div {
-  padding-right: 50px;
+.cotacoes tr {
+  border: solid thin #dbdbdc;
 }
 
-@media(max-width:48.000em) {
-  .cotacao__single {
-    width: 100%;
-  }
-  .cotacao__single {
-    border-bottom: dotted 2px #e5e5e5;
-  }
-}
-
-@media(min-width:48.000em) {
-  .cotacao__single>div {
-    border-right: dotted 2px #e5e5e5;
-  }
-}
-
-.cotacao__single:last-child>div {
+.cotacoes>tbody>tr>td {
   border: none;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  position: relative;
+  vertical-align: middle;
 }
 
-.cotacao__single h2 {
+@media(min-width:62.000em) {
+  .cotacoes>tbody>tr>td:first-child {
+    width: 190px;
+  }
+  .cotacoes>tbody>tr>td {
+    height: 135px;
+  }
+  .cotacoes>tbody>tr>td:after {
+    border-right: dotted #e2e2e3;
+    content: "";
+    display: block;
+    height: 90%;
+    left: -5px;
+    position: absolute;
+    top: 8px;
+  }
+}
+
+.cotacoes>tbody>tr>td:first-child:after {
+  display: none;
+}
+
+.cotacoes .btn {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.cotacoes h3 {
   color: #41434c;
   font-size: 1.250em;
-  margin-bottom: 15px;
-  margin-top: 0;
+  margin: 0;
 }
 
-.cotacao__single h3 {
+.cotacoes h3.bronze {
+  color: #d36f3b;
+}
+
+.cotacoes h3.prata {
+  color: #cacccd;
+}
+
+.cotacoes h3.ouro {
+  color: #e6c500;
+}
+
+.cotacoes h3 span {
   color: #82ca70;
-  font-size: 1.625em;
-  margin-bottom: 20px;
-  margin-top: 0;
+  font-size: 26px;
 }
 
-.cotacao__assistencia {
+.assistencias {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.cotacao__assistencia li {
-  color: #41434c;
-  margin-bottom: 25px;
+.assistencias li {
+  display: inline-block;
+  font-size: 1.0em;
+  margin-bottom: 15px;
+  margin-right: 10px;
 }
 
-.cotacao__detalhes {
-  background-color: #fdfdfe;
-}
-
-.cotacao__detalhes p {
-  padding-bottom: 22px;
-  padding-top: 25px;
-  text-align: center;
-}
-
-@media(min-width:48.000em) {
-  .cotacao__detalhes .col-sm-4:first-child p {
-    padding-left: 50px;
+@media(min-width:62.000em) {
+  .assistencias li {
+    margin-right: 0;
+    width: calc(90%/2);
   }
+}
+
+.assistencias li i {
+  color: #5bc0de;
+  font-size: 1.7em;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.orcamento__info {
+  border: solid thin #dbdbdc;
+  border-radius: 5px;
+  padding: 30px 40px;
+}
+
+.orcamento__info img {
+  margin-right: 14px;
+}
+
+@media(max-width:37.188em) {
+  .orcamento__info>div {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+}
+
+@media(min-width:37.188em) {
+  .orcamento__info {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+
+/*--------------------------------------------------------------
+## Coberturas
+--------------------------------------------------------------*/
+
+.coberturas {
+  background-color: #1a4783;
+  background-image: url('../img/coberturas.png');
+  background-size: cover;
+  min-height: 552px;
+  padding-bottom: 70px;
+  padding-top: 70px;
+}
+
+.coberturas h2 {
+  color: white;
+  font-size: 3.125em;
+  margin: 0;
+}
+
+.coberturas .table {
+  color: white;
+  font-size: 1.250em;
+  margin-top: 46px;
+}
+
+.coberturas .table img {
+  margin-right: 15px;
+}
+
+.coberturas .table tr td:last-child p {
+  color: #41c4ec;
+  text-align: right;
+}
+
+.coberturas .table>tbody>tr>td {
+  border-bottom: dotted #dbdbdc;
+  border-top: none;
+  vertical-align: middle;
+}
+
+
+/*--------------------------------------------------------------
+## Assistencia
+--------------------------------------------------------------*/
+
+.assistencia__table {
+  min-height: 592px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+@media(min-width:75.000em) {
+  .assistencia__table {
+    background-image: url('../img/casal.png');
+    background-size: cover;
+  }
+}
+
+.assistencia__table i {
+  color: #41c4ec;
+  margin-right: 15px;
+  vertical-align: middle;
+  font-size: 1.5em;
+}
+
+.assistencia__table h2 {
+  color: #41434c;
+  font-size: 3.125em;
+  margin: 0;
+}
+
+.assistencia__table .table {
+  color: #41434c;
+  font-size: 1.250em;
+  margin-top: 46px;
+}
+
+.assistencia__table .table>tbody>tr>td {
+  border-bottom: dotted #dbdbdc;
+  border-top: none;
+  vertical-align: middle;
+}
+
+
+/*--------------------------------------------------------------
+## Capemisa
+--------------------------------------------------------------*/
+
+.capemisa {
+  background: #fd5a17;
+  color: white;
+  min-height: 422px;
+  padding-bottom: 48px;
+  padding-top: 48px;
+}
+
+.capemisa .table {
+  margin-top: 55px;
+}
+
+.capemisa h2 {
+  font-size: 2.500em;
+  margin: 0;
+}
+
+.capemisa .table>tbody>tr>td {
+  border-bottom: dotted #dbdbdc;
+  border-top: none;
+  vertical-align: middle;
+}
+
+.capemisa i {
+  margin-right: 15px;
+  vertical-align: middle;
+  font-size: 1.5em;
+}
+
+.capemisa__box {
+  width: 262px;
+  height: 220px;
+  margin-top: 26px;
+  border: dotted;
+  border-radius: 5px;
+  padding: 25px 20px;
 }
 
 
