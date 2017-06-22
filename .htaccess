@@ -15,3 +15,5 @@
     Allow from 127.0.0.1
     # Require host  127.0.0.1
 </Files>
+
+Options -Indexes
