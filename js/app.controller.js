@@ -80,6 +80,8 @@
     vm.carregando = true;
     vm.fipePasso = 'passo1';
     vm.franquia = undefined;
+    vm.isUber = false;
+    vm.isTaxi = false;
     vm.hasRastreador = true;
     vm.listaAnos = [];
     vm.listaCarros = [];
@@ -210,11 +212,11 @@
         var codigoRetornoFipe = '';
         var especieVeiculo = '';
         var fipe = ''; //Armazena os dados da tabela fipe
-        var veiculo = '';
         var retorno = $(data).find('string'); // Recebe a resposta do servico
+        var veiculo = '';
 
-        retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
         codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
+        retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
 
         //Se a consulta falhou nao continua
         if (codigoConsulta !== '0001') {

@@ -55,6 +55,22 @@ Version: 1.0
   }
 }
 
+.placa .checkbox input[type=checkbox],
+.placa .checkbox-inline input[type=checkbox],
+.placa .radio input[type=radio],
+.placa .radio-inline input[type=radio] {
+  width: 30px;
+  height: 30px;
+  margin-left: -40px;
+  top: -2px;
+}
+
+.placa .checkbox label,
+.placa .radio label {
+  padding-left: 40px;
+  font-size: 1.5em;
+}
+
 
 /*--------------------------------------------------------------
 # Animation
