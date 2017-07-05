@@ -28,16 +28,22 @@
 
     $stateProvider
       .state('placa', {
-        url: '/',
-        templateUrl: 'views/placa.html'
+        controller: 'PlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/placa.html',
+        url: '/'
       })
       .state('fipe', {
-        url: '/placa-nao-encontrada',
-        templateUrl: 'views/fipe.html'
+        controller: 'SemPlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/fipe.html',
+        url: '/placa-nao-encontrada'
       })
       .state('cotacao', {
-        url: '/cotacao',
-        templateUrl: 'views/cotacao.html'
+        controller: 'CotacaoController',
+        controllerAs: 'cotacao',
+        templateUrl: 'views/cotacao.html',
+        url: '/cotacao'
       });
   }
 })();

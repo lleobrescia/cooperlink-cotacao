@@ -2,14 +2,14 @@
   <span>Qual é a marca do veículo?</span>
 </label>
 <div class="input-group">
-  <select class="form-control input-lg" name="marca" ng-model="main.marcaEscolhida">
+  <select class="form-control input-lg" name="marca" ng-model="placa.marcaEscolhida">
     <option value="">Selecione uma Marca</option> <!-- not selected / blank option -->
-    <option ng-if="main.veiculo === 'carros'" ng-repeat="item in main.listaCarros | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
-    <option ng-if="main.veiculo === 'motos'" ng-repeat="item in main.listaMotos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
+    <option ng-if="placa.veiculo === 'carros'" ng-repeat="item in placa.listaCarros | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
+    <option ng-if="placa.veiculo === 'motos'" ng-repeat="item in placa.listaMotos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
   </select>
 
   <div class="input-group-addon">
-    <button ng-click="main.GetModelos()" ng-disabled="!main.marcaEscolhida" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    <button ng-click="placa.GetModelos()" ng-disabled="!placa.marcaEscolhida" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
   </div>
   <!--input-group-addon-->
 </div>

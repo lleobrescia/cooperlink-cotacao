@@ -4,6 +4,23 @@
   /**
    * @ngdoc config
    * @scope {}
+   * @name constants
+   * @memberof app
+   * @author Leo Brescia <leonardo@leobrescia.com.br>
+   * @desc Constantes do APP.<br>
+   */
+  angular
+    .module('app')
+    .constant('api', 'ahttp://localhost/multiplicar/cotacao/api.php/')
+    .constant('rastreadorCarro', 20000)
+    .constant('rastreadorMoto', 7000);
+})();
+(function () {
+  'use strict';
+
+  /**
+   * @ngdoc config
+   * @scope {}
    * @name app
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
@@ -57,17 +74,52 @@
 
     $stateProvider
       .state('placa', {
-        url: '/',
-        templateUrl: 'views/placa.html'
+        controller: 'PlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/placa.html',
+        url: '/'
       })
       .state('fipe', {
-        url: '/placa-nao-encontrada',
-        templateUrl: 'views/fipe.html'
+        controller: 'SemPlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/fipe.html',
+        url: '/placa-nao-encontrada'
       })
       .state('cotacao', {
-        url: '/cotacao',
-        templateUrl: 'views/cotacao.html'
+        controller: 'CotacaoController',
+        controllerAs: 'cotacao',
+        templateUrl: 'views/cotacao.html',
+        url: '/cotacao'
       });
+  }
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('app')
+    .controller('CotacaoController', CotacaoController);
+
+  CotacaoController.$inject = ['$rootScope', '$state'];
+
+  function CotacaoController($rootScope, $state) {
+    var vm = this;
+
+    vm.preco = {
+      basico: 'R$29,90',
+      bronze: undefined,
+      ouro: undefined,
+      prata: undefined
+    };
+    Activate();
+
+    ////////////////
+
+    function Activate() {
+      if (!$rootScope.usuario) {
+        $state.go('placa');
+      }
+    }
   }
 })();
 (function () {
@@ -77,7 +129,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$http', 'conversorService', '$state', 'fipeService', 'toaster', '$location', '$anchorScroll', '$filter', '$rootScope'];
+  MainController.$inject = ['$location', '$anchorScroll'];
 
   /**
    * @ngdoc main
@@ -108,7 +160,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($http, conversorService, $state, fipeService, toaster, $location, $anchorScroll, $filter, $rootScope) {
+  function MainController($location, $anchorScroll) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -148,39 +200,11 @@
     };
 
     vm.adesao = undefined;
-    vm.anoEscolhido = '';
-    vm.carregando = true;
-    vm.fipePasso = 'passo1';
     vm.franquia = undefined;
-    vm.isUber = false;
-    vm.isTaxi = false;
     vm.hasRastreador = false;
-    vm.listaAnos = [];
-    vm.listaCarros = [];
-    vm.listaModelos = [];
-    vm.listaMotos = [];
-    vm.marcaEscolhida = '';
-    vm.modeloEscolhido = '';
-    vm.placa = '';
-    vm.preco = {
-      basico: 'R$29,90',
-      bronze: undefined,
-      ouro: undefined,
-      prata: undefined
-    };
     vm.telefone = '0800 000 000';
-    vm.usuario = {
-      'data': '',
-      'modelo': '',
-      'preco': ''
-    };
-    vm.veiculo = '';
 
     //Atribuicao dos metodos no escopo
-    vm.GetAnos = GetAnos;
-    vm.GetDadosRequisicao = GetDadosRequisicao;
-    vm.GetModelos = GetModelos;
-    vm.GetPreco = GetPreco;
     vm.Scroll = Scroll;
 
     Activate();
@@ -193,44 +217,93 @@
      * @memberof MainController
      */
     function Activate() {
-      fipeService.GetMotos().then(function (resp) {
-        vm.listaMotos = resp;
-      });
-      fipeService.GetCarros().then(function (resp) {
-        vm.listaCarros = resp;
-        vm.carregando = false;
-      });
+
     }
 
-    function GetAnos() {
-      vm.carregando = true;
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos').then(function (resp) {
-        vm.fipePasso = 'passo4';
-        vm.listaAnos = resp;
-        vm.carregando = false;
-      });
+    function Scroll(scrollTo) {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash(scrollTo);
+
+      // call $anchorScroll()
+      $anchorScroll();
     }
+  }
+})();
+(function () {
+  'use strict';
 
-    function GetPreco() {
-      vm.carregando = true;
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
+  angular
+    .module('app')
+    .controller('PlacaController', PlacaController);
 
-        var yearsApart = new Date(new Date() - new Date(resp.AnoModelo + '-01-01')).getFullYear() - 1970;
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$filter', '$rootScope'];
 
-        if (yearsApart > 20) {
-          toaster.pop({
-            type: 'error',
-            title: 'Atenção!',
-            body: 'Não fazemos cotações em veículos com mais de 20 anos.',
-            timeout: 50000
-          });
-        } else {
-
+  function PlacaController($http, conversorService, $state, toaster, $filter, $rootScope) {
+    var vm = this;
+    var consulta = {
+      "xml": {
+        "CONSULTA": {
+          "ACESSO": {
+            "USUARIO": null,
+            "SENHA": null
+          },
+          "VEICULO": {
+            "CHASSI": null,
+            "UF": null,
+            "PLACA": null,
+            "RENAVAM": null,
+            "MOTOR": null,
+            "CRLV": null,
+            "UF_CRLV": null
+          },
+          "DADOSPESSOAIS": {
+            "TIPOPESSOARESTRICOES": null,
+            "CPFCNPJRESTRICOES": null,
+            "DDD1RESTRICOES": null,
+            "TEL1RESTRICOES": null,
+            "DDD2RESTRICOES": null,
+            "TEL2RESTRICOES": null
+          },
+          "PERMISSOES": {
+            "CONTRATOID": null,
+            "PACOTEID": null,
+            "OPCIONAIS": {
+              "Precificador": null
+            }
+          },
+          "CONSULTAID": null,
+          "NRCONTROLECLIENTE": null
         }
-        vm.carregando = false;
-        console.log(resp);
-      });
-    }
+      }
+    };
+
+    $rootScope.preco = {
+      basico: 'R$29,90',
+      bronze: undefined,
+      ouro: undefined,
+      prata: undefined
+    };
+    $rootScope.usuario = {
+      'data': '',
+      'especial': false,
+      'modelo': '',
+      'preco': '',
+      'veiculo': ''
+    };
+
+    vm.carregando = false;
+    vm.isUber = false;
+    vm.isTaxi = false;
+    vm.placa = '';
+
+    vm.GetDadosRequisicao = GetDadosRequisicao;
+
+    Activate();
+
+    ////////////////
+
+    function Activate() {}
 
     /**
      * @function GetDadosRequisicao
@@ -257,48 +330,6 @@
       });
     }
 
-    function GetModelos() {
-      vm.carregando = true;
-      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
-        vm.listaModelos = resp.modelos;
-        vm.fipePasso = 'passo3';
-        vm.carregando = false;
-      });
-    }
-
-    function GetValores() {
-      var valores = [];
-      var valorFipe = vm.usuario.preco.replace('/R$ ', '');
-
-      $http.get('http://localhost/multiplicar/cotacao/api.php/preco').then(function (resp) {
-        valores = php_crud_api_transform(resp.data).preco;
-        console.log(valores);
-
-        angular.forEach(valores, function (value, key) {
-          if (valorFipe >= value.min && valorFipe <= value.max) {
-            switch (value.plano) {
-              case 'Bronze':
-                vm.preco.bronze = value.valor;
-                break;
-              case 'Prata':
-                vm.preco.prata = value.valor;
-                break;
-              case 'Ouro':
-                vm.preco.ouro = value.valor;
-                break;
-
-              default:
-                break;
-            }
-          }
-        });
-
-        vm.carregando = false;
-        $state.go('cotacao');
-      });
-    }
-
     /**
      * @function PesquisarPlaca
      * @desc Armazena a plca do usuario no json consulta, converte json para xml, pois o serviço
@@ -314,10 +345,10 @@
       $.get(url + xml, function (data) {
         var codigoConsulta = '';
         var codigoRetornoFipe = '';
-        var especieVeiculo = '';
+        var especieVeiculo = ''; //Usado para verificar se eh taxi
         var fipe = ''; //Armazena os dados da tabela fipe
         var retorno = $(data).find('string'); // Recebe a resposta do servico
-        var veiculo = '';
+        var veiculo = ''; // usado para ver qual o tipo de veiculo (moto ou carro) 
 
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
         codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
@@ -329,12 +360,25 @@
           $state.go('fipe');
         }
 
-        vm.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent; //Armazena a data da consulta
+        $rootScope.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent; //Armazena a data da consulta
 
         //Codigo de confirmação de retorno. Se for 1, ha retorno
         codigoRetornoFipe = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
         veiculo = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
+        $rootScope.usuario.veiculo = veiculo;
         especieVeiculo = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
+
+        //Não da proseguimento se não for moto ou carro
+        if (veiculo != 'AUTOMOVEL' && veiculo != 'MOTOCICLETA') {
+          vm.carregando = false;
+          toaster.pop({
+            type: 'error',
+            title: 'Atenção!',
+            body: 'Tipo de veículo não aceito',
+            timeout: 50000
+          });
+          return;
+        }
 
         //Verifica se o carro eh taxi
         if (especieVeiculo != 'PASSAGEIRO' && especieVeiculo != 'NAO INFORMADO') {
@@ -351,25 +395,129 @@
         //Armazena em uma variavel para ficar mais facil a consulta
         fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
 
+        //Verifica se o rastreador eh obrigatorio
         if ($filter('number')($(fipe).find('Valor')[0].textContent) > 35000) {
-          vm.hasRastreador = true;
+          $rootScope.hasRastreador = true;
         }
 
         //Armazena os dados relevantes para dar continuidade a cotação
-        vm.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
-        vm.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
+        $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
+        $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
 
-        GetValores();
+        if (vm.isUber || vm.isTaxi) {
+          $rootScope.usuario.especial = true;
+        }
+
+        vm.carregando = false;
+        $state.go('cotacao');
+      });
+    }
+  }
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('app')
+    .controller('SemPlacaController', SemPlacaController);
+
+  SemPlacaController.$inject = ['$http', '$state', 'toaster', '$filter', '$rootScope', 'fipeService', 'api'];
+
+  function SemPlacaController($http, $state, toaster, $filter, $rootScope, fipeService, api) {
+    var vm = this;
+
+    $rootScope.usuario = {
+      'data': '',
+      'especial': false,
+      'modelo': '',
+      'preco': '',
+      'veiculo': ''
+    };
+
+    vm.anoEscolhido = '';
+    vm.carregando = true;
+    vm.fipePasso = 'passo1';
+    vm.franquia = undefined;
+    vm.hasRastreador = false;
+    vm.isTaxi = false;
+    vm.isUber = false;
+    vm.listaAnos = [];
+    vm.listaCarros = [];
+    vm.listaModelos = [];
+    vm.listaMotos = [];
+    vm.marcaEscolhida = '';
+    vm.modeloEscolhido = '';
+    vm.veiculo = '';
+
+    vm.GetAnos = GetAnos;
+    vm.GetModelos = GetModelos;
+    vm.GetPreco = GetPreco;
+
+    Activate();
+
+    ////////////////
+
+    function Activate() {
+      fipeService.GetMotos().then(function (resp) {
+        vm.listaMotos = resp;
+      });
+      fipeService.GetCarros().then(function (resp) {
+        vm.listaCarros = resp;
+        vm.carregando = false;
       });
     }
 
-    function Scroll(scrollTo) {
-      // set the location.hash to the id of
-      // the element you wish to scroll to.
-      $location.hash(scrollTo);
+    function GetAnos() {
+      vm.carregando = true;
+      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos').then(function (resp) {
+        vm.fipePasso = 'passo4';
+        vm.listaAnos = resp;
+        vm.carregando = false;
+      });
+    }
 
-      // call $anchorScroll()
-      $anchorScroll();
+    function GetPreco() {
+      vm.carregando = true;
+      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
+        var yearsApart = new Date(new Date() - new Date(resp.AnoModelo + '-01-01')).getFullYear() - 1970;
+        $rootScope.usuario.preco = resp.Valor;
+
+        if (yearsApart > 20) {
+          toaster.pop({
+            type: 'error',
+            title: 'Atenção!',
+            body: 'Não fazemos cotações em veículos com mais de 20 anos.',
+            timeout: 50000
+          });
+          vm.carregando = false;
+          return;
+        }
+
+        vm.carregando = false;
+
+        if (vm.isUber || vm.isTaxi) {
+          $rootScope.usuario.especial = true;
+        }
+
+        console.log(resp);
+        $state.go('cotacao');
+      });
+    }
+
+    function GetModelos() {
+      vm.carregando = true;
+      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
+      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
+        vm.listaModelos = resp.modelos;
+        vm.fipePasso = 'passo3';
+        vm.carregando = false;
+
+        if (vm.veiculo == 'carros') {
+          $rootScope.usuario.veiculo = 'AUTOMOVEL';
+        } else {
+          $rootScope.usuario.veiculo = 'MOTOCICLETA';
+        }
+      });
     }
   }
 })();
