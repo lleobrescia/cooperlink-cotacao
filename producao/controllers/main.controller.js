@@ -5,7 +5,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$http', 'conversorService', '$state', 'fipeService', 'toaster', '$location', '$anchorScroll'];
+  MainController.$inject = ['$http', 'conversorService', '$state', 'fipeService', 'toaster', '$location', '$anchorScroll', '$filter', '$rootScope'];
 
   /**
    * @ngdoc main
@@ -36,7 +36,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($http, conversorService, $state, fipeService, toaster, $location, $anchorScroll) {
+  function MainController($http, conversorService, $state, fipeService, toaster, $location, $anchorScroll, $filter, $rootScope) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -82,7 +82,7 @@
     vm.franquia = undefined;
     vm.isUber = false;
     vm.isTaxi = false;
-    vm.hasRastreador = true;
+    vm.hasRastreador = false;
     vm.listaAnos = [];
     vm.listaCarros = [];
     vm.listaModelos = [];
@@ -143,7 +143,7 @@
       vm.carregando = true;
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
 
-        var yearsApart = new Date(new Date - new Date(resp.AnoModelo + '-01-01')).getFullYear() - 1970;
+        var yearsApart = new Date(new Date() - new Date(resp.AnoModelo + '-01-01')).getFullYear() - 1970;
 
         if (yearsApart > 20) {
           toaster.pop({
@@ -195,6 +195,38 @@
       });
     }
 
+    function GetValores() {
+      var valores = [];
+      var valorFipe = vm.usuario.preco.replace('/R$ ', '');
+
+      $http.get('http://localhost/multiplicar/cotacao/api.php/preco').then(function (resp) {
+        valores = php_crud_api_transform(resp.data).preco;
+        console.log(valores);
+
+        angular.forEach(valores, function (value, key) {
+          if (valorFipe >= value.min && valorFipe <= value.max) {
+            switch (value.plano) {
+              case 'Bronze':
+                vm.preco.bronze = value.valor;
+                break;
+              case 'Prata':
+                vm.preco.prata = value.valor;
+                break;
+              case 'Ouro':
+                vm.preco.ouro = value.valor;
+                break;
+
+              default:
+                break;
+            }
+          }
+        });
+
+        vm.carregando = false;
+        $state.go('cotacao');
+      });
+    }
+
     /**
      * @function PesquisarPlaca
      * @desc Armazena a plca do usuario no json consulta, converte json para xml, pois o serviço
@@ -215,12 +247,14 @@
         var retorno = $(data).find('string'); // Recebe a resposta do servico
         var veiculo = '';
 
-        codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
+        codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
 
-        //Se a consulta falhou nao continua
+        console.log(retorno);
+
+        //Se a consulta falhou envia o usuario para a preencher os dados do carro
         if (codigoConsulta !== '0001') {
-          return;
+          $state.go('fipe');
         }
 
         vm.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent; //Armazena a data da consulta
@@ -230,20 +264,30 @@
         veiculo = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
         especieVeiculo = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
 
-        //Nao ha dados da tabela fipe
+        //Verifica se o carro eh taxi
+        if (especieVeiculo != 'PASSAGEIRO' && especieVeiculo != 'NAO INFORMADO') {
+          vm.carregando = false;
+          vm.isTaxi = true;
+        }
+
+        //Nao ha dados da tabela fipe. Entao envia o usuario para a preencher os dados do carro
         if (codigoRetornoFipe !== '1') {
-          return;
+          vm.carregando = false;
+          $state.go('fipe');
         }
 
         //Armazena em uma variavel para ficar mais facil a consulta
         fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
 
+        if ($filter('number')($(fipe).find('Valor')[0].textContent) > 35000) {
+          vm.hasRastreador = true;
+        }
+
         //Armazena os dados relevantes para dar continuidade a cotação
         vm.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
         vm.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
 
-        vm.carregando = false;
-        $state.go('cotacao');
+        GetValores();
       });
     }
 
