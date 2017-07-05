@@ -30,6 +30,72 @@
 (function () {
   'use strict';
 
+  /**
+   * @ngdoc config
+   * @scope {}
+   * @name constants
+   * @memberof app
+   * @author Leo Brescia <leonardo@leobrescia.com.br>
+   * @desc Constantes do APP.<br>
+   */
+  angular
+    .module('app')
+    .constant('api', 'http://localhost/multiplicar/cotacao/api.php/')
+    .constant('rastreadorCarro', 20000)
+    .constant('rastreadorMoto', 7000);
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('app')
+    .config(RouteConfig);
+
+  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
+
+  /**
+   * @ngdoc config
+   * @scope {}
+   * @name RouteConfig
+   * @memberof app
+   * @author Leo Brescia <leonardo@leobrescia.com.br>
+   * @desc Controla as rotas do dashboard.<br>
+   * 
+   * @param {service} $stateProvider
+   * @param {service} $locationProvider
+   * @param {service} $urlRouterProvider
+   * 
+   * @see Veja [Angular DOC]    {@link https://ui-router.github.io/ng1/} Para mais informações
+   * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#routing} Para melhores praticas
+   */
+  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $locationProvider.html5Mode(true);
+
+    $stateProvider
+      .state('placa', {
+        controller: 'PlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/placa.html',
+        url: '/'
+      })
+      .state('fipe', {
+        controller: 'SemPlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/fipe.html',
+        url: '/placa-nao-encontrada'
+      })
+      .state('cotacao', {
+        controller: 'CotacaoController',
+        controllerAs: 'cotacao',
+        templateUrl: 'views/cotacao.html',
+        url: '/cotacao'
+      });
+  }
+})();
+(function () {
+  'use strict';
+
   angular
     .module('app')
     .controller('CotacaoController', CotacaoController);
@@ -225,9 +291,9 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope'];
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope', 'api'];
 
-  function PlacaController($http, conversorService, $state, toaster, $rootScope) {
+  function PlacaController($http, conversorService, $state, toaster, $rootScope, api) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -281,9 +347,10 @@
     };
 
     vm.carregando = false;
-    vm.isUber = false;
     vm.isTaxi = false;
+    vm.isUber = false;
     vm.placa = '';
+    vm.rejeitados = [];
 
     vm.GetDadosRequisicao = GetDadosRequisicao;
 
@@ -291,7 +358,15 @@
 
     ////////////////
 
-    function Activate() {}
+    function Activate() {
+      GetRejeitados();
+    }
+
+    function GetRejeitados() {
+      $http.get(api + 'rejeitado').then(function (resp) {
+        vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
+      });
+    }
 
     /**
      * @function GetDadosRequisicao
@@ -334,6 +409,7 @@
         var codigoConsulta = '';
         var codigoRetornoFipe = '';
         var especieVeiculo = ''; //Usado para verificar se eh taxi
+        var fabricante = '';
         var fipe = ''; //Armazena os dados da tabela fipe
         var retorno = $(data).find('string'); // Recebe a resposta do servico
         var veiculo = ''; // usado para ver qual o tipo de veiculo (moto ou carro) 
@@ -362,7 +438,7 @@
           toaster.pop({
             type: 'error',
             title: 'Atenção!',
-            body: 'Tipo de veículo não aceito',
+            body: 'Tipo de veículo não aceito.',
             timeout: 50000
           });
           return;
@@ -385,14 +461,44 @@
 
         //Armazena os dados relevantes para dar continuidade a cotação
         $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
+        fabricante = $(fipe).find('Fabricante')[0].textContent;
         $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
+
+        //Verifica se o modelo eh rejeitado
+        angular.forEach(vm.rejeitados, function (value, key) {
+          var modeloTeste = $rootScope.usuario.modelo;
+          var modeloRejeitado = value.Modelo;
+
+          modeloTeste = modeloTeste.toUpperCase();
+          modeloRejeitado = modeloRejeitado.toUpperCase();
+
+          if (modeloTeste.includes(modeloRejeitado)) {
+            toaster.pop({
+              type: 'error',
+              title: 'Atenção!',
+              body: 'Não fazemos cotação para esse modelo.',
+              timeout: 50000
+            });
+            return;
+          }
+        });
 
         if (vm.isUber || vm.isTaxi) {
           $rootScope.usuario.especial = true;
-        }
+          vm.carregando = false;
+          $state.go('cotacao');
+        } else {
+          $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
+            var retorno = php_crud_api_transform(resp.data).importado;
 
-        vm.carregando = false;
-        $state.go('cotacao');
+            if (retorno.length > 0) {
+              $rootScope.usuario.especial = true;
+            }
+
+            vm.carregando = false;
+            $state.go('cotacao');
+          });
+        }
       });
     }
   }
@@ -458,6 +564,22 @@
       });
     }
 
+    function GetModelos() {
+      vm.carregando = true;
+      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
+      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
+        vm.listaModelos = resp.modelos;
+        vm.fipePasso = 'passo3';
+        vm.carregando = false;
+
+        if (vm.veiculo == 'carros') {
+          $rootScope.usuario.veiculo = 'AUTOMOVEL';
+        } else {
+          $rootScope.usuario.veiculo = 'MOTOCICLETA';
+        }
+      });
+    }
+
     function GetPreco() {
       vm.carregando = true;
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
@@ -488,21 +610,6 @@
       });
     }
 
-    function GetModelos() {
-      vm.carregando = true;
-      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
-        vm.listaModelos = resp.modelos;
-        vm.fipePasso = 'passo3';
-        vm.carregando = false;
-
-        if (vm.veiculo == 'carros') {
-          $rootScope.usuario.veiculo = 'AUTOMOVEL';
-        } else {
-          $rootScope.usuario.veiculo = 'MOTOCICLETA';
-        }
-      });
-    }
   }
 })();
 (function () {
@@ -840,69 +947,3 @@
     }
   }
 }());
-(function () {
-  'use strict';
-
-  /**
-   * @ngdoc config
-   * @scope {}
-   * @name constants
-   * @memberof app
-   * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @desc Constantes do APP.<br>
-   */
-  angular
-    .module('app')
-    .constant('api', 'ahttp://localhost/multiplicar/cotacao/api.php/')
-    .constant('rastreadorCarro', 20000)
-    .constant('rastreadorMoto', 7000);
-})();
-(function () {
-  'use strict';
-
-  angular
-    .module('app')
-    .config(RouteConfig);
-
-  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
-
-  /**
-   * @ngdoc config
-   * @scope {}
-   * @name RouteConfig
-   * @memberof app
-   * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @desc Controla as rotas do dashboard.<br>
-   * 
-   * @param {service} $stateProvider
-   * @param {service} $locationProvider
-   * @param {service} $urlRouterProvider
-   * 
-   * @see Veja [Angular DOC]    {@link https://ui-router.github.io/ng1/} Para mais informações
-   * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#routing} Para melhores praticas
-   */
-  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
-    $locationProvider.html5Mode(true);
-
-    $stateProvider
-      .state('placa', {
-        controller: 'PlacaController',
-        controllerAs: 'placa',
-        templateUrl: 'views/placa.html',
-        url: '/'
-      })
-      .state('fipe', {
-        controller: 'SemPlacaController',
-        controllerAs: 'placa',
-        templateUrl: 'views/fipe.html',
-        url: '/placa-nao-encontrada'
-      })
-      .state('cotacao', {
-        controller: 'CotacaoController',
-        controllerAs: 'cotacao',
-        templateUrl: 'views/cotacao.html',
-        url: '/cotacao'
-      });
-  }
-})();
