@@ -76,12 +76,6 @@
       GetRejeitados();
     }
 
-    function GetRejeitados() {
-      $http.get(api + 'rejeitado').then(function (resp) {
-        vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
-      });
-    }
-
     /**
      * @function GetDadosRequisicao
      * @desc Pega os dados para a autorização da consulta, coloca-os no json consulta e depois executa PesquisarPlaca
@@ -104,6 +98,12 @@
         consulta.xml.CONSULTA.PERMISSOES.PACOTEID = resp.data.pacote;
 
         PesquisarPlaca(resp.data.url);
+      });
+    }
+
+    function GetRejeitados() {
+      $http.get(api + 'rejeitado').then(function (resp) {
+        vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
       });
     }
 
