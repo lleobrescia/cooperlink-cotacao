@@ -5,9 +5,9 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$state', 'toaster', '$filter', '$rootScope', 'fipeService', 'api'];
+  SemPlacaController.$inject = ['$http', '$state', 'toaster', '$rootScope', 'fipeService', 'api'];
 
-  function SemPlacaController($http, $state, toaster, $filter, $rootScope, fipeService, api) {
+  function SemPlacaController($http, $state, toaster, $rootScope, fipeService, api) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -22,7 +22,6 @@
     vm.carregando = true;
     vm.fipePasso = 'passo1';
     vm.franquia = undefined;
-    vm.hasRastreador = false;
     vm.isTaxi = false;
     vm.isUber = false;
     vm.listaAnos = [];
@@ -82,6 +81,8 @@
         if (vm.isUber || vm.isTaxi) {
           $rootScope.usuario.especial = true;
         }
+
+        $rootScope.usuario.modelo = resp.Modelo;
 
         console.log(resp);
         $state.go('cotacao');

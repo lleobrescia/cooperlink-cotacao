@@ -5,9 +5,9 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$filter', '$rootScope'];
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope'];
 
-  function PlacaController($http, conversorService, $state, toaster, $filter, $rootScope) {
+  function PlacaController($http, conversorService, $state, toaster, $rootScope) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -162,11 +162,6 @@
 
         //Armazena em uma variavel para ficar mais facil a consulta
         fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
-
-        //Verifica se o rastreador eh obrigatorio
-        if ($filter('number')($(fipe).find('Valor')[0].textContent) > 35000) {
-          $rootScope.hasRastreador = true;
-        }
 
         //Armazena os dados relevantes para dar continuidade a cotação
         $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
