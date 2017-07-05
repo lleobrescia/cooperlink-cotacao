@@ -5,9 +5,9 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope'];
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope', 'api'];
 
-  function PlacaController($http, conversorService, $state, toaster, $rootScope) {
+  function PlacaController($http, conversorService, $state, toaster, $rootScope, api) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -61,9 +61,10 @@
     };
 
     vm.carregando = false;
-    vm.isUber = false;
     vm.isTaxi = false;
+    vm.isUber = false;
     vm.placa = '';
+    vm.rejeitados = [];
 
     vm.GetDadosRequisicao = GetDadosRequisicao;
 
@@ -71,7 +72,15 @@
 
     ////////////////
 
-    function Activate() {}
+    function Activate() {
+      GetRejeitados();
+    }
+
+    function GetRejeitados() {
+      $http.get(api + 'rejeitado').then(function (resp) {
+        vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
+      });
+    }
 
     /**
      * @function GetDadosRequisicao
@@ -114,6 +123,7 @@
         var codigoConsulta = '';
         var codigoRetornoFipe = '';
         var especieVeiculo = ''; //Usado para verificar se eh taxi
+        var fabricante = '';
         var fipe = ''; //Armazena os dados da tabela fipe
         var retorno = $(data).find('string'); // Recebe a resposta do servico
         var veiculo = ''; // usado para ver qual o tipo de veiculo (moto ou carro) 
@@ -142,7 +152,7 @@
           toaster.pop({
             type: 'error',
             title: 'Atenção!',
-            body: 'Tipo de veículo não aceito',
+            body: 'Tipo de veículo não aceito.',
             timeout: 50000
           });
           return;
@@ -165,14 +175,44 @@
 
         //Armazena os dados relevantes para dar continuidade a cotação
         $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
+        fabricante = $(fipe).find('Fabricante')[0].textContent;
         $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
+
+        //Verifica se o modelo eh rejeitado
+        angular.forEach(vm.rejeitados, function (value, key) {
+          var modeloTeste = $rootScope.usuario.modelo;
+          var modeloRejeitado = value.Modelo;
+
+          modeloTeste = modeloTeste.toUpperCase();
+          modeloRejeitado = modeloRejeitado.toUpperCase();
+
+          if (modeloTeste.includes(modeloRejeitado)) {
+            toaster.pop({
+              type: 'error',
+              title: 'Atenção!',
+              body: 'Não fazemos cotação para esse modelo de veículo.',
+              timeout: 50000
+            });
+            return; 
+          }
+        });
 
         if (vm.isUber || vm.isTaxi) {
           $rootScope.usuario.especial = true;
-        }
+          vm.carregando = false;
+          $state.go('cotacao');
+        } else {
+          $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
+            var retorno = php_crud_api_transform(resp.data).importado;
 
-        vm.carregando = false;
-        $state.go('cotacao');
+            if (retorno.length > 0) {
+              $rootScope.usuario.especial = true;
+            }
+
+            vm.carregando = false;
+            $state.go('cotacao');
+          });
+        }
       });
     }
   }
