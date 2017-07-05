@@ -44,7 +44,7 @@ gulp.task('js', function () {
  * @desc Minify imagem
  */
 gulp.task('image', function () {
-  return gulp.src('image/*', {
+  return gulp.src('img/*', {
       base: './'
     })
     .pipe(plumber())
@@ -72,5 +72,5 @@ gulp.task('docs', shell.task([
  */
 gulp.task('watch', function () {
   gulp.watch(['producao/**/*.js'], ['js']);
-  gulp.watch(['image/*'], ['image']);
+  gulp.watch(['img/*'], ['image']);
 });
