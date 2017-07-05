@@ -4,23 +4,6 @@
   /**
    * @ngdoc config
    * @scope {}
-   * @name constants
-   * @memberof app
-   * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @desc Constantes do APP.<br>
-   */
-  angular
-    .module('app')
-    .constant('api', 'ahttp://localhost/multiplicar/cotacao/api.php/')
-    .constant('rastreadorCarro', 20000)
-    .constant('rastreadorMoto', 7000);
-})();
-(function () {
-  'use strict';
-
-  /**
-   * @ngdoc config
-   * @scope {}
    * @name app
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
@@ -49,62 +32,15 @@
 
   angular
     .module('app')
-    .config(RouteConfig);
-
-  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
-
-  /**
-   * @ngdoc config
-   * @scope {}
-   * @name RouteConfig
-   * @memberof app
-   * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @desc Controla as rotas do dashboard.<br>
-   * 
-   * @param {service} $stateProvider
-   * @param {service} $locationProvider
-   * @param {service} $urlRouterProvider
-   * 
-   * @see Veja [Angular DOC]    {@link https://ui-router.github.io/ng1/} Para mais informações
-   * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#routing} Para melhores praticas
-   */
-  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
-    $locationProvider.html5Mode(true);
-
-    $stateProvider
-      .state('placa', {
-        controller: 'PlacaController',
-        controllerAs: 'placa',
-        templateUrl: 'views/placa.html',
-        url: '/'
-      })
-      .state('fipe', {
-        controller: 'SemPlacaController',
-        controllerAs: 'placa',
-        templateUrl: 'views/fipe.html',
-        url: '/placa-nao-encontrada'
-      })
-      .state('cotacao', {
-        controller: 'CotacaoController',
-        controllerAs: 'cotacao',
-        templateUrl: 'views/cotacao.html',
-        url: '/cotacao'
-      });
-  }
-})();
-(function () {
-  'use strict';
-
-  angular
-    .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$rootScope', '$state'];
+  CotacaoController.$inject = ['$rootScope', '$state', 'rastreadorCarro', 'rastreadorMoto'];
 
-  function CotacaoController($rootScope, $state) {
+  function CotacaoController($rootScope, $state, rastreadorCarro, rastreadorMoto) {
     var vm = this;
 
+    vm.carregando = true;
+    vm.hasRastreador = false;
     vm.preco = {
       basico: 'R$29,90',
       bronze: undefined,
@@ -119,6 +55,58 @@
       if (!$rootScope.usuario) {
         $state.go('placa');
       }
+
+      GetPrecos();
+    }
+
+    function GetPrecos() {
+      var filtro = 'Carro';
+      var valores = [];
+      var valorFipe = $rootScope.usuario.preco.replace('/R$ ', '');
+      valorFipe = valorFipe.replace('/,00', '');
+      valorFipe = $filter('number')(valorFipe);
+
+      if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
+
+        if (valorFipe > rastreadorCarro) {
+          vm.hasRastreador = true;
+        }
+
+        if ($rootScope.usuario.especial) {
+          filtro = 'Especial';
+        }
+      } else {
+        filtro = 'Moto';
+        if (valorFipe > rastreadorMoto) {
+          vm.hasRastreador = true;
+        }
+      }
+
+      $http.get(api + 'preco?filter=veiculo,eq,' + filtro).then(function (resp) {
+        valores = php_crud_api_transform(resp.data).preco;
+
+        angular.forEach(valores, function (value, key) {
+          if (valorFipe >= $filter('number')(value.min) && valorFipe <= $filter('number')(value.max)) {
+            switch (value.plano) {
+              case 'Bronze':
+                vm.preco.bronze = value.valor;
+                break;
+
+              case 'Prata':
+                vm.preco.prata = value.valor;
+                break;
+
+              case 'Ouro':
+                vm.preco.ouro = value.valor;
+                break;
+
+              default:
+                break;
+            }
+          }
+        });
+        vm.carregando = false;
+      });
     }
   }
 })();
@@ -237,9 +225,9 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$filter', '$rootScope'];
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope'];
 
-  function PlacaController($http, conversorService, $state, toaster, $filter, $rootScope) {
+  function PlacaController($http, conversorService, $state, toaster, $rootScope) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -395,11 +383,6 @@
         //Armazena em uma variavel para ficar mais facil a consulta
         fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
 
-        //Verifica se o rastreador eh obrigatorio
-        if ($filter('number')($(fipe).find('Valor')[0].textContent) > 35000) {
-          $rootScope.hasRastreador = true;
-        }
-
         //Armazena os dados relevantes para dar continuidade a cotação
         $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
         $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
@@ -421,9 +404,9 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$state', 'toaster', '$filter', '$rootScope', 'fipeService', 'api'];
+  SemPlacaController.$inject = ['$http', '$state', 'toaster', '$rootScope', 'fipeService', 'api'];
 
-  function SemPlacaController($http, $state, toaster, $filter, $rootScope, fipeService, api) {
+  function SemPlacaController($http, $state, toaster, $rootScope, fipeService, api) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -438,7 +421,6 @@
     vm.carregando = true;
     vm.fipePasso = 'passo1';
     vm.franquia = undefined;
-    vm.hasRastreador = false;
     vm.isTaxi = false;
     vm.isUber = false;
     vm.listaAnos = [];
@@ -498,6 +480,8 @@
         if (vm.isUber || vm.isTaxi) {
           $rootScope.usuario.especial = true;
         }
+
+        $rootScope.usuario.modelo = resp.Modelo;
 
         console.log(resp);
         $state.go('cotacao');
@@ -856,3 +840,69 @@
     }
   }
 }());
+(function () {
+  'use strict';
+
+  /**
+   * @ngdoc config
+   * @scope {}
+   * @name constants
+   * @memberof app
+   * @author Leo Brescia <leonardo@leobrescia.com.br>
+   * @desc Constantes do APP.<br>
+   */
+  angular
+    .module('app')
+    .constant('api', 'ahttp://localhost/multiplicar/cotacao/api.php/')
+    .constant('rastreadorCarro', 20000)
+    .constant('rastreadorMoto', 7000);
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('app')
+    .config(RouteConfig);
+
+  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
+
+  /**
+   * @ngdoc config
+   * @scope {}
+   * @name RouteConfig
+   * @memberof app
+   * @author Leo Brescia <leonardo@leobrescia.com.br>
+   * @desc Controla as rotas do dashboard.<br>
+   * 
+   * @param {service} $stateProvider
+   * @param {service} $locationProvider
+   * @param {service} $urlRouterProvider
+   * 
+   * @see Veja [Angular DOC]    {@link https://ui-router.github.io/ng1/} Para mais informações
+   * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#routing} Para melhores praticas
+   */
+  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $locationProvider.html5Mode(true);
+
+    $stateProvider
+      .state('placa', {
+        controller: 'PlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/placa.html',
+        url: '/'
+      })
+      .state('fipe', {
+        controller: 'SemPlacaController',
+        controllerAs: 'placa',
+        templateUrl: 'views/fipe.html',
+        url: '/placa-nao-encontrada'
+      })
+      .state('cotacao', {
+        controller: 'CotacaoController',
+        controllerAs: 'cotacao',
+        templateUrl: 'views/cotacao.html',
+        url: '/cotacao'
+      });
+  }
+})();
