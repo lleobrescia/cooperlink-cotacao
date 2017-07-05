@@ -180,20 +180,22 @@
 
         //Verifica se o modelo eh rejeitado
         angular.forEach(vm.rejeitados, function (value, key) {
-          var modeloTeste = $rootScope.usuario.modelo;
-          var modeloRejeitado = value.Modelo;
+          if (value.Fabricante == fabricante) {
+            var modeloTeste = $rootScope.usuario.modelo;
+            var modeloRejeitado = value.Modelo;
 
-          modeloTeste = modeloTeste.toUpperCase();
-          modeloRejeitado = modeloRejeitado.toUpperCase();
+            modeloTeste = modeloTeste.toUpperCase();
+            modeloRejeitado = modeloRejeitado.toUpperCase();
 
-          if (modeloTeste.includes(modeloRejeitado)) {
-            toaster.pop({
-              type: 'error',
-              title: 'Atenção!',
-              body: 'Não fazemos cotação para esse modelo de veículo.',
-              timeout: 50000
-            });
-            return; 
+            if (modeloTeste.includes(modeloRejeitado)) {
+              toaster.pop({
+                type: 'error',
+                title: 'Atenção!',
+                body: 'Não fazemos cotação para esse modelo de veículo.',
+                timeout: 50000
+              });
+              return;
+            }
           }
         });
 
