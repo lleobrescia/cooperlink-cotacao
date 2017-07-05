@@ -11,7 +11,7 @@
    */
   angular
     .module('app')
-    .constant('api', 'ahttp://localhost/multiplicar/cotacao/api.php/')
+    .constant('api', 'http://localhost/multiplicar/cotacao/api.php/')
     .constant('rastreadorCarro', 20000)
     .constant('rastreadorMoto', 7000);
 })();
