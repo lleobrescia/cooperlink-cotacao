@@ -59,16 +59,16 @@ Version: 1.0
 .placa .checkbox-inline input[type=checkbox],
 .placa .radio input[type=radio],
 .placa .radio-inline input[type=radio] {
-  width: 30px;
   height: 30px;
   margin-left: -40px;
   top: -2px;
+  width: 30px;
 }
 
 .placa .checkbox label,
 .placa .radio label {
-  padding-left: 40px;
   font-size: 1.5em;
+  padding-left: 40px;
 }
 
 
@@ -395,7 +395,11 @@ body {
 
 @media(min-width:37.188em) {
   .orcamento__info {
+    -webkit-box-pack: justify;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-pack: justify;
     justify-content: space-between;
   }
 }
@@ -461,9 +465,9 @@ body {
 
 .assistencia__table i {
   color: #41c4ec;
+  font-size: 1.5em;
   margin-right: 15px;
   vertical-align: middle;
-  font-size: 1.5em;
 }
 
 .assistencia__table h2 {
@@ -513,18 +517,18 @@ body {
 }
 
 .capemisa i {
+  font-size: 1.5em;
   margin-right: 15px;
   vertical-align: middle;
-  font-size: 1.5em;
 }
 
 .capemisa__box {
-  width: 262px;
-  height: 220px;
-  margin-top: 26px;
   border: dotted;
   border-radius: 5px;
+  height: 220px;
+  margin-top: 26px;
   padding: 25px 20px;
+  width: 262px;
 }
 
 
