@@ -59,6 +59,22 @@
       });
     }
 
+    function GetModelos() {
+      vm.carregando = true;
+      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
+      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
+        vm.listaModelos = resp.modelos;
+        vm.fipePasso = 'passo3';
+        vm.carregando = false;
+
+        if (vm.veiculo == 'carros') {
+          $rootScope.usuario.veiculo = 'AUTOMOVEL';
+        } else {
+          $rootScope.usuario.veiculo = 'MOTOCICLETA';
+        }
+      });
+    }
+
     function GetPreco() {
       vm.carregando = true;
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
@@ -89,20 +105,5 @@
       });
     }
 
-    function GetModelos() {
-      vm.carregando = true;
-      //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao 
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
-        vm.listaModelos = resp.modelos;
-        vm.fipePasso = 'passo3';
-        vm.carregando = false;
-
-        if (vm.veiculo == 'carros') {
-          $rootScope.usuario.veiculo = 'AUTOMOVEL';
-        } else {
-          $rootScope.usuario.veiculo = 'MOTOCICLETA';
-        }
-      });
-    }
   }
 })();
