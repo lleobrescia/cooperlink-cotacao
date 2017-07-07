@@ -2703,6 +2703,10 @@ $api = new PHP_CRUD_API(array(
 ));
 $api->executeCommand();
 
+	// 'username'=>'multi721_john',
+	// 'password'=>'TMWygB?@J*Pg',
+	// 'database'=>'multi721_cotacaobrasil',
+
 // For Microsoft SQL Server 2012 use:
 
 // $api = new PHP_CRUD_API(array(
