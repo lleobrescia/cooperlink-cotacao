@@ -13,5 +13,7 @@
     .module('app')
     .constant('api', 'http://localhost/multiplicar/cotacao/api.php/')
     .constant('rastreadorCarro', 20000)
-    .constant('rastreadorMoto', 7000);
+    .constant('rastreadorMoto', 7000)
+    .constant('anoCarro', 20)
+    .constant('anoMoto', 2005);
 })();
