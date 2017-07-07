@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  //TODO:Checar se eh especial
+
   angular
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
@@ -131,7 +131,7 @@
 
         if (isValido) {
           $state.go('cotacao');
-          
+
         } else {
           toaster.pop({
             type: 'error',
