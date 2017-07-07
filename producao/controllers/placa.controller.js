@@ -5,9 +5,9 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope', 'api'];
+  PlacaController.$inject = ['$http', 'conversorService', '$state', 'toaster', '$rootScope', 'api', 'CheckConditionService','$filter'];
 
-  function PlacaController($http, conversorService, $state, toaster, $rootScope, api) {
+  function PlacaController($http, conversorService, $state, toaster, $rootScope, api, CheckConditionService,$filter) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -74,6 +74,9 @@
 
     function Activate() {
       GetRejeitados();
+      console.log(parseFloat('9.15'));
+      console.log(parseFloat('15'));
+      console.log((parseFloat('9') < parseFloat('15')));
     }
 
     /**
@@ -120,42 +123,68 @@
       xml = conversorService.Json2Xml(consulta);
 
       $.get(url + xml, function (data) {
-        var codigoConsulta = '';
-        var codigoRetornoFipe = '';
+        var ano = ''; //Ano do modelo
+        var codigoConsulta = ''; //Usado para validar a consulta
+        var codigoRetornoFipe = ''; // Usado para validar o acesso à tabela fipe
         var especieVeiculo = ''; //Usado para verificar se eh taxi
-        var fabricante = '';
+        var fabricante = ''; // Fabricante do veiculo
         var fipe = ''; //Armazena os dados da tabela fipe
+        var isValido = true; //Usado para validar o processo todo
         var retorno = $(data).find('string'); // Recebe a resposta do servico
-        var veiculo = ''; // usado para ver qual o tipo de veiculo (moto ou carro) 
+        var testeAno = ''; // Usado para verificar se o ano eh aceito
+        var testeModelo = ''; //Usado para verificar se o modelo eh aceito
+        var veiculo = ''; // Usado para ver qual o tipo de veiculo (moto ou carro) 
 
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
-        codigoConsulta = $(retorno).find('ConsultaID')[0].textContent; //Confirmação que deu tudo ok
 
-        console.log(retorno);
+        ano = $(retorno).find('Veiculo').find('RegistroFederal').find('AnoModelo')[0].textContent;
+        codigoConsulta = $(retorno).find('ConsultaID')[0].textContent;
+        codigoRetornoFipe = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
+        especieVeiculo = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
+        fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
+        fabricante = $(fipe).find('Fabricante')[0].textContent;
+        veiculo = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
+
+        //Armazenamento para consultas em outros controladores
+        $rootScope.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent;
+        $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
+        $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
+        $rootScope.usuario.veiculo = veiculo;
+
+        //Setup do servico de validação
+        CheckConditionService.Activate($rootScope.usuario.modelo, fabricante, ano, vm.rejeitados);
 
         //Se a consulta falhou envia o usuario para a preencher os dados do carro
         if (codigoConsulta !== '0001') {
           $state.go('fipe');
         }
 
-        $rootScope.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent; //Armazena a data da consulta
-
-        //Codigo de confirmação de retorno. Se for 1, ha retorno
-        codigoRetornoFipe = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
-        veiculo = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
-        $rootScope.usuario.veiculo = veiculo;
-        especieVeiculo = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
-
         //Não da proseguimento se não for moto ou carro
-        if (veiculo != 'AUTOMOVEL' && veiculo != 'MOTOCICLETA') {
-          vm.carregando = false;
-          toaster.pop({
-            type: 'error',
-            title: 'Atenção!',
-            body: 'Tipo de veículo não aceito.',
-            timeout: 50000
-          });
-          return;
+        if (veiculo != 'AUTOMÓVEL' && veiculo != 'MOTOCICLETA') {
+          isValido = false;
+        }
+
+        if (veiculo == 'AUTOMÓVEL') {
+          testeAno = CheckConditionService.CarHasValidYear(); //Valida o ano
+          testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
+
+          if (!testeAno) {
+            isValido = false;
+          }
+
+          if (!testeModelo) {
+            isValido = false;
+          }
+        } else if (veiculo == 'MOTOCICLETA') {
+          testeAno = CheckConditionService.MotoHasValidYear();
+          testeModelo = CheckConditionService.MotoHasValidYear();
+
+          if (!testeAno) {
+            isValido = false;
+          }
+          if (!testeModelo) {
+            isValido = false;
+          }
         }
 
         //Verifica se o carro eh taxi
@@ -170,39 +199,26 @@
           $state.go('fipe');
         }
 
-        //Armazena em uma variavel para ficar mais facil a consulta
-        fipe = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
-
-        //Armazena os dados relevantes para dar continuidade a cotação
-        $rootScope.usuario.modelo = $(fipe).find('Modelo')[0].textContent;
-        fabricante = $(fipe).find('Fabricante')[0].textContent;
-        $rootScope.usuario.preco = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
-
-        //Verifica se o modelo eh rejeitado
-        angular.forEach(vm.rejeitados, function (value, key) {
-          if (value.Fabricante == fabricante) {
-            var modeloTeste = $rootScope.usuario.modelo;
-            var modeloRejeitado = value.Modelo;
-
-            modeloTeste = modeloTeste.toUpperCase();
-            modeloRejeitado = modeloRejeitado.toUpperCase();
-
-            if (modeloTeste.includes(modeloRejeitado)) {
-              toaster.pop({
-                type: 'error',
-                title: 'Atenção!',
-                body: 'Não fazemos cotação para esse modelo de veículo.',
-                timeout: 50000
-              });
-              return;
-            }
-          }
-        });
-
+        /**
+         * Se o carro eh uber ou o taxi o modelo eh especial
+         */
         if (vm.isUber || vm.isTaxi) {
           $rootScope.usuario.especial = true;
           vm.carregando = false;
-          $state.go('cotacao');
+
+          if (isValido) {
+            //Se nao houve erro, da continuidade 
+            $state.go('cotacao');
+          } else {
+            //Houve algum erro no porcesso. O vaiculo nao eh aceito
+            toaster.pop({
+              type: 'error',
+              title: 'Atenção!',
+              body: 'Não é possível fazer cotação para esse veículo.',
+              timeout: 50000
+            });
+          }
+
         } else {
           $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
             var retorno = php_crud_api_transform(resp.data).importado;
@@ -212,7 +228,17 @@
             }
 
             vm.carregando = false;
-            $state.go('cotacao');
+
+            if (isValido) {
+              $state.go('cotacao');
+            } else {
+              toaster.pop({
+                type: 'error',
+                title: 'Atenção!',
+                body: 'Não é possível fazer cotação para esse veículo.',
+                timeout: 50000
+              });
+            }
           });
         }
       });
