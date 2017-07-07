@@ -26,60 +26,61 @@
     ////////////////
 
     function Activate(modelo, fabricante, ano, rej) {
-      ano = ano;
-      fabricante = fabricante;
-      modelo = modelo;
-      rejeitados = rej;
+      this.ano = ano;
+      this.fabricante = fabricante;
+      this.modelo = modelo;
+      this.rejeitados = rej;
     }
 
     function CarHasValidModel() {
       var retorno = true;
-
-      switch (fabricante) {
+      console.log(this.fabricante);
+      switch (this.fabricante) {
         case 'Audi':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'BMW':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'Fiat':
-          retorno = (parseInt(ano) > 2000);
+          retorno = (parseInt(this.ano) > 2000);
           break;
         case 'Ford':
-          retorno = (parseInt(ano) > 2000);
+          retorno = (parseInt(this.ano) > 2000);
           break;
         case 'GM - Chevrolet':
-          retorno = (parseInt(ano) > 2000);
+          retorno = (parseInt(this.ano) > 2000);
           break;
         case 'Honda':
-          retorno = (parseInt(ano) > 2002);
+          retorno = (parseInt(this.ano) > 2002);
           break;
         case 'Hyundai':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'JAC Motors':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'Kia Motors':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'Mercedes':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
         case 'Mitsubishi':
-          retorno = (parseInt(ano) > 2009);
+          retorno = (parseInt(this.ano) > 2009);
           break;
         case 'Nissan':
-          retorno = (parseInt(ano) > 2007);
+          retorno = (parseInt(this.ano) > 2007);
           break;
         case 'Toyota':
-          retorno = (parseInt(ano) > 2003);
+          retorno = (parseInt(this.ano) > 2003);
           break;
         case 'VM - VolksWagen':
-          retorno = (parseInt(ano) > 2000);
+          retorno = (parseInt(this.ano) > 2000);
+          console.log((parseInt(this.ano) > 2000));
           break;
         case 'Volvo':
-          retorno = (parseInt(ano) > 2008);
+          retorno = (parseInt(this.ano) > 2008);
           break;
 
         default:
@@ -89,8 +90,8 @@
 
       if (retorno) {
         angular.forEach(rejeitados, function (value, key) {
-          if (value.Fabricante == fabricante) {
-            var modeloTeste = model;
+          if (value.Fabricante == this.fabricante) {
+            var modeloTeste = this.modelo;
             var modeloRejeitado = value.Modelo;
 
             modeloTeste = modeloTeste.toUpperCase();
@@ -102,12 +103,11 @@
           }
         });
       }
-
       return retorno;
     }
 
     function CarHasValidYear() {
-      var yearsApart = new Date(new Date() - new Date(ano + '-01-01')).getFullYear() - 1970;
+      var yearsApart = new Date(new Date() - new Date(this.ano + '-01-01')).getFullYear() - 1970;
 
       return (yearsApart < anoCarro);
     }
@@ -117,9 +117,8 @@
     }
 
     function MotoHasValidYear() {
-      return (parseInt(ano) > anoMoto);
+      return (parseInt(this.ano) > anoMoto);
     }
-
 
   }
 })();
