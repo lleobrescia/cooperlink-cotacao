@@ -2,12 +2,12 @@
   'use strict';
 
   /**
-   * @ngdoc config
+   * @ngdoc constant
    * @scope {}
    * @name constants
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @desc Constantes do APP.<br>
+   * @desc Constantes do APP.
    */
   angular
     .module('app')

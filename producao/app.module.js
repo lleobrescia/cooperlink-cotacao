@@ -2,10 +2,9 @@
   'use strict';
 
   /**
-   * @ngdoc config
+   * @ngdoc module
    * @scope {}
    * @name app
-   * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Modulo principal da cotação.<br>
    * 
@@ -23,7 +22,6 @@
     'ngAnimate',
     'ui.router',
     'ngMessages',
-    'toaster',
-    'angucomplete-alt'
+    'toaster'
   ]);
 })();

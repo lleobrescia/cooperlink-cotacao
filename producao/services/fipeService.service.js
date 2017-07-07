@@ -11,8 +11,10 @@
    * @ngdoc factory
    * @name fipeService
    * @author Leo Brescia <leonardo@leobrescia.com.br>
-   * @param {service} $q - promise
    * @desc Serviço de consulta da tabela fipe
+   * 
+   * @param {service} $q - promise
+   * 
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/providers#factory-recipe} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#factories} Para melhores praticas
    */
@@ -22,7 +24,7 @@
     return {
       Consultar: Consultar,
       GetCarros: GetCarros,
-      GetMotos: GetMotos
+      GetMotos:  GetMotos
     };
 
     /**
@@ -30,6 +32,7 @@
      * @desc Consulta a tabela fipe
      * @see {@link https://fipeapi.appspot.com/}
      * @param {String} endpoint - final da consulta ao serviço
+     * @return {promise} resultado da consulta
      * @memberof fipeService
      */
     function Consultar(endpoint) {
@@ -48,6 +51,12 @@
       return deferred.promise;
     }
 
+    /**
+     * @function GetCarros
+     * @desc Busca todos as fabricantes de carros
+     * @return {promise} lista de fabricantes de carros
+     * @memberof fipeService
+     */
     function GetCarros() {
       var deferred = $q.defer();
 
@@ -64,6 +73,12 @@
       return deferred.promise;
     }
 
+    /**
+     * @function GetCarros
+     * @desc Busca todos as fabricantes de motos
+     * @return {promise} lista de fabricantes de motos
+     * @memberof fipeService
+     */
     function GetMotos() {
       var deferred = $q.defer();
 
