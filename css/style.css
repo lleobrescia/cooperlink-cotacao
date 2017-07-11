@@ -182,6 +182,7 @@ body {
 
 .header span {
   font-size: 0.875em;
+  display: inline-block;
 }
 
 @media(min-width:27.625em) {
@@ -493,6 +494,12 @@ body {
   vertical-align: middle;
 }
 
+@media(max-width:48.000em) {
+  .assistencia__table .table>tbody>tr>td {
+    display: block;
+  }
+}
+
 
 /*--------------------------------------------------------------
 ## Capemisa
@@ -519,6 +526,12 @@ body {
   border-bottom: dotted #dbdbdc;
   border-top: none;
   vertical-align: middle;
+}
+
+@media(max-width:48.000em) {
+  .capemisa .table>tbody>tr>td {
+    display: block;
+  }
 }
 
 .capemisa i {
