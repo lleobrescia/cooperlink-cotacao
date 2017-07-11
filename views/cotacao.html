@@ -6,7 +6,7 @@
     <!--col-sm-8-->
 
     <div class="col-sm-4">
-      <button class="btn btn-lg btn-info" type="button"><i class="fa fa-envelope" aria-hidden="true"></i> Enviar Por E-mail</button>
+      <button class="btn btn-lg btn-info" data-target="#exampleModal" data-toggle="modal" data-whatever="@mdo" type="button"><i class="fa fa-envelope" aria-hidden="true"></i> Enviar Por E-mail</button>
     </div>
     <!--col-sm-4-->
   </div>
@@ -120,7 +120,7 @@
 
   <div class="row hidden-xs" style="margin-bottom: 60px;margin-top: 60px;">
     <div class="col-xs-12 text-center">
-      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')"><img class="img-responsive" src="img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
+      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')" style="cursor: pointer;"><img class="img-responsive" src="img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
         todas as <strong> 13</strong> assistências</p>
     </div>
     <!--col-xs-12-->
@@ -370,3 +370,26 @@
   <!--row-->
 </section>
 <!--container-->
+
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Enviar Cotação</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="control-label" for="recipient-email">E-mail:</label>
+            <input class="form-control" id="recipient-email" name="email" ng-model="cotacao.email" type="email">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Fechar</button>
+        <button class="btn btn-primary" ng-disabled="cotacao.email" type="button">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>

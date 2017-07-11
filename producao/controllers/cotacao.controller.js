@@ -5,12 +5,22 @@
     .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$rootScope', '$state', 'rastreadorCarro', 'rastreadorMoto', '$http', 'api'];
+  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster'];
 
-  function CotacaoController($rootScope, $state, rastreadorCarro, rastreadorMoto, $http, api) {
+  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster) {
     var vm = this;
 
-    vm.carregando = true;
+    // vm.carregando = true;
+    vm.email = undefined;
+    vm.envelope = {
+      'check': 'umapalavrarealmentemuitograndeparaserlembradafeitapormim',
+      'modelo': '',
+      'to': '',
+      'valorBronze': '',
+      'valorCarro': '',
+      'valorOuro': '',
+      'valorPrata': ''
+    };
     vm.hasRastreador = false;
     vm.preco = {
       basico: 'R$29,90',
@@ -18,16 +28,33 @@
       ouro: undefined,
       prata: undefined
     };
+
+    vm.EnviarEmail = EnviarEmail;
+
     Activate();
 
     ////////////////
 
     function Activate() {
-      if (!$rootScope.usuario) {
-        $state.go('placa');
-      } else {
-        GetPrecos();
-      }
+      // if (!$rootScope.usuario) {
+      //   $state.go('placa');
+      // } else {
+      //   GetPrecos();
+      // }
+    }
+
+    function EnviarEmail() {
+      vm.envelope.to = vm.email;
+
+      vm.email = undefined;
+
+      $http.post('php/emailCotacao.php', vm.envelope);
+
+      toaster.pop({
+        type: 'error',
+        body: 'E-mail enviado.',
+        timeout: 30000
+      });
     }
 
     function GetPrecos() {
@@ -37,7 +64,8 @@
       valorFipe = valorFipe.replace(',00', ' ');
       valorFipe = parseInt(valorFipe);
 
-      console.log($rootScope.usuario);
+      vm.envelope.valorCarro = $rootScope.usuario.preco;
+      vm.envelope.modelo = $rootScope.usuario.modelo;
 
       if ($rootScope.usuario.veiculo === 'AUTOMÓVEL') {
 
@@ -57,20 +85,23 @@
 
       $http.get(api + 'preco?filter=veiculo,eq,' + filtro).then(function (resp) {
         valores = php_crud_api_transform(resp.data).preco;
-        
+
         angular.forEach(valores, function (value, key) {
           if (valorFipe >= parseInt(value.min) && valorFipe <= parseInt(value.max)) {
             switch (value.plano) {
               case 'Bronze':
                 vm.preco.bronze = value.valor;
+                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
                 break;
 
               case 'Prata':
                 vm.preco.prata = value.valor;
+                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
                 break;
 
               case 'Ouro':
                 vm.preco.ouro = value.valor;
+                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
                 break;
 
               default:
