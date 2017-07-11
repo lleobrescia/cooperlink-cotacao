@@ -1,4 +1,4 @@
-<section class="container" id="topo">
+<section class="container" id="topo" ng-hide="cotacao.carregando">
   <div class="row contacao__header">
     <div class="col-sm-8">
       <p> Aqui está a cotação para seu <strong ng-bind="$root.usuario.modelo"></strong> <br> Avaliado em <span ng-bind="$root.usuario.preco"></span>        segundo a tabela FIPE</p>
@@ -129,6 +129,10 @@
 
 </section>
 <!--container-->
+
+<section ng-show="cotacao.carregando" style="margin-bottom: 100px;">
+  <div class="loader"></div>
+</section>
 
 <section class="coberturas" id="informacoes">
   <div class="container">
