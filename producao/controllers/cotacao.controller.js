@@ -95,12 +95,12 @@
      */
     function Activate() {
       //Se nao houver dados do carro, envia de volta para a tela para digitar a placa
-      // if (!$rootScope.usuario) {
-      //   $state.go('placa');
-      // } else {
-      //   GetPrecos();
-      //   SalvarCotacao();
-      // }
+      if (!$rootScope.usuario) {
+        $state.go('placa');
+      } else {
+        GetPrecos();
+        SalvarCotacao();
+      }
     }
 
     /**
