@@ -75,11 +75,12 @@
     };
 
     $rootScope.usuario = {
-      'data':     '',
-      'especial': false,
-      'modelo':   '',
-      'preco':    '',
-      'veiculo':  ''
+      'codigoTabelaFipe': '',
+      'data':             '',
+      'especial':         false,
+      'modelo':           '',
+      'preco':            '',
+      'veiculo':          ''
     };
 
     vm.carregando = false;
@@ -170,13 +171,14 @@
 
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
 
-        ano               = $(retorno).find('Veiculo').find('RegistroFederal').find('AnoModelo')[0].textContent;
-        codigoConsulta    = $(retorno).find('ConsultaID')[0].textContent;
-        codigoRetornoFipe = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
-        especieVeiculo    = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
-        fipe              = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
-        fabricante        = $(fipe).find('Fabricante')[0].textContent;
-        veiculo           = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
+        ano                                 = $(retorno).find('Veiculo').find('RegistroFederal').find('AnoModelo')[0].textContent;
+        codigoConsulta                      = $(retorno).find('ConsultaID')[0].textContent;
+        codigoRetornoFipe                   = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
+        especieVeiculo                      = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
+        fipe                                = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
+        $rootScope.usuario.codigoTabelaFipe = $(fipe).find('CodigoFipe')[0].textContent;
+        fabricante                          = $(fipe).find('Fabricante')[0].textContent;
+        veiculo                             = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
 
         //Armazenamento para consultas em outros controladores
         $rootScope.usuario.data    = $(retorno).find('DataHoraConsulta')[0].textContent;

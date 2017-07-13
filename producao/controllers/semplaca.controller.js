@@ -46,11 +46,12 @@
     var vm = this;
 
     $rootScope.usuario = {
-      'data':     '',
-      'especial': false,
-      'modelo':   '',
-      'preco':    '',
-      'veiculo':  ''
+      'codigoTabelaFipe': '',
+      'data':             '',
+      'especial':         false,
+      'modelo':           '',
+      'preco':            '',
+      'veiculo':          ''
     };
 
     vm.anoEscolhido    = '';
@@ -145,8 +146,10 @@
       var testeModelo = '';
 
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
-        $rootScope.usuario.preco = resp.Valor;
-        $rootScope.usuario.modelo = resp.Modelo;
+        //Armazena os dados da consulta para mostrar na tela de cotacao
+        $rootScope.usuario.preco            = resp.Valor;
+        $rootScope.usuario.modelo           = resp.Modelo;
+        $rootScope.usuario.codigoTabelaFipe = resp.CodigoFipe;
 
         CheckConditionService.Activate(resp.Modelo, resp.Marca, resp.AnoModelo, vm.rejeitados);
 
@@ -211,6 +214,5 @@
         vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
       });
     }
-
   }
 })();
