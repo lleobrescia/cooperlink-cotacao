@@ -20,8 +20,12 @@
    * @property {string} vm.cotacao        - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.email          - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.envelope       - Telefone da multiplicar que aparecerá no html
+   * @property {string} vm.franquia       - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.hasRastreador  - Telefone da multiplicar que aparecerá no html
+   * @property {string} vm.planoEscolhido - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.preco          - Telefone da multiplicar que aparecerá no html
+   * @property {string} vm.opcionais      - Telefone da multiplicar que aparecerá no html
+   * @property {string} vm.valorFipe      - Telefone da multiplicar que aparecerá no html
    * 
    * @param {service}  $filter                 - Usado para formatação {@link https://docs.angularjs.org/api/ng/filter/filter}
    * @param {service}  $http                   - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
@@ -39,7 +43,7 @@
   function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster) {
     var vm = this;
 
-    vm.carregando = true;
+    vm.carregando   = true;
     vm.cotacao    = {
       'fipe':    '',
       'ip':      '',
@@ -57,13 +61,23 @@
       'valorOuro':   '',
       'valorPrata':  ''
     };
-    vm.hasRastreador = false;
-    vm.preco         = {
+    vm.franquia       = '4%';
+    vm.hasRastreador  = false;
+    vm.planoEscolhido = 'basico';
+    vm.preco          = {
       basico: 'R$29,90',
       bronze: undefined,
       ouro:   undefined,
       prata:  undefined
     };
+    vm.opcionais = {
+      'carroReserva': '',
+      'rastreador':   '',
+      'reboque':      '',
+      'vidros':       ''
+    };
+    vm.valorFipe = undefined;
+
 
     /**
      * Atribuição das funções no escopo
@@ -81,12 +95,12 @@
      */
     function Activate() {
       //Se nao houver dados do carro, envia de volta para a tela para digitar a placa
-      if (!$rootScope.usuario) {
-        $state.go('placa');
-      } else {
-        GetPrecos();
-        SalvarCotacao();
-      }
+      // if (!$rootScope.usuario) {
+      //   $state.go('placa');
+      // } else {
+      //   GetPrecos();
+      //   SalvarCotacao();
+      // }
     }
 
     /**
@@ -120,12 +134,12 @@
        * Retira o R$ e o ,00 do valor para ficar mais facil a verificação 
        * abaixo
        */
-      var valorFipe = $rootScope.usuario.preco.replace('R$ ', ' ');
-      valorFipe     = valorFipe.replace(',00', ' ');
-      valorFipe     = parseInt(valorFipe);
+      vm.valorFipe = $rootScope.usuario.preco.replace('R$ ', ' ');
+      vm.valorFipe = vm.valorFipe.replace(',00', ' ');
+      vm.valorFipe = parseInt(vm.valorFipe);
 
       //Formata o valor da tabela FIPE
-      $rootScope.usuario.preco = $filter('currency')(valorFipe, 'R$ ');
+      $rootScope.usuario.preco = $filter('currency')(vm.valorFipe, 'R$ ');
 
       //Armazena o valor da fipe e o modelo do carro na variavel para enviar pro email
       vm.envelope.valorCarro = $rootScope.usuario.preco;
@@ -138,17 +152,30 @@
        */
       if ($rootScope.usuario.veiculo === 'AUTOMÓVEL') {
 
-        if (valorFipe > rastreadorCarro) {
+        //Valor da franquia
+        if (vm.valorFipe < 20000) {
+          vm.franquia = 'R$ 800,00';
+        }
+
+        //Rastreador
+        if (vm.valorFipe > rastreadorCarro) {
           vm.hasRastreador = true;
         }
 
         if ($rootScope.usuario.especial) {
           filtro = 'Especial';
+
+          //Valor da franquia
+          if (vm.valorFipe < 20000) {
+            vm.franquia = 'R$ 1000,00';
+          } else {
+            vm.franquia = '6%';
+          }
         }
       } else {
         filtro = 'Moto';
 
-        if (valorFipe > rastreadorMoto) {
+        if (vm.valorFipe > rastreadorMoto) {
           vm.hasRastreador = true;
         }
       }
@@ -159,7 +186,7 @@
 
         //Pega o valor de cada plano
         angular.forEach(valores, function (value, key) {
-          if (valorFipe >= parseInt(value.min) && valorFipe <= parseInt(value.max)) {
+          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
             switch (value.plano) {
               case 'Bronze':
                 vm.preco.bronze         = value.valor;
