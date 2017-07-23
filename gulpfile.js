@@ -64,7 +64,21 @@ var paths = {
   }
 };
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['html', 'img', 'js', 'php', 'vendor', 'views', 'css', 'watch']);
+
+gulp.task('css', function () {
+  return gulp.src(paths.dev.css)
+    .pipe(plumber())
+    .pipe(autoprefixer({
+      browsers: ['> 1%', 'ie 7', 'ie 8'],
+      cascade: false
+    }))
+    .pipe(gulp.dest(paths.dis.css))
+    .pipe(minifyCss())
+    .pipe(rename(names.cssMin))
+    .pipe(gulp.dest(paths.dis.css))
+    .on('error', util.log);
+});
 
 /**
  * @task docs
@@ -127,6 +141,7 @@ gulp.task('js', function () {
   return gulp.src(paths.dev.js)
     .pipe(plumber())
     .pipe(concat(names.js))
+    .pipe(gulp.dest('./'))
     .pipe(replace(paths.local, paths.server))
     .pipe(replace('dis/', ''))
     .pipe(gulp.dest(paths.dis.js))
@@ -190,7 +205,7 @@ gulp.task('views', function () {
  * @task watch
  * @desc 'Vigia' todos os arquivos. Havendo modificação executa sua respectiva task
  */
-gulp.task('watch', ['html', 'img', 'js', 'php', 'vendor', 'views'], function () {
+gulp.task('watch', function () {
   gulp.watch(paths.dev.css, ['css']);
   gulp.watch(paths.dev.js, ['js']);
   gulp.watch(paths.dev.html, ['html']);
