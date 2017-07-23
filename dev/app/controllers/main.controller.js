@@ -5,7 +5,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$location', '$anchorScroll'];
+  MainController.$inject = ['$location', '$anchorScroll', 'projectDir'];
 
   /**
    * @ngdoc controller
@@ -22,13 +22,15 @@
    * @param {service} $anchorScroll  - Converte xml para json e json para xml
    * @param {service} $state            - Usado para troca de views
    * @param {service} fipeService       - Consulta na tabela FIPE
+   * @param {constant} projectDir
    * 
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($location, $anchorScroll) {
+  function MainController($location, $anchorScroll, projectDir) {
     var vm = this;
 
+    vm.directory = projectDir;
     vm.telefone = '0800 000 000';
 
     //Atribuicao dos metodos no escopo

@@ -5,7 +5,7 @@
     .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster'];
+  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir'];
 
   /**
    * @ngdoc controller
@@ -40,7 +40,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster) {
+  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir) {
     var vm = this;
 
     vm.carregando   = true;
@@ -112,7 +112,7 @@
       vm.envelope.to = vm.email;
       vm.email       = undefined;
 
-      $http.post('php/emailCotacao.php', vm.envelope);
+      $http.post(projectDir + 'php/emailCotacao.php', vm.envelope);
 
       toaster.pop({
         type:    'error',
@@ -218,7 +218,7 @@
      * @memberof CotacaoController
      */
     function SalvarCotacao() {
-      $http.get('php/ipvisitor.php').then(function (resp) {
+      $http.get(projectDir + 'php/ipvisitor.php').then(function (resp) {
 
         vm.cotacao.ip     = resp.data;
         vm.cotacao.fipe   = $rootScope.usuario.codigoTabelaFipe;

@@ -16,15 +16,20 @@
   <meta name="author" content="Leo Brescia, leonardo@leobrescia.com.br">
   <meta name="owner" content="Multiplicar Brasil">
   <meta name="pagename" content="Multiplicar Brasil - Cotação">
-  <meta name="url" content="">
 
   <meta name="fragment" content="!">
 
-  <link type="image/png" href="img/favicon-multiplicar.png" rel="icon">
+  <!-- build:favicon -->
+  <link type="image/png" href="dis/img/favicon-multiplicar.png" rel="icon">
+  <!-- endbuild -->
 
+  <!-- build:base -->
   <base href="/multiplicar/cotacao/">
+  <!-- endbuild -->
 
-  <link href="css/style.css" rel="stylesheet">
+  <!-- build:css -->
+  <link href="dis/css/style.css" rel="stylesheet">
+  <!-- endbuild -->
 </head>
 
 <body ng-controller="MainController as main">
@@ -35,7 +40,7 @@
       <div class="row">
         <div class="col-sm-4 col-md-5">
           <a href="https://multiplicarbrasil.com.br/" title="Multiplicar Brasil">
-            <img src="img/multiplicar_brasil.png" alt="Multiplicar Brasil">
+            <img ng-src="{{main.directory}}img/multiplicar_brasil.png" alt="Multiplicar Brasil">
           </a>
         </div>
         <!--col-sm-5-->
@@ -81,9 +86,14 @@
   <!--TOASTER-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/2.1.0/toaster.min.js"></script>
 
-  <script src="js/vendor/php_crud_api_transform.min.js"></script>
+  <!-- build:vendor -->
+  <script src="dis/js/vendor/vendor.js"></script>
+  <!-- endbuild -->
+
   <!--STARTUP-->
-  <script src="js/app.js"></script>
+  <!-- build:app -->
+  <script src="dis/js/app.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>

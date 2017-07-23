@@ -2,7 +2,9 @@
 
 //reference: https://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
+require('constants.php');
+
+if ($_SERVER['HTTP_HOST'] ==  $host) {
     function getUserIP()
     {
         $client  = @$_SERVER['HTTP_CLIENT_IP'];

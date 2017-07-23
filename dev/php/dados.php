@@ -1,6 +1,8 @@
 <?php
 
-if( $_SERVER['HTTP_HOST'] == 'localhost'){
+require('constants.php');
+
+if ($_SERVER['HTTP_HOST'] == $host) {
     $arr = array(
     'usuario'  => 'HomCheckauto',
     'senha'    => '12345678',
@@ -9,7 +11,7 @@ if( $_SERVER['HTTP_HOST'] == 'localhost'){
     'url'      => 'https://www.checkauto.com.br/ws20v2/WebService1.asmx/Consultar?strXMLSolicitacao='
     );
     echo json_encode($arr);
-}else{
+} else {
     header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
     exit;
 }

@@ -5,12 +5,8 @@
   "homepage": "https://multiplicarbrasil.com.br/",
   "repository": "bitbucket:https://bitbucket.org/citylinkbr/dashboard",
   "main": "index.html",
-  "bugs": {
-    "url": "https://bitbucket.org/citylinkbr/dashboard/issues",
-    "email": "leonardo@leobrescia.com.br"
-  },
   "author": {
-    "name": "Get Rockte",
+    "name": "Get Rocket",
     "email": "contato@getrocket.com.br",
     "url": "http://getrocket.com.br/"
   },
@@ -19,16 +15,23 @@
   ],
   "private": true,
   "devDependencies": {
+    "@aquafadas/gulp-php-minify": "^0.3.1",
     "angular-jsdoc": "^1.5.0",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-imagemin": "^3.0.3",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.3.0",
     "gulp-ng-annotate": "^2.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-replace-task": "^0.11.0",
     "gulp-shell": "^0.6.3",
     "gulp-uglify": "^3.0.0",
-    "gulp-util": "^3.0.7",
-    "jsdoc": "^3.4.3"
+    "gulp-util": "^3.0.8",
+    "jsdoc": "^3.5.3"
   }
 }

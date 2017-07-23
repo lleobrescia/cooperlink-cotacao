@@ -5,7 +5,7 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster'];
+  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster', 'projectDir'];
 
   /**
    * @ngdoc controller
@@ -35,7 +35,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster) {
+  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster, projectDir) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -121,7 +121,7 @@
        */
       $http({
         method: 'GET',
-        url: 'php/dados.php'
+        url: projectDir + 'php/dados.php'
       }).then(function (resp) {
         consulta.xml.CONSULTA.ACESSO.SENHA          = resp.data.senha;
         consulta.xml.CONSULTA.ACESSO.USUARIO        = resp.data.usuario;

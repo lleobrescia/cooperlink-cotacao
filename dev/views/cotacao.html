@@ -103,13 +103,13 @@
     <div class="col-xs-12">
       <div class="orcamento__info">
         <div>
-          <img src="img/coin.png" alt=" icone" aria-hidden="true"> Adesão: <strong>{{cotacao.adesao}}</strong>
+          <img ng-src="{{main.directory}}img/coin.png" alt=" icone" aria-hidden="true"> Adesão: <strong>{{cotacao.adesao}}</strong>
         </div>
         <div>
-          <img src="img/car.png" alt=" icone" aria-hidden="true"> Franquia: <strong>{{cotacao.franquia}}</strong>
+          <img ng-src="{{main.directory}}img/car.png" alt=" icone" aria-hidden="true"> Franquia: <strong>{{cotacao.franquia}}</strong>
         </div>
         <div ng-show="cotacao.hasRastreador">
-          <img src="img/rss.png" alt=" icone" aria-hidden="true"> <strong>Rastreador</strong>
+          <img ng-src="{{main.directory}}img/rss.png" alt=" icone" aria-hidden="true"> <strong>Rastreador</strong>
         </div>
       </div>
       <!--orcamento__info-->
@@ -143,7 +143,7 @@
           <table class="table">
             <tr>
               <td>
-                <p><img src="img/colisoes.png" alt="icone"> Colisões
+                <p><img ng-src="{{main.directory}}img/colisoes.png" alt="icone"> Colisões
                 </p>
               </td>
               <td>
@@ -154,7 +154,7 @@
             </tr>
             <tr>
               <td>
-                <p><img src="img/perda_total.png" alt="icone">Perda total</p>
+                <p><img ng-src="{{main.directory}}img/perda_total.png" alt="icone">Perda total</p>
               </td>
               <td>
                 <p>
@@ -164,7 +164,7 @@
             </tr>
             <tr>
               <td>
-                <p><img src="img/roubo.png" alt="icone">Roubo e furto</p>
+                <p><img ng-src="{{main.directory}}img/roubo.png" alt="icone">Roubo e furto</p>
               </td>
               <td>
                 <p>
@@ -174,7 +174,7 @@
             </tr>
             <tr>
               <td>
-                <p><img src="img/incendio.png" alt="icone">Incêndio</p>
+                <p><img ng-src="{{main.directory}}img/incendio.png" alt="icone">Incêndio</p>
               </td>
               <td>
                 <p>
@@ -184,7 +184,7 @@
             </tr>
             <tr>
               <td>
-                <p><img src="img/alagamento.png" alt="icone">Alagamento e eventos da natureza </p>
+                <p><img ng-src="{{main.directory}}img/alagamento.png" alt="icone">Alagamento e eventos da natureza </p>
               </td>
               <td>
                 <p>
@@ -194,7 +194,7 @@
             </tr>
             <tr>
               <td>
-                <p><img src="img/danos.png" alt="icone">Danos corporais a terceiros</p>
+                <p><img ng-src="{{main.directory}}img/danos.png" alt="icone">Danos corporais a terceiros</p>
               </td>
               <td>
                 <p>
@@ -333,7 +333,7 @@
 
       <div class="col-md-4 col-lg-3 col-lg-offset-1">
         <a href="http://www.capemisa.com.br/" title="Capemisa" target="_blank" rel="external">
-          <img src="img/capemisa.png" alt="Capemisa">
+          <img ng-src="{{main.directory}}img/capemisa.png" alt="Capemisa">
         </a>
 
         <div class="capemisa__box">
