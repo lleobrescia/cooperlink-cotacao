@@ -70,7 +70,17 @@ gulp.task('css', function () {
   return gulp.src(paths.dev.css)
     .pipe(plumber())
     .pipe(autoprefixer({
-      browsers: ['> 1%', 'ie 7', 'ie 8'],
+      browsers: [
+        '> 1%',
+        'last 2 versions',
+        'firefox >= 4',
+        'safari 7',
+        'safari 8',
+        'IE 8',
+        'IE 9',
+        'IE 10',
+        'IE 11'
+      ],
       cascade: false
     }))
     .pipe(gulp.dest(paths.dis.css))
