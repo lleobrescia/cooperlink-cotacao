@@ -154,6 +154,7 @@ gulp.task('js', function () {
     .pipe(gulp.dest('./'))
     .pipe(replace(paths.local, paths.server))
     .pipe(replace('dis/', ''))
+    .pipe(replace('dev/', ''))
     .pipe(gulp.dest(paths.dis.js))
     .pipe(ngAnnotate())
     .pipe(uglify())
