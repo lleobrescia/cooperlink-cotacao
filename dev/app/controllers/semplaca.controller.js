@@ -5,7 +5,7 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'fipeService', 'toaster'];
+  SemPlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'projectDir'];
 
   /**
    * @ngdoc controller
@@ -19,6 +19,7 @@
    * @property {json}     $rootScope.usuario  - Dados do veiculo do usuario
    * @property {string}   vm.anoEscolhido     - Ano do veiculo
    * @property {boolean}  vm.carregando       - Usado para controlar o loading
+   * @property {constant} vm.diretorio        - Nome do diretorio do projeto
    * @property {string}   vm.fipePasso        - Usado para controlar as telas que aparecem
    * @property {boolean}  vm.isTaxi           - Usado para saber se o carro eh um taxi
    * @property {string}   vm.isUber           - Usado para saber se o carro eh uber
@@ -38,11 +39,12 @@
    * @param {constant} api                     - url do api
    * @param {service}  fipeService             - Serviço para consulta na tabela fipe
    * @param {service}  toaster                 - Seviço para mostrar mensagens
+   * @param {constant} projectDir              - Nome do diretorio do projeto
    * 
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function SemPlacaController($http, $rootScope, $state, CheckConditionService, api, fipeService, toaster) {
+  function SemPlacaController($http, $rootScope, $state, CheckConditionService, api, fipeService, toaster, projectDir) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -55,7 +57,12 @@
     };
 
     vm.anoEscolhido    = '';
+    vm.caminho1        = projectDir + 'views/fipe/passo1.html';
+    vm.caminho2        = projectDir + 'views/fipe/passo2.html';
+    vm.caminho3        = projectDir + 'views/fipe/passo3.html';
+    vm.caminho4        = projectDir + 'views/fipe/passo4.html';
     vm.carregando      = true;
+    vm.diretorio       = projectDir;
     vm.fipePasso       = 'passo1';
     vm.isTaxi          = false;
     vm.isUber          = false;
@@ -124,7 +131,7 @@
         vm.listaModelos = resp.modelos;
 
         if (vm.veiculo == 'carros') {
-          $rootScope.usuario.veiculo = 'AUTOMÓVEL';
+          $rootScope.usuario.veiculo = 'AUTOMOVEL';
         } else {
           $rootScope.usuario.veiculo = 'MOTOCICLETA';
         }
@@ -153,7 +160,7 @@
 
         CheckConditionService.Activate(resp.Modelo, resp.Marca, resp.AnoModelo, vm.rejeitados);
 
-        if ($rootScope.usuario.veiculo == 'AUTOMÓVEL') {
+        if ($rootScope.usuario.veiculo == 'AUTOMOVEL') {
           testeAno    = CheckConditionService.CarHasValidYear(); //Valida o ano
           testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
 
