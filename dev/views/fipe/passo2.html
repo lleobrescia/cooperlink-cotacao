@@ -4,8 +4,8 @@
 <div class="input-group">
   <select class="form-control input-lg" name="marca" ng-model="placa.marcaEscolhida">
     <option value="">Selecione uma Marca</option> <!-- not selected / blank option -->
-    <option ng-if="placa.veiculo === 'carros'" ng-repeat="item in placa.listaCarros | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
-    <option ng-if="placa.veiculo === 'motos'" ng-repeat="item in placa.listaMotos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
+    <option ng-if="placa.veiculo === 'carros'" ng-repeat="item in placa.listaCarros | orderBy: 'nome' track by $index " value="{{::item.codigo}}" required>{{::item.nome}}</option> 
+    <option ng-if="placa.veiculo === 'motos'" ng-repeat="item in placa.listaMotos  | orderBy: 'nome' track by $index" value="{{::item.codigo}}" required>{{::item.nome}}</option> 
   </select>
 
   <div class="input-group-addon">

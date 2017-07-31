@@ -130,7 +130,7 @@
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
         vm.listaModelos = resp.modelos;
 
-        if (vm.veiculo == 'carros') {
+        if (vm.veiculo === 'carros') {
           $rootScope.usuario.veiculo = 'AUTOMOVEL';
         } else {
           $rootScope.usuario.veiculo = 'MOTOCICLETA';
@@ -155,12 +155,13 @@
       fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
         //Armazena os dados da consulta para mostrar na tela de cotacao
         $rootScope.usuario.preco            = resp.Valor;
+        $rootScope.usuario.preco            = $rootScope.usuario.preco.replace('R$ ','').replace('.','').replace(',00','');
         $rootScope.usuario.modelo           = resp.Modelo;
         $rootScope.usuario.codigoTabelaFipe = resp.CodigoFipe;
 
         CheckConditionService.Activate(resp.Modelo, resp.Marca, resp.AnoModelo, vm.rejeitados);
 
-        if ($rootScope.usuario.veiculo == 'AUTOMOVEL') {
+        if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
           testeAno    = CheckConditionService.CarHasValidYear(); //Valida o ano
           testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
 
@@ -171,7 +172,7 @@
           if (!testeModelo) {
             isValido = false;
           }
-        } else if ($rootScope.usuario.veiculo == 'MOTOCICLETA') {
+        } else if ($rootScope.usuario.veiculo === 'MOTOCICLETA') {
           testeAno    = CheckConditionService.MotoHasValidYear();
           testeModelo = CheckConditionService.MotoHasValidYear();
 

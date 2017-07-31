@@ -1,5 +1,3 @@
-<button class="btn btn-primary" data-target=".bs-example-modal-lg" data-toggle="modal" type="button">Large modal</button>
-
 <div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" tabindex="-1">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="padding: 40px 70px;">
@@ -11,7 +9,7 @@
             <h3><strong>Plano Básico</strong></h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.basico }}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.basico }}</span></strong></h3>
           </td>
           <td>
             <h3><strong>Taxa de adesão <br> <span>{{cotacao.preco.basico }}</span></strong></h3>
@@ -23,7 +21,7 @@
             <h3 class="bronze"><strong>Plano Bronze</strong></h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <h3><strong>Taxa de adesão <br> <span>{{cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
@@ -35,7 +33,7 @@
             <h3 class="prata"><strong>Plano Prata</strong></h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <h3><strong>Taxa de adesão <br> <span>{{cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
@@ -47,7 +45,7 @@
             <h3 class="ouro"><strong>Plano Ouro</strong></h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <h3><strong>Taxa de adesão <br> <span>{{cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>

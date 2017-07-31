@@ -4,7 +4,7 @@
 <div class="input-group">
   <select class="form-control input-lg" name="modelo" ng-model="placa.modeloEscolhido">
     <option value="">Selecione um modelo</option> <!-- not selected / blank option -->
-    <option ng-repeat="item in placa.listaModelos | orderBy: 'nome'" value="{{item.codigo}}" required>{{item.nome}}</option> 
+    <option ng-repeat="item in placa.listaModelos | orderBy: 'nome' track by $index " value="{{::item.codigo}}" required>{{::item.nome}}</option> 
   </select>
 
   <div class="input-group-addon">

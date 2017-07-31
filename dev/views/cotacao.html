@@ -1,7 +1,7 @@
 <section class="container" id="topo" ng-hide="cotacao.carregando">
   <div class="row contacao__header">
     <div class="col-sm-8">
-      <p> Aqui está a cotação para seu <strong ng-bind="$root.usuario.modelo"></strong> <br> Avaliado em <span ng-bind="$root.usuario.preco"></span>        segundo a tabela FIPE</p>
+      <p> Aqui está a cotação para seu <strong ng-bind="$root.usuario.modelo"></strong> <br> Avaliado em <span>{{::$root.usuario.preco}}</span>        segundo a tabela FIPE</p>
     </div>
     <!--col-sm-8-->
 
@@ -25,7 +25,7 @@
             </ul>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.basico }}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.basico }}</span></strong></h3>
           </td>
           <td>
             <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'basico'"
@@ -46,7 +46,7 @@
             </ul>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'bronze'"
@@ -66,7 +66,7 @@
             </ul>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'prata'"
@@ -89,7 +89,7 @@
             </ul>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
             <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'ouro'"
@@ -107,13 +107,13 @@
     <div class="col-xs-12">
       <div class="orcamento__info">
         <div>
-          <img ng-src="{{main.directory}}img/coin.png" alt=" icone" aria-hidden="true"> Adesão: <strong>{{cotacao.adesao}}</strong>
+          <img ng-src="{{::main.directory}}img/coin.png" alt=" icone" aria-hidden="true"> Adesão: <strong>{{::cotacao.adesao}}</strong>
         </div>
         <div>
-          <img ng-src="{{main.directory}}img/car.png" alt=" icone" aria-hidden="true"> Franquia: <strong>{{cotacao.franquia}}</strong>
+          <img ng-src="{{::main.directory}}img/car.png" alt=" icone" aria-hidden="true"> Franquia: <strong>{{::cotacao.franquia}}</strong>
         </div>
         <div ng-show="cotacao.hasRastreador">
-          <img ng-src="{{main.directory}}img/rss.png" alt=" icone" aria-hidden="true"> <strong>Rastreador</strong>
+          <img ng-src="{{::main.directory}}img/rss.png" alt=" icone" aria-hidden="true"> <strong>Rastreador</strong>
         </div>
       </div>
       <!--orcamento__info-->
@@ -124,7 +124,7 @@
 
   <div class="row hidden-xs" style="margin-bottom: 60px;margin-top: 60px;">
     <div class="col-xs-12 text-center">
-      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')" style="cursor: pointer;"><img class="img-responsive" ng-src="{{main.directory}}img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
+      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')" style="cursor: pointer;"><img class="img-responsive" ng-src="{{::main.directory}}img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
         todas as <strong> 13</strong> assistências</p>
     </div>
     <!--col-xs-12-->
@@ -147,7 +147,7 @@
           <table class="table">
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/colisoes.png" alt="icone"> Colisões
+                <p><img ng-src="{{::main.directory}}img/colisoes.png" alt="icone"> Colisões
                 </p>
               </td>
               <td>
@@ -158,7 +158,7 @@
             </tr>
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/perda_total.png" alt="icone">Perda total</p>
+                <p><img ng-src="{{::main.directory}}img/perda_total.png" alt="icone">Perda total</p>
               </td>
               <td>
                 <p>
@@ -168,7 +168,7 @@
             </tr>
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/roubo.png" alt="icone">Roubo e furto</p>
+                <p><img ng-src="{{::main.directory}}img/roubo.png" alt="icone">Roubo e furto</p>
               </td>
               <td>
                 <p>
@@ -178,7 +178,7 @@
             </tr>
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/incendio.png" alt="icone">Incêndio</p>
+                <p><img ng-src="{{::main.directory}}img/incendio.png" alt="icone">Incêndio</p>
               </td>
               <td>
                 <p>
@@ -188,7 +188,7 @@
             </tr>
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/alagamento.png" alt="icone">Alagamento e eventos da natureza </p>
+                <p><img ng-src="{{::main.directory}}img/alagamento.png" alt="icone">Alagamento e eventos da natureza </p>
               </td>
               <td>
                 <p>
@@ -198,7 +198,7 @@
             </tr>
             <tr>
               <td>
-                <p><img ng-src="{{main.directory}}img/danos.png" alt="icone">Danos corporais a terceiros</p>
+                <p><img ng-src="{{::main.directory}}img/danos.png" alt="icone">Danos corporais a terceiros</p>
               </td>
               <td>
                 <p>
@@ -255,7 +255,7 @@
               <p><i class="fa fa-check-circle" aria-hidden="true"></i> Troca de pneus furados </p>
             </td>
             <td>
-              <p><i class="fa fa-check-circle" aria-hidden="true"></i> Taxi / Uber </p>
+              <p><i class="fa fa-check-circle" aria-hidden="true"></i> Taxi </p>
             </td>
           </tr>
           <tr>
@@ -337,7 +337,7 @@
 
       <div class="col-md-4 col-lg-3 col-lg-offset-1">
         <a href="http://www.capemisa.com.br/" title="Capemisa" target="_blank" rel="external">
-          <img ng-src="{{main.directory}}img/capemisa.png" alt="Capemisa">
+          <img ng-src="{{::main.directory}}img/capemisa.png" alt="Capemisa">
         </a>
 
         <div class="capemisa__box">
@@ -367,7 +367,7 @@
       <a class="btn btn-success text-uppercase" ng-click="main.Scroll('topo')" title="sim! quero proteger meu veículo" style="font-size:2.000em; display:block;margin: 20px auto;max-width: 752px;"
         rel="button"><strong>sim! quero proteger meu veículo</strong></a>
 
-      <img class ng-src="{{main.directory}}img/bandeiras.png" alt="bandeiras">
+      <img class ng-src="{{::main.directory}}img/bandeiras.png" alt="bandeiras">
     </div>
     <!--col-xs-12-->
   </div>

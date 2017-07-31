@@ -222,7 +222,7 @@
     function SalvarCotacao() {
       $http.get(projectDir + 'php/ipvisitor.php').then(function (resp) {
 
-        vm.cotacao.ip     = resp.data;
+        vm.cotacao.ip     = resp.data || null;
         vm.cotacao.fipe   = $rootScope.usuario.codigoTabelaFipe;
         vm.cotacao.modelo = $rootScope.usuario.modelo;
         vm.cotacao.valor  = $rootScope.usuario.preco;
