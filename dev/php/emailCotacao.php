@@ -176,7 +176,7 @@
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Troca de pneus furados </td>
-            <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Taxi </td>
+            <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Taxi / Uber </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Hospedagem em hotel </td>
