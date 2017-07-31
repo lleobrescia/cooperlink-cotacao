@@ -65,50 +65,50 @@
     function CarHasValidModel() {
       var retorno = true;
 
-      switch (this.fabricante) {
-        case 'Audi':
+      switch (this.fabricante.toUpperCase()) {
+        case 'AUDI':
           retorno = (parseInt(this.ano) > 2008);
           break;
         case 'BMW':
           retorno = (parseInt(this.ano) > 2008);
           break;
-        case 'Fiat':
+        case 'FIAT':
           retorno = (parseInt(this.ano) > 2000);
           break;
-        case 'Ford':
+        case 'FORD':
           retorno = (parseInt(this.ano) > 2000);
           break;
-        case 'GM - Chevrolet':
+        case 'GM - CHEVROLET':
           retorno = (parseInt(this.ano) > 2000);
           break;
-        case 'Honda':
+        case 'HONDA':
           retorno = (parseInt(this.ano) > 2002);
           break;
-        case 'Hyundai':
+        case 'HYUNDAI':
           retorno = (parseInt(this.ano) > 2008);
           break;
-        case 'JAC Motors':
+        case 'JAC MOTORS':
           retorno = (parseInt(this.ano) > 2008);
           break;
-        case 'Kia Motors':
+        case 'KIA MOTORS':
           retorno = (parseInt(this.ano) > 2008);
           break;
-        case 'Mercedes':
+        case 'MERCEDES':
           retorno = (parseInt(this.ano) > 2008);
           break;
-        case 'Mitsubishi':
+        case 'MITSUBISHI':
           retorno = (parseInt(this.ano) > 2009);
           break;
-        case 'Nissan':
+        case 'NISSAN':
           retorno = (parseInt(this.ano) > 2007);
           break;
-        case 'Toyota':
+        case 'TOYOTA':
           retorno = (parseInt(this.ano) > 2003);
           break;
-        case 'VM - VolksWagen':
+        case 'VM - VOLKSWAGEN':
           retorno = (parseInt(this.ano) > 2000);
           break;
-        case 'Volvo':
+        case 'VOLVO':
           retorno = (parseInt(this.ano) > 2008);
           break;
 
@@ -119,7 +119,7 @@
 
       if (retorno) {
         angular.forEach(rejeitados, function (value, key) {
-          if (value.Fabricante == this.fabricante) {
+          if (value.Fabricante.toUpperCase() === this.fabricante.toUpperCase()) {
             var modeloTeste     = this.modelo;
             var modeloRejeitado = value.Modelo;
 

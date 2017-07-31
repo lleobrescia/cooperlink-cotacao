@@ -43,7 +43,8 @@
   function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir) {
     var vm = this;
 
-    vm.carregando   = true;
+    vm.adesao     = 'R$220,00';
+    vm.carregando = true;
     vm.cotacao    = {
       'fipe':    '',
       'ip':      '',
@@ -76,6 +77,7 @@
       'reboque':      '',
       'vidros':       ''
     };
+    vm.opcionaisPopup = projectDir + 'views/opcionais.html';
     vm.valorFipe = undefined;
 
 
@@ -150,7 +152,7 @@
        * Se for carro verifica se eh taxi ou uber
        * Verfica se o rastredor eh obrigatorio ou nao
        */
-      if ($rootScope.usuario.veiculo === 'AUTOMÓVEL') {
+      if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
 
         //Valor da franquia
         if (vm.valorFipe < 20000) {
@@ -225,7 +227,7 @@
         vm.cotacao.modelo = $rootScope.usuario.modelo;
         vm.cotacao.valor  = $rootScope.usuario.preco;
 
-        if ($rootScope.usuario.veiculo === 'AUTOMÓVEL') {
+        if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
           vm.cotacao.veiculo = 'Carro';
         } else if ($rootScope.usuario.especial) {
           vm.cotacao.veiculo = 'Especial';

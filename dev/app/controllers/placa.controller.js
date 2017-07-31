@@ -5,7 +5,7 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster', 'projectDir'];
+  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster', 'projectDir', 'projectDev'];
 
   /**
    * @ngdoc controller
@@ -35,7 +35,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster, projectDir) {
+  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster, projectDir, projectDev) {
     var vm = this;
     var consulta = {
       "xml": {
@@ -76,11 +76,11 @@
 
     $rootScope.usuario = {
       'codigoTabelaFipe': '',
-      'data':             '',
-      'especial':         false,
-      'modelo':           '',
-      'preco':            '',
-      'veiculo':          ''
+      'data'            : '',
+      'especial'        : false,
+      'modelo'          : '',
+      'preco'           : '',
+      'veiculo'         : ''
     };
 
     vm.carregando = false;
@@ -121,7 +121,7 @@
        */
       $http({
         method: 'GET',
-        url: projectDir + 'php/dados.php'
+        url: projectDev + 'php/dados.php'
       }).then(function (resp) {
         consulta.xml.CONSULTA.ACESSO.SENHA          = resp.data.senha;
         consulta.xml.CONSULTA.ACESSO.USUARIO        = resp.data.usuario;
@@ -154,127 +154,144 @@
       var xml = '';
 
       consulta.xml.CONSULTA.VEICULO.PLACA = vm.placa;
-      xml                                 = conversorService.Json2Xml(consulta);
+      xml = conversorService.Json2Xml(consulta);
 
       $.get(url + xml, function (data) {
-        var ano               = ''; //Ano do modelo
-        var codigoConsulta    = ''; //Usado para validar a consulta
-        var codigoRetornoFipe = ''; // Usado para validar o acesso à tabela fipe
-        var especieVeiculo    = ''; //Usado para verificar se eh taxi
-        var fabricante        = ''; // Fabricante do veiculo
-        var fipe              = ''; //Armazena os dados da tabela fipe
-        var isValido          = true; //Usado para validar o processo todo
-        var retorno           = $(data).find('string'); // Recebe a resposta do servico
-        var testeAno          = ''; // Usado para verificar se o ano eh aceito
-        var testeModelo       = ''; //Usado para verificar se o modelo eh aceito
-        var veiculo           = ''; // Usado para ver qual o tipo de veiculo (moto ou carro) 
+        var ano                 = '';                      // Ano do modelo
+        var codigoConsulta      = '';                      // Usado para validar a consulta
+        var codigoDecodificador = '';                      // Usado para validar a segunda consulta
+        var fabricante          = '';                      // Fabricante do veiculo
+        var fipe                = '';                      // Armazena os dados da tabela fipe
+        var isValido            = true;                    // Usado para validar o processo todo
+        var modelo              = '';                      // Modelo do veiculo
+        var retorno             = $(data).find('string');  // Recebe a resposta do servico
+        var testeAno            = '';                      // Usado para verificar se o ano eh aceito
+        var testeModelo         = '';                      // Usado para verificar se o modelo eh aceito
+        var veiculo             = '';                      // Usado para ver qual o tipo de veiculo (moto ou carro) 
 
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
 
-        ano                                 = $(retorno).find('Veiculo').find('RegistroFederal').find('AnoModelo')[0].textContent;
-        codigoConsulta                      = $(retorno).find('ConsultaID')[0].textContent;
-        codigoRetornoFipe                   = $(retorno).find('Precificador').find('TabelaFipe').find('CodigoRetorno')[0].textContent;
-        especieVeiculo                      = $(retorno).find('RegistroFederal').find('EspecieVeiculo')[0].textContent;
-        fipe                                = $(retorno).find('Precificador').find('TabelaFipe').find('Registro')[$(retorno).find('Precificador').find('TabelaFipe').find('Registro').length - 1];
-        $rootScope.usuario.codigoTabelaFipe = $(fipe).find('CodigoFipe')[0].textContent;
-        fabricante                          = $(fipe).find('Fabricante')[0].textContent;
-        veiculo                             = $(retorno).find('RegistroFederal').find('TipoVeiculo')[0].textContent;
+        console.log(retorno);
 
-        //Armazenamento para consultas em outros controladores
-        $rootScope.usuario.data    = $(retorno).find('DataHoraConsulta')[0].textContent;
-        $rootScope.usuario.modelo  = $(fipe).find('Modelo')[0].textContent;
-        $rootScope.usuario.preco   = 'R$ ' + $(fipe).find('Valor')[0].textContent + ',00';
-        $rootScope.usuario.veiculo = veiculo;
-
-        //Setup do servico de validação
-        CheckConditionService.Activate($rootScope.usuario.modelo, fabricante, ano, vm.rejeitados);
+        codigoConsulta = $(retorno).find('Precificador').find('CodigoRetorno')[0].textContent || null;
+        codigoDecodificador = $(retorno).find('AgregadoCompleto').find('CodigoRetorno')[0].textContent || null;
 
         //Se a consulta falhou envia o usuario para a preencher os dados do carro
-        if (codigoConsulta !== '0001') {
-          $state.go('fipe');
-        }
-
-        //Não da proseguimento se não for moto ou carro
-        if (veiculo != 'AUTOMÓVEL' && veiculo != 'MOTOCICLETA') {
-          isValido = false;
-        }
-
-        if (veiculo == 'AUTOMÓVEL') {
-          testeAno    = CheckConditionService.CarHasValidYear(); //Valida o ano
-          testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
-
-          if (!testeAno) {
-            isValido = false;
-          }
-
-          if (!testeModelo) {
-            isValido = false;
-          }
-        } else if (veiculo == 'MOTOCICLETA') {
-          testeAno    = CheckConditionService.MotoHasValidYear();
-          testeModelo = CheckConditionService.MotoHasValidYear();
-
-          if (!testeAno) {
-            isValido = false;
-          }
-          if (!testeModelo) {
-            isValido = false;
-          }
-        }
-
-        //Verifica se o carro eh taxi
-        if (especieVeiculo != 'PASSAGEIRO' && especieVeiculo != 'NAO INFORMADO') {
-          vm.carregando = false;
-          vm.isTaxi     = true;
-        }
-
-        //Nao ha dados da tabela fipe. Entao envia o usuario para a preencher os dados do carro
-        if (codigoRetornoFipe !== '1') {
+        if (codigoConsulta !== '1' || codigoDecodificador !== '1') {
           vm.carregando = false;
           $state.go('fipe');
-        }
+        } else { // Dados Encontrados
+          var marcaModelo = $(retorno).find('AgregadoCompleto').find('MarcaModelo')[0].textContent || null;
 
-        /**
-         * Se o carro eh uber ou o taxi o modelo eh especial
-         */
-        if (vm.isUber || vm.isTaxi) {
-          $rootScope.usuario.especial = true;
-          vm.carregando = false;
+          ano = $(retorno).find('AgregadoCompleto').find('AnoModelo')[0].textContent || null;
+          testeAno = $(retorno).find('AgregadoCompleto').find('TipoVeiculo')[0].textContent || null;
+          veiculo = $(retorno).find('AgregadoCompleto').find('TipoVeiculo')[0].textContent || null;
 
-          if (isValido) {
-            //Se nao houve erro, da continuidade 
-            $state.go('cotacao');
-          } else {
-            //Houve algum erro no porcesso. O vaiculo nao eh aceito
-            toaster.pop({
-              type:    'error',
-              title:   'Atenção!',
-              body:    'Não é possível fazer cotação para esse veículo.',
-              timeout: 50000
-            });
-          }
-
-        } else {
-          $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
-            var retorno = php_crud_api_transform(resp.data).importado;
-
-            if (retorno.length > 0) {
-              $rootScope.usuario.especial = true;
-            }
-
+          if (!marcaModelo && !ano && !testeAno && !veiculo) {
+            /**
+             * Nao foi possivel encontrar alguma informacao
+             * portando o usuario esta sendo mandado para procurar os dados do carro
+             */
             vm.carregando = false;
+            $state.go('fipe');
+          } else {
+            //Formata os dados para ficar mais facil a busca
+            veiculo = veiculo.toUpperCase();
+            marcaModelo = marcaModelo.split('/');
+            fabricante = marcaModelo[0];
+            modelo = marcaModelo[1];
 
-            if (isValido) {
-              $state.go('cotacao');
+            //Salva os dados do usuario
+            $rootScope.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent;
+            $rootScope.usuario.modelo = modelo;
+            $rootScope.usuario.preco = 'R$ ' + $(retorno).find('Precificador').find('Valor')[0].textContent + ',00';
+            $rootScope.usuario.veiculo = veiculo;
+
+            //Startup o servico para verificar se o veiculo eh aceito
+            CheckConditionService.Activate(modelo, fabricante, ano, vm.rejeitados);
+
+            if (veiculo === 'AUTOMOVEL') { // Se o veiculo for carro
+              testeAno = CheckConditionService.CarHasValidYear(); //Valida o ano
+              testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
+
+              if (!testeAno || !testeModelo) {
+                /**
+                 * O ano ou modelo foi rejeitado
+                 * Nao eh possivel fazer cotacao para esse veiculo
+                 */
+                vm.carregando = false;
+                toaster.pop({
+                  type: 'error',
+                  title: 'Atenção!',
+                  body: 'Não é possível fazer cotação para esse veículo.',
+                  timeout: 50000
+                });
+              } else { // Modelo e ano aceitos
+                if (vm.isUber) {
+                  /**
+                   * Se o usuario marcou que o veiculo eh taxi ou uber
+                   * marca o viculo como especial e envia-o para cotacao
+                   */
+                  $rootScope.usuario.especial = true;
+                  vm.carregando = false;
+                  $state.go('cotacao');
+                } else {
+                  /**
+                   * Se o usuario nao marcou se o carro eh taxi ou uber
+                   * eh necessario verificar se o veiculo eh importato
+                   * se for o carro eh especial
+                   */
+                  fabricante = fabricante.toUpperCase();
+
+                  $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
+                    var retorno = php_crud_api_transform(resp.data).importado;
+
+                    if (retorno.length > 0) {
+                      $rootScope.usuario.especial = true;
+                    }
+                    vm.carregando = false;
+                    $state.go('cotacao');
+                  });
+                }
+              }
+            } else if (veiculo === 'MOTOCICLETA') { // Se o veiculo eh moto
+              testeAno = CheckConditionService.MotoHasValidYear();
+              testeModelo = CheckConditionService.MotoHasValidYear();
+
+              if (!testeAno || !testeModelo) {
+                /**
+                 * O ano ou modelo foi rejeitado
+                 * Nao eh possivel fazer cotacao para esse veiculo
+                 */
+                vm.carregando = false;
+                toaster.pop({
+                  type: 'error',
+                  title: 'Atenção!',
+                  body: 'Não é possível fazer cotação para esse veículo.',
+                  timeout: 50000
+                });
+              } else {
+                fabricante = fabricante.toUpperCase();
+
+                $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
+                  var retorno = php_crud_api_transform(resp.data).importado;
+
+                  if (retorno.length > 0) {
+                    $rootScope.usuario.especial = true;
+                  }
+                  vm.carregando = false;
+                  $state.go('cotacao');
+                });
+              }
             } else {
-              toaster.pop({
-                type:    'error',
-                title:   'Atenção!',
-                body:    'Não é possível fazer cotação para esse veículo.',
-                timeout: 50000
-              });
+              /**
+               * Se o veiculo nao for moto nem carro envio o usuario para escolher
+               * os dados do veiculo
+               */
+              vm.carregando = false;
+              $state.go('fipe');
             }
-          });
+          }
         }
       });
     }

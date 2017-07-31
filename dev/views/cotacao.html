@@ -28,7 +28,8 @@
             <h3><strong>Mensalidade <br> <span>{{cotacao.preco.basico }}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" href title="Contratar">Contratar</a>
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'basico'"
+              title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
         </tr>
@@ -48,7 +49,8 @@
             <h3><strong>Mensalidade <br> <span>{{cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" href title="Contratar">Contratar</a>
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'bronze'"
+              title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
         </tr>
@@ -67,7 +69,8 @@
             <h3><strong>Mensalidade <br> <span>{{cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" href title="Contratar">Contratar</a>
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'prata'"
+              title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
         </tr>
@@ -89,7 +92,8 @@
             <h3><strong>Mensalidade <br> <span>{{cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" href title="Contratar">Contratar</a>
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'ouro'"
+              title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
         </tr>
@@ -120,7 +124,7 @@
 
   <div class="row hidden-xs" style="margin-bottom: 60px;margin-top: 60px;">
     <div class="col-xs-12 text-center">
-      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')" style="cursor: pointer;"><img class="img-responsive" src="img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
+      <p>Veja todas as <strong> 6 </strong> coberturas <a ng-click="main.Scroll('informacoes')" style="cursor: pointer;"><img class="img-responsive" ng-src="{{main.directory}}img/boutton_down.png" alt="icone" aria-hidden="true" style="margin: 0 30px;display: inline-block;"></a>Veja
         todas as <strong> 13</strong> assistências</p>
     </div>
     <!--col-xs-12-->
@@ -363,7 +367,7 @@
       <a class="btn btn-success text-uppercase" ng-click="main.Scroll('topo')" title="sim! quero proteger meu veículo" style="font-size:2.000em; display:block;margin: 20px auto;max-width: 752px;"
         rel="button"><strong>sim! quero proteger meu veículo</strong></a>
 
-      <img class src="img/bandeiras.png" alt="bandeiras">
+      <img class ng-src="{{main.directory}}img/bandeiras.png" alt="bandeiras">
     </div>
     <!--col-xs-12-->
   </div>
@@ -394,4 +398,4 @@
   </div>
 </div>
 
-<div ng-include="'views/opcionais.html'"></div>
+<div ng-include="cotacao.opcionaisPopup"></div>

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-xs-12 text-center">
         <h1 class="title">Faça uma cotação online em 5 segundos</h1>
-        <p class="subtitulo">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+        <p class="subtitulo">e descubra quanto você irá economizar no seguro do seu veículo vindo para a Multiplicar </p>
       </div>
       <!--col-xs-12-->
     </div>
@@ -14,7 +14,7 @@
           <div class="form-group">
             <label class="control-label text-center" for="placa">Informe a placa do veículo</label>
             <div class="input-group">
-              <input class="form-control input-lg" name="placa" ng-model="placa.placa" type="text" maxlength="7" required>
+              <input class="form-control input-lg" name="placa" ng-model="placa.placa" type="text" maxlength="7" required style="text-transform: uppercase">
               <div class="input-group-addon">
                 <button ng-click="placa.GetDadosRequisicao()" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
               </div>
@@ -23,7 +23,7 @@
             <!--input-group-->
             <div class="checkbox">
               <label>
-                <input ng-model="placa.isUber" type="checkbox"> Seu carro é Uber?
+                <input ng-model="placa.isUber" type="checkbox"> Seu carro é Uber ou Taxi?
               </label>
             </div>
             <span class="help-block text-center hidden-xs hidden-sm">Depois de preencher, tecle <strong>Enter</strong> para continuar.</span>
