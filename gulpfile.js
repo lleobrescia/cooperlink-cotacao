@@ -16,51 +16,52 @@
  * @property util         - {@link https://github.com/gulpjs/gulp-util}               - Utility functions for gulp plugins
  */
 var autoprefixer = require('gulp-autoprefixer');
-var concat = require('gulp-concat');
-var gulp = require('gulp');
-var htmlmin = require('gulp-htmlmin');
-var htmlreplace = require('gulp-html-replace');
-var imagemin = require('gulp-imagemin');
-var minifyCss = require('gulp-clean-css');
-var ngAnnotate = require('gulp-ng-annotate');
-var phpMinify = require('@aquafadas/gulp-php-minify');
-var plumber = require('gulp-plumber');
-var rename = require('gulp-rename');
-var replace = require('gulp-replace');
-var replacePhp = require('gulp-replace-task');
-var shell = require('gulp-shell');
-var uglify = require('gulp-uglify');
-var util = require('gulp-util');
+var concat       = require('gulp-concat');
+var gulp         = require('gulp');
+var htmlmin      = require('gulp-htmlmin');
+var htmlreplace  = require('gulp-html-replace');
+var imagemin     = require('gulp-imagemin');
+var minifyCss    = require('gulp-clean-css');
+var ngAnnotate   = require('gulp-ng-annotate');
+var phpMinify    = require('@aquafadas/gulp-php-minify');
+var plumber      = require('gulp-plumber');
+var rename       = require('gulp-rename');
+var replace      = require('gulp-replace');
+var replacePhp   = require('gulp-replace-task');
+var shell        = require('gulp-shell');
+var stripDebug   = require('gulp-strip-debug');
+var uglify       = require('gulp-uglify');
+var util         = require('gulp-util');
 
 var names = {
-  js: 'app.js',
-  jsMin: 'app.min.js',
-  css: 'style.css',
+  js    : 'app.js',
+  jsMin : 'app.min.js',
+  css   : 'style.css',
   cssMin: 'style.min.css'
 };
 var paths = {
-  local: 'localhost/multiplicar/cotacao',
-  localBase: '/multiplicar/cotacao/',
-  server: 'multiplicarbrasil.com.br/sistemanovo',
+  local     : 'localhost/multiplicar/cotacao',
+  localBase : '/multiplicar/cotacao/',
+  server    : 'multiplicarbrasil.com.br/sistemanovo',
   serverBase: '/sistemanovo/',
   dev: {
-    css: ['dev/css/**/*.css'],
-    html: ['index.html'],
-    img: ['dev/img/*.{JPG,jpg,png,gif}'],
-    js: ['dev/app/**/*.js'],
+    css   : ['dev/css/**/*.css'],
+    html  : ['index.html'],
+    img   : ['dev/img/*.{JPG,jpg,png,gif}'],
+    js    : ['dev/app/**/*.js'],
     origin: ['dev/'],
-    php: ['dev/php/*.php'],
+    php   : ['dev/php/*.php'],
     vendor: ['dev/js/**/*.js'],
-    views: ['dev/views/**/*.html']
+    views : ['dev/views/**/*.html']
   },
   dis: {
-    css: 'dis/css/',
-    img: 'dis/img/',
-    js: 'dis/js/',
+    css   : 'dis/css/',
+    img   : 'dis/img/',
+    js    : 'dis/js/',
     origin: 'dis/',
-    php: 'dis/php/',
+    php   : 'dis/php/',
     vendor: 'dis/js/vendor',
-    views: 'dis/views/'
+    views : 'dis/views/'
   }
 };
 
@@ -155,6 +156,7 @@ gulp.task('js', function () {
     .pipe(replace(paths.local, paths.server))
     .pipe(replace('dis/', ''))
     .pipe(replace('dev/', ''))
+    .pipe(stripDebug())
     .pipe(gulp.dest(paths.dis.js))
     .pipe(ngAnnotate())
     .pipe(uglify())
