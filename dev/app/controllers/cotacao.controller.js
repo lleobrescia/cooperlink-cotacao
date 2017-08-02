@@ -5,7 +5,7 @@
     .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir'];
+  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir','projectDev'];
 
   /**
    * @ngdoc controller
@@ -14,7 +14,7 @@
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Mostra o resultado da cotação
-   * 
+   *
    * @property {object} vm                - A named variable for the `this` keyword representing the ViewModel
    * @property {string} vm.carregando     - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.cotacao        - Telefone da multiplicar que aparecerá no html
@@ -26,7 +26,7 @@
    * @property {string} vm.preco          - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.opcionais      - Telefone da multiplicar que aparecerá no html
    * @property {string} vm.valorFipe      - Telefone da multiplicar que aparecerá no html
-   * 
+   *
    * @param {service}  $filter                 - Usado para formatação {@link https://docs.angularjs.org/api/ng/filter/filter}
    * @param {service}  $http                   - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
    * @param {service}  $rootScope              - Escopo principal do angular {@link https://docs.angularjs.org/api/ng/service/$rootScope}
@@ -36,49 +36,55 @@
    * @param {constant} rastreadorCarro         - Valor minimo para ter rastreador obrigatorio no carro
    * @param {constant} rastreadorMoto          - Valor minimo para ter rastreador obrigatorio na moto
    * @param {service}  toaster                 - Seviço para mostrar mensagens
-   * 
+   *
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir) {
+  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir,projectDev) {
     var vm = this;
 
-    vm.adesao     = 'R$220,00';
+    vm.adesao     = '';
     vm.carregando = true;
     vm.cotacao    = {
-      'fipe':    '',
-      'ip':      '',
-      'modelo':  '',
-      'valor':   '',
-      'veiculo': ''
+      'adesao'    : '',
+      'fabricante': '',
+      'fipe'      : '',
+      'franquia'  : '',
+      'ip'        : '',
+      'modelo'    : '',
+      'tipo'      : 'Comum',
+      'valor'     : '',
+      'veiculo'   : ''
     };
     vm.email    = undefined;
     vm.envelope = {
-      'check':       'umapalavrarealmentemuitograndeparaserlembradafeitapormim',
-      'modelo':      '',
-      'to':          '',
+      'adesao'     : '',
+      'check'      : 'umapalavrarealmentemuitograndeparaserlembradafeitapormim',
+      'franquia'   : '',
+      'modelo'     : '',
+      'to'         : '',
       'valorBronze': '',
-      'valorCarro':  '',
-      'valorOuro':   '',
-      'valorPrata':  ''
+      'valorCarro' : '',
+      'valorOuro'  : '',
+      'valorPrata' : ''
     };
-    vm.franquia       = '4%';
+    vm.franquia       = '';
     vm.hasRastreador  = false;
     vm.planoEscolhido = 'basico';
     vm.preco          = {
       basico: 'R$29,90',
       bronze: undefined,
-      ouro:   undefined,
-      prata:  undefined
+      ouro  : undefined,
+      prata : undefined
     };
     vm.opcionais = {
       'carroReserva': '',
-      'rastreador':   '',
-      'reboque':      '',
-      'vidros':       ''
+      'rastreador'  : '',
+      'reboque'     : '',
+      'vidros'      : ''
     };
     vm.opcionaisPopup = projectDir + 'views/opcionais.html';
-    vm.valorFipe = undefined;
+    vm.valorFipe      = undefined;
 
 
     /**
@@ -101,7 +107,251 @@
         $state.go('placa');
       } else {
         GetPrecos();
-        SalvarCotacao();
+      }
+    }
+
+    /**
+     * @function BuscarPrecoCarro
+     * @desc Busca os valores da cotação para carro
+     * @memberof CotacaoController
+     */
+    function BuscarPrecoCarro() {
+      //Busca os dados dos planos no BD
+      $http.get(api + 'precocarro').then(function (resp) {
+        var valores = php_crud_api_transform(resp.data).precocarro;
+
+        //Pega o valor de cada plano
+        angular.forEach(valores, function (value, key) {
+          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
+            console.log(value);
+            switch (value.plano) {
+              case 'Bronze':
+                vm.adesao               = value.adesao;
+                vm.franquia             = value.franquia;
+                vm.preco.bronze         = value.valor;
+                vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia    = value.franquia;
+                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Prata':
+                vm.adesao              = value.adesao;
+                vm.franquia            = value.franquia;
+                vm.preco.prata         = value.valor;
+                vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia   = value.franquia;
+                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Ouro':
+                vm.adesao             = value.adesao;
+                vm.franquia           = value.franquia;
+                vm.preco.ouro         = value.valor;
+                vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia  = value.franquia;
+                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              default:
+                break;
+            }
+          }
+        });
+        console.log('Adesao => ', vm.adesao);
+        console.log('Franquia => ', vm.franquia);
+        console.log('Preco => ', vm.preco);
+        console.log('Envelope => ', vm.envelope);
+        CotacaoLimite();
+        vm.carregando = false;
+      });
+    }
+
+    /**
+     * @function Activate
+     * @desc Busca os valores da cotação para especial
+     * @memberof CotacaoController
+     */
+    function BuscarPrecoEspecial() {
+      //Busca os dados dos planos no BD
+      $http.get(api + 'precoespecial').then(function (resp) {
+        var valores = php_crud_api_transform(resp.data).precoespecial;
+
+        //Pega o valor de cada plano
+        angular.forEach(valores, function (value, key) {
+          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
+            console.log(value);
+            switch (value.plano) {
+              case 'Bronze':
+                vm.adesao               = value.adesao;
+                vm.franquia             = value.franquia;
+                vm.preco.bronze         = value.valor;
+                vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia    = value.franquia;
+                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Prata':
+                vm.adesao              = value.adesao;
+                vm.franquia            = value.franquia;
+                vm.preco.prata         = value.valor;
+                vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia   = value.franquia;
+                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Ouro':
+                vm.adesao             = value.adesao;
+                vm.franquia           = value.franquia;
+                vm.preco.ouro         = value.valor;
+                vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia  = value.franquia;
+                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              default:
+                break;
+            }
+          }
+
+        });
+        console.log('Adesao => ', vm.adesao);
+        console.log('Franquia => ', vm.franquia);
+        console.log('Preco => ', vm.preco);
+        console.log('Envelope => ', vm.envelope);
+        CotacaoLimite();
+        vm.carregando = false;
+      });
+    }
+
+    /**
+     * @function Activate
+     * @desc Busca os valores da cotação para moto
+     * @memberof CotacaoController
+     */
+    function BuscarPrecoMoto() {
+      //Busca os dados dos planos no BD
+      $http.get(api + 'precomoto').then(function (resp) {
+        var valores = php_crud_api_transform(resp.data).precomoto;
+
+        //Pega o valor de cada plano
+        angular.forEach(valores, function (value, key) {
+          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
+            console.log(value);
+            switch (value.plano) {
+              case 'Bronze':
+                vm.adesao               = value.adesao;
+                vm.franquia             = value.franquia;
+                vm.preco.bronze         = value.valor;
+                vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia    = value.franquia;
+                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Prata':
+                vm.adesao              = value.adesao;
+                vm.franquia            = value.franquia;
+                vm.preco.prata         = value.valor;
+                vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia   = value.franquia;
+                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Ouro':
+                vm.adesao             = value.adesao;
+                vm.franquia           = value.franquia;
+                vm.preco.ouro         = value.valor;
+                vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia  = value.franquia;
+                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              default:
+                break;
+            }
+          }
+
+        });
+        console.log('Adesao => ', vm.adesao);
+        console.log('Franquia => ', vm.franquia);
+        console.log('Preco => ', vm.preco);
+        console.log('Envelope => ', vm.envelope);
+        CotacaoLimite();
+        vm.carregando = false;
+      });
+    }
+
+    /**
+     * @function Activate
+     * @descBusca os valores da cotação para taxi
+     * @memberof CotacaoController
+     */
+    function BuscarPrecoTaxi() {
+      //Busca os dados dos planos no BD
+      $http.get(api + 'precotaxi').then(function (resp) {
+        var valores = php_crud_api_transform(resp.data).precotaxi;
+
+        //Pega o valor de cada plano
+        angular.forEach(valores, function (value, key) {
+          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
+            console.log(value);
+            switch (value.plano) {
+              case 'Bronze':
+                vm.adesao               = value.adesao;
+                vm.franquia             = value.franquia;
+                vm.preco.bronze         = value.valor;
+                vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia    = value.franquia;
+                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Prata':
+                vm.adesao              = value.adesao;
+                vm.franquia            = value.franquia;
+                vm.preco.prata         = value.valor;
+                vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia   = value.franquia;
+                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              case 'Ouro':
+                vm.adesao             = value.adesao;
+                vm.franquia           = value.franquia;
+                vm.preco.ouro         = value.valor;
+                vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
+                vm.envelope.franquia  = value.franquia;
+                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
+                break;
+
+              default:
+                break;
+            }
+          }
+        });
+        console.log('Adesao => ', vm.adesao);
+        console.log('Franquia => ', vm.franquia);
+        console.log('Preco => ', vm.preco);
+        console.log('Envelope => ', vm.envelope);
+        CotacaoLimite();
+        vm.carregando = false;
+      });
+    }
+
+    /**
+     * @function CotacaoLimite
+     * @desc Executa quando o valor atinge o limite da tabela
+     * @memberof CotacaoController
+     */
+    function CotacaoLimite() {
+      if (!vm.preco.ouro) {
+        console.warn('Valor da tabela fipe acima do limite', vm.preco);
+
+        toaster.pop({
+          type   : 'info',
+          body   : 'Não é possível fazer cotação para esse veículo.',
+          timeout: 50000
+        });
+
+        $state.go('placa');
       }
     }
 
@@ -111,15 +361,37 @@
      * @memberof CotacaoController
      */
     function EnviarEmail() {
+      console.info('Email enviado.');
+
       vm.envelope.to = vm.email;
-      vm.email       = undefined;
+      vm.email = undefined;
 
-      $http.post(projectDir + 'php/emailCotacao.php', vm.envelope);
+      $http.post(projectDir + 'php/emailCotacao.php', vm.envelope).then(function (resp) {
+        if (resp.data === 'false') {
+          console.warn('Não foi possivel enviar e-mail = >', resp);
+          toaster.pop({
+            type   : 'error',
+            title  : 'Erro ao enviar o e-mail',
+            body   : 'Por favor, tente mais tarde.',
+            timeout: 50000
+          });
+        } else if (resp.data === 'true') {
+          console.log('Envelope =>', vm.envelope);
 
-      toaster.pop({
-        type:    'error',
-        body:    'E-mail enviado.',
-        timeout: 30000
+          toaster.pop({
+            type   : 'success',
+            body   : 'E-mail enviado.',
+            timeout: 30000
+          });
+        }
+      }).catch(function (error) {
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao enviar o e-mail',
+          body   : 'Por favor, tente mais tarde.',
+          timeout: 50000
+        });
+        console.warn('Não foi possivel enviar e-mail = >', error);
       });
     }
 
@@ -129,11 +401,8 @@
      * @memberof CotacaoController
      */
     function GetPrecos() {
-      // Filtro para pegar os dados dos planos no BD
-      var filtro  = 'Carro';
-      var valores = []; // Valores dos planos
       /**
-       * Retira o R$ e o ,00 do valor para ficar mais facil a verificação 
+       * Retira o R$ e o ,00 do valor para ficar mais facil a verificação
        * abaixo
        */
       vm.valorFipe = $rootScope.usuario.preco.replace('R$ ', ' ');
@@ -153,65 +422,50 @@
        * Verfica se o rastredor eh obrigatorio ou nao
        */
       if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
-
-        //Valor da franquia
-        if (vm.valorFipe < 20000) {
-          vm.franquia = 'R$ 800,00';
-        }
+        vm.cotacao.veiculo = 'Carro';
 
         //Rastreador
         if (vm.valorFipe > rastreadorCarro) {
+          console.info('Rastreador');
           vm.hasRastreador = true;
         }
 
-        if ($rootScope.usuario.especial) {
-          filtro = 'Especial';
+        if ($rootScope.usuario.taxi) {
+          console.info('Taxi');
 
-          //Valor da franquia
-          if (vm.valorFipe < 20000) {
-            vm.franquia = 'R$ 1000,00';
-          } else {
-            vm.franquia = '6%';
-          }
+          vm.cotacao.tipo    = 'Taxi';
+
+          BuscarPrecoTaxi();
+        } else if ($rootScope.usuario.disel) {
+          console.info('Disel');
+
+          vm.cotacao.tipo    = 'Disel';
+
+          BuscarPrecoEspecial();
+        } else if ($rootScope.usuario.importado) {
+          console.info('Importado');
+
+          vm.cotacao.tipo    = 'Importado';
+
+          BuscarPrecoEspecial();
+        } else {
+          console.info('Carro');
+
+          BuscarPrecoCarro();
         }
       } else {
-        filtro = 'Moto';
+        console.info('Moto');
+
+        vm.cotacao.veiculo = 'Moto';
 
         if (vm.valorFipe > rastreadorMoto) {
+          console.info('Rastreador');
           vm.hasRastreador = true;
         }
+        BuscarPrecoMoto();
       }
 
-      //Busca os dados dos planos no BD
-      $http.get(api + 'preco?filter=veiculo,eq,' + filtro).then(function (resp) {
-        valores = php_crud_api_transform(resp.data).preco;
-
-        //Pega o valor de cada plano
-        angular.forEach(valores, function (value, key) {
-          if (vm.valorFipe >= parseInt(value.min) && vm.valorFipe <= parseInt(value.max)) {
-            switch (value.plano) {
-              case 'Bronze':
-                vm.preco.bronze         = value.valor;
-                vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
-                break;
-
-              case 'Prata':
-                vm.preco.prata         = value.valor;
-                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
-                break;
-
-              case 'Ouro':
-                vm.preco.ouro         = value.valor;
-                vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
-                break;
-
-              default:
-                break;
-            }
-          }
-        });
-        vm.carregando = false;
-      });
+      SalvarCotacao();
     }
 
     /**
@@ -220,26 +474,28 @@
      * @memberof CotacaoController
      */
     function SalvarCotacao() {
-      $http.get(projectDir + 'php/ipvisitor.php').then(function (resp) {
+      $http.get(projectDev + 'php/ipvisitor.php').then(function (resp) {
 
-        vm.cotacao.ip     = resp.data || null;
-        vm.cotacao.fipe   = $rootScope.usuario.codigoTabelaFipe;
-        vm.cotacao.modelo = $rootScope.usuario.modelo;
-        vm.cotacao.valor  = $rootScope.usuario.preco;
+        vm.cotacao.adesao   = $filter('currency')(vm.adesao, 'R$ ');
+        vm.cotacao.fipe     = $rootScope.usuario.codigoTabelaFipe;
+        vm.cotacao.franquia = vm.franquia;
+        vm.cotacao.ip       = resp.data || null;
+        vm.cotacao.modelo   = $rootScope.usuario.modelo;
+        vm.cotacao.valor    = $rootScope.usuario.preco;
 
-        if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
-          vm.cotacao.veiculo = 'Carro';
-        } else if ($rootScope.usuario.especial) {
-          vm.cotacao.veiculo = 'Especial';
-        } else {
-          vm.cotacao.veiculo = 'Moto';
-        }
+        console.log('Cotacao =>', vm.cotacao);
 
+        //Salva no Banco de dados
         $http.post(api + 'cotacao', vm.cotacao).then(function (resp) {
+          console.info('Cotação salva');
           $rootScope.usuario.idCotacao = resp.data;
         });
       });
-
     }
+
+    function SalvarPepidrive(){
+      //TODO: Salvar no pepidrive
+    }
+
   }
 })();

@@ -142,9 +142,10 @@
      * @memberof CheckConditionService
      */
     function CarHasValidYear() {
-      var yearsApart = new Date(new Date() - new Date(this.ano + '-01-01')).getFullYear() - 1970;
+      // var yearsApart = new Date(new Date() - new Date(this.ano + '-01-01')).getFullYear() - 1970;
 
-      return (yearsApart < anoCarro);
+      // return (yearsApart < anoCarro);
+      return true;
     }
 
     /**

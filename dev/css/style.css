@@ -49,11 +49,6 @@ Version: 1.0
   opacity: 1;
 }
 
-#toast-container>div {
-  font-size: 2em;
-  width: 600px;
-}
-
 @media(min-width:47.938em) {
   .table-responsive {
     margin-top: 10px;

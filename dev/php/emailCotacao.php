@@ -3,14 +3,16 @@
   $stop_date = new DateTime();
   $stop_date->modify('+3 day');
 
-  $check       = $data["check"];
-  $modelo      = $data["modelo"];
-  $valorBronze = $data["valorBronze"];
-  $valorCarro  = $data["valorCarro"];
-  $valorOuro   = $data["valorOuro"];
-  $valorPrata  = $data["valorPrata"];
-  $to          = $data["to"];
-  $subject     = "Sua Cotação [ Multiplicar Brasil ]";
+  $valorAdesaAdesao = $data["adesao"];
+  $check            = $data["check"];
+  $franquia         = $data["franquia"];
+  $modelo           = $data["modelo"];
+  $valorBronze      = $data["valorBronze"];
+  $valorCarro       = $data["valorCarro"];
+  $valorOuro        = $data["valorOuro"];
+  $valorPrata       = $data["valorPrata"];
+  $to               = $data["to"];
+  $subject          = "Sua Cotação [ Multiplicar Brasil ]";
 
   $headers  = 'MIME-Version: 1.0' . "\r\n";
   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -92,7 +94,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; ">
           <tr>
-            <td valign="top"> Adesão <span style="font-weight:bold">R$'.$valorAdesao.',00</span> </td>
+            <td valign="top"> Adesão <span style="font-weight:bold">R$'.$valorAdesaAdesao.',00</span> </td>
             '.$restreadorEmail.'
           </tr>
         </table>
@@ -143,7 +145,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; padding-top:20px">
           <tr>
-            <td valign="top"> Franquia do carro 6% valor da FIPE </td>
+            <td valign="top"> Franquia do carro '+$franquia+'  </td>
           </tr>
         </table>
       </td>

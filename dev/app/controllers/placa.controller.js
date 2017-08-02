@@ -42,33 +42,33 @@
         "CONSULTA": {
           "ACESSO": {
             "USUARIO": null,
-            "SENHA": null
+            "SENHA"  : null
           },
           "VEICULO": {
-            "CHASSI": null,
-            "UF": null,
-            "PLACA": null,
+            "CHASSI" : null,
+            "UF"     : null,
+            "PLACA"  : null,
             "RENAVAM": null,
-            "MOTOR": null,
-            "CRLV": null,
+            "MOTOR"  : null,
+            "CRLV"   : null,
             "UF_CRLV": null
           },
           "DADOSPESSOAIS": {
             "TIPOPESSOARESTRICOES": null,
-            "CPFCNPJRESTRICOES": null,
-            "DDD1RESTRICOES": null,
-            "TEL1RESTRICOES": null,
-            "DDD2RESTRICOES": null,
-            "TEL2RESTRICOES": null
+            "CPFCNPJRESTRICOES"   : null,
+            "DDD1RESTRICOES"      : null,
+            "TEL1RESTRICOES"      : null,
+            "DDD2RESTRICOES"      : null,
+            "TEL2RESTRICOES"      : null
           },
           "PERMISSOES": {
             "CONTRATOID": null,
-            "PACOTEID": null,
+            "PACOTEID"  : null,
             "OPCIONAIS": {
               "Precificador": null
             }
           },
-          "CONSULTAID": null,
+          "CONSULTAID"       : null,
           "NRCONTROLECLIENTE": null
         }
       }
@@ -77,9 +77,11 @@
     $rootScope.usuario = {
       'codigoTabelaFipe': '',
       'data'            : '',
-      'especial'        : false,
+      'disel'           : false,
+      'importado'       : false,
       'modelo'          : '',
       'preco'           : '',
+      'taxi'            : false,
       'veiculo'         : ''
     };
 
@@ -107,6 +109,52 @@
       GetRejeitados();
     }
 
+    function CheckTipoCarro(fabricante, combustivel) {
+      combustivel = combustivel.toUpperCase();
+
+      // Verifica se eh taxi.
+      if (vm.isUber) {
+        console.log('Carro é taxi');
+        $rootScope.usuario.taxi = true;
+      } else {
+        $rootScope.usuario.taxi = false;
+      }
+
+      // Verificar se o carro eh a disel
+      if (combustivel.indexOf('DISEL') !== -1) {
+        console.log('Carro é a disel');
+        $rootScope.usuario.disel = true;
+      } else {
+        $rootScope.usuario.disel = false;
+      }
+
+      // Verifica se o carro eh importado
+      $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
+        var retorno = php_crud_api_transform(resp.data).importado;
+
+        if (retorno.length > 0) {
+          console.log('Carro é importado');
+          $rootScope.usuario.importado = true;
+        } else {
+          $rootScope.usuario.importado = false;
+        }
+
+        console.log($rootScope.usuario);
+        vm.carregando = false;
+        $state.go('cotacao');
+      }).catch(function (error) {
+        // Erro na conexao
+        vm.carregando = false;
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao comparar com os importados = >' + error);
+      });
+    }
+
     /**
      * @function GetDadosRequisicao
      * @desc Pega os dados para a autorização da consulta, coloca-os no json consulta e depois executa PesquisarPlaca
@@ -129,6 +177,15 @@
         consulta.xml.CONSULTA.PERMISSOES.PACOTEID   = resp.data.pacote;
 
         PesquisarPlaca(resp.data.url);
+      }).catch(function (error) {
+        vm.carregando = false;
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao pegar os dados de consulta = >' + error);
       });
     }
 
@@ -140,6 +197,15 @@
     function GetRejeitados() {
       $http.get(api + 'rejeitado').then(function (resp) {
         vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
+      }).catch(function (error) {
+        vm.carregando = false;
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao pegar os rejeitados = >', error);
       });
     }
 
@@ -158,6 +224,7 @@
 
       $.get(url + xml, function (data) {
         var ano                 = '';                      // Ano do modelo
+        var combustivel         = '';                      // Tipo de combustivel do veiculo
         var codigoConsulta      = '';                      // Usado para validar a consulta
         var codigoDecodificador = '';                      // Usado para validar a segunda consulta
         var fabricante          = '';                      // Fabricante do veiculo
@@ -172,47 +239,69 @@
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
 
         console.log(retorno);
-
-        codigoConsulta = $(retorno).find('Precificador').find('CodigoRetorno')[0].textContent || null;
+        
+        codigoConsulta      = $(retorno).find('Precificador').find('CodigoRetorno')[0].textContent || null;
         codigoDecodificador = $(retorno).find('AgregadoCompleto').find('CodigoRetorno')[0].textContent || null;
+
+        console.log('Codigo Consulta => ', codigoConsulta);
+        console.log('Codigo Decodificador => ', codigoDecodificador);
 
         //Se a consulta falhou envia o usuario para a preencher os dados do carro
         if (codigoConsulta !== '1' || codigoDecodificador !== '1') {
+          console.info('Consulta falhou');
+
           vm.carregando = false;
           $state.go('fipe');
         } else { // Dados Encontrados
+          console.info('Consulta deu certo');
+
           var marcaModelo = $(retorno).find('AgregadoCompleto').find('MarcaModelo')[0].textContent || null;
 
-          ano = $(retorno).find('AgregadoCompleto').find('AnoModelo')[0].textContent || null;
-          testeAno = $(retorno).find('AgregadoCompleto').find('TipoVeiculo')[0].textContent || null;
-          veiculo = $(retorno).find('AgregadoCompleto').find('TipoVeiculo')[0].textContent || null;
+          ano         = $(retorno).find('AgregadoCompleto').find('AnoModelo')[0].textContent || null;
+          combustivel = $(retorno).find('AgregadoCompleto').find('Combustivel')[0].textContent || 'GASOLINA';
+          veiculo     = $(retorno).find('AgregadoCompleto').find('TipoVeiculo')[0].textContent || null;
 
-          if (!marcaModelo && !ano && !testeAno && !veiculo) {
+          console.log('Ano => ', ano);
+          console.log('Combustivel => ', combustivel);
+          console.log('Veiculo => ', veiculo);
+
+          if (!marcaModelo && !ano && !veiculo) {
             /**
              * Nao foi possivel encontrar alguma informacao
              * portando o usuario esta sendo mandado para procurar os dados do carro
              */
+            console.info('Alguma informação não foi encontrada');
+
             vm.carregando = false;
             $state.go('fipe');
           } else {
+            console.info('Tudo certo');
+
             //Formata os dados para ficar mais facil a busca
-            veiculo = veiculo.toUpperCase();
+            veiculo     = veiculo.toUpperCase();
             marcaModelo = marcaModelo.split('/');
-            fabricante = marcaModelo[0];
-            modelo = marcaModelo[1];
+            fabricante  = marcaModelo[0];
+            modelo      = marcaModelo[1];
 
             //Salva os dados do usuario
-            $rootScope.usuario.data = $(retorno).find('DataHoraConsulta')[0].textContent;
-            $rootScope.usuario.modelo = modelo;
-            $rootScope.usuario.preco = 'R$ ' + $(retorno).find('Precificador').find('Valor')[0].textContent + ',00';
+            $rootScope.usuario.data    = $(retorno).find('DataHoraConsulta')[0].textContent;
+            $rootScope.usuario.modelo  = modelo;
+            $rootScope.usuario.preco   = 'R$ ' + $(retorno).find('Precificador').find('Valor')[0].textContent + ',00';
             $rootScope.usuario.veiculo = veiculo;
+
+            console.log('Dados do usuario => ', $rootScope.usuario);
 
             //Startup o servico para verificar se o veiculo eh aceito
             CheckConditionService.Activate(modelo, fabricante, ano, vm.rejeitados);
 
             if (veiculo === 'AUTOMOVEL') { // Se o veiculo for carro
-              testeAno = CheckConditionService.CarHasValidYear(); //Valida o ano
-              testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
+              console.info('Carro');
+
+              testeAno    = CheckConditionService.CarHasValidYear();   //Valida o ano
+              testeModelo = CheckConditionService.CarHasValidModel();  //Valida o modelo
+
+              console.log('Ano teste => ', testeAno);
+              console.log('Modelo teste => ', testeModelo);
 
               if (!testeAno || !testeModelo) {
                 /**
@@ -221,69 +310,50 @@
                  */
                 vm.carregando = false;
                 toaster.pop({
-                  type: 'error',
-                  title: 'Atenção!',
-                  body: 'Não é possível fazer cotação para esse veículo.',
+                  type   : 'error',
+                  title  : 'Atenção!',
+                  body   : 'Não é possível fazer cotação para esse veículo.',
                   timeout: 50000
                 });
               } else { // Modelo e ano aceitos
-                if (vm.isUber) {
-                  /**
-                   * Se o usuario marcou que o veiculo eh taxi ou uber
-                   * marca o viculo como especial e envia-o para cotacao
-                   */
-                  $rootScope.usuario.especial = true;
-                  vm.carregando = false;
-                  $state.go('cotacao');
-                } else {
-                  /**
-                   * Se o usuario nao marcou se o carro eh taxi ou uber
-                   * eh necessario verificar se o veiculo eh importato
-                   * se for o carro eh especial
-                   */
-                  fabricante = fabricante.toUpperCase();
-
-                  $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
-                    var retorno = php_crud_api_transform(resp.data).importado;
-
-                    if (retorno.length > 0) {
-                      $rootScope.usuario.especial = true;
-                    }
-                    vm.carregando = false;
-                    $state.go('cotacao');
-                  });
-                }
+                /**
+                 * Se o usuario nao marcou se o carro eh taxi ou uber
+                 * eh necessario verificar se o veiculo eh importado
+                 * se for o carro eh especial
+                 */
+                fabricante = fabricante.toUpperCase();
+                CheckTipoCarro(fabricante, combustivel);
               }
             } else if (veiculo === 'MOTOCICLETA') { // Se o veiculo eh moto
-              testeAno = CheckConditionService.MotoHasValidYear();
+              console.info('Moto');
+
+              testeAno    = CheckConditionService.MotoHasValidYear();
               testeModelo = CheckConditionService.MotoHasValidYear();
 
+              console.log('Ano teste => ', testeAno);
+              console.log('Modelo teste => ', testeModelo);
+
               if (!testeAno || !testeModelo) {
+                console.info('Alguma informação não foi encontrada');
+
                 /**
                  * O ano ou modelo foi rejeitado
                  * Nao eh possivel fazer cotacao para esse veiculo
                  */
                 vm.carregando = false;
                 toaster.pop({
-                  type: 'error',
-                  title: 'Atenção!',
-                  body: 'Não é possível fazer cotação para esse veículo.',
+                  type   : 'error',
+                  title  : 'Atenção!',
+                  body   : 'Não é possível fazer cotação para esse veículo.',
                   timeout: 50000
                 });
               } else {
-                fabricante = fabricante.toUpperCase();
-
-                $http.get(api + 'importado?filter=nome,eq,' + fabricante).then(function (resp) {
-                  var retorno = php_crud_api_transform(resp.data).importado;
-
-                  if (retorno.length > 0) {
-                    $rootScope.usuario.especial = true;
-                  }
-                  vm.carregando = false;
-                  $state.go('cotacao');
-                });
+                vm.carregando = false;
+                $state.go('cotacao');
               }
             } else {
+              console.info('Nem carro nem moto');
+
               /**
                * Se o veiculo nao for moto nem carro envio o usuario para escolher
                * os dados do veiculo

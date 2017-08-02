@@ -40,9 +40,9 @@ var names = {
   cssMin: 'style.min.css'
 };
 var paths = {
-  local     : 'localhost/multiplicar/cotacao',
+  local     : 'http://localhost/multiplicar/cotacao',
   localBase : '/multiplicar/cotacao/',
-  server    : 'multiplicarbrasil.com.br/sistemanovo',
+  server    : 'https://multiplicarbrasil.com.br/sistemanovo',
   serverBase: '/sistemanovo/',
   dev: {
     css   : ['dev/css/**/*.css'],
@@ -112,7 +112,7 @@ gulp.task('html', function () {
   return gulp.src(paths.dev.html)
     .pipe(plumber())
     .pipe(htmlreplace({
-      'app': 'js/' + names.cssMin,
+      'app': 'js/' + names.jsMin,
       'base': {
         src: paths.serverBase,
         tpl: '<base href="%s">'
@@ -156,8 +156,8 @@ gulp.task('js', function () {
     .pipe(replace(paths.local, paths.server))
     .pipe(replace('dis/', ''))
     .pipe(replace('dev/', ''))
-    .pipe(stripDebug())
     .pipe(gulp.dest(paths.dis.js))
+    .pipe(stripDebug())
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(rename(names.jsMin))
