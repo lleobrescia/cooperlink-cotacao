@@ -25,10 +25,10 @@
             </ul>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.basico }}</span></strong></h3>
+            <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.basico | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'basico'"
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'basico';cotacao.valorPlano = cotacao.preco.basico"
               title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
@@ -49,7 +49,7 @@
             <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.bronze | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'bronze'"
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'bronze';cotacao.valorPlano = cotacao.preco.bronze"
               title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
@@ -69,7 +69,7 @@
             <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.prata | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'prata'"
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'prata';cotacao.valorPlano = cotacao.preco.prata"
               title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>
@@ -92,7 +92,7 @@
             <h3><strong>Mensalidade <br> <span>{{::cotacao.preco.ouro | currency : 'R$ '}}</span></strong></h3>
           </td>
           <td>
-            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'ouro'"
+            <a class="btn btn-success" data-target=".bs-example-modal-lg" data-toggle="modal" ng-click="cotacao.planoEscolhido = 'ouro';cotacao.valorPlano = cotacao.preco.ouro"
               title="Contratar">Contratar</a>
             <a class="btn btn-default" ng-click="main.Scroll('informacoes')" title="Mais informações">Mais informações</a>
           </td>

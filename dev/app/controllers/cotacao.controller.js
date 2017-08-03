@@ -72,7 +72,7 @@
     vm.hasRastreador  = false;
     vm.planoEscolhido = 'basico';
     vm.preco          = {
-      basico: 'R$29,90',
+      basico: '29.90',
       bronze: undefined,
       ouro  : undefined,
       prata : undefined
@@ -91,11 +91,13 @@
     };
     vm.opcionaisPopup = projectDir + 'views/opcionais.html';
     vm.valorFipe      = undefined;
+    vm.valorPlano     = '';
 
 
     /**
      * Atribuição das funções no escopo
      */
+    vm.Contratar   = Contratar;
     vm.EnviarEmail = EnviarEmail;
 
     Activate();
@@ -163,17 +165,26 @@
             }
           }
         });
-        console.log('Adesao => ', vm.adesao);
+        console.log('Adesao => ',   vm.adesao);
         console.log('Franquia => ', vm.franquia);
-        console.log('Preco => ', vm.preco);
+        console.log('Preco => ',    vm.preco);
         console.log('Envelope => ', vm.envelope);
         CotacaoLimite();
         vm.carregando = false;
+      }).catch(function (error) {
+         toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao buscar preco do carro = >' + error);
+        $state.go('placa');
       });
     }
 
     /**
-     * @function Activate
+     * @function BuscarPrecoEspecial
      * @desc Busca os valores da cotação para especial
      * @memberof CotacaoController
      */
@@ -220,17 +231,26 @@
           }
 
         });
-        console.log('Adesao => ', vm.adesao);
+        console.log('Adesao => ',   vm.adesao);
         console.log('Franquia => ', vm.franquia);
-        console.log('Preco => ', vm.preco);
+        console.log('Preco => ',    vm.preco);
         console.log('Envelope => ', vm.envelope);
         CotacaoLimite();
         vm.carregando = false;
+      }).catch(function (error) {
+         toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao buscar preco do especial = >' + error);
+        $state.go('placa');
       });
     }
 
     /**
-     * @function Activate
+     * @function BuscarPrecoMoto
      * @desc Busca os valores da cotação para moto
      * @memberof CotacaoController
      */
@@ -277,17 +297,26 @@
           }
 
         });
-        console.log('Adesao => ', vm.adesao);
+        console.log('Adesao => ',   vm.adesao);
         console.log('Franquia => ', vm.franquia);
-        console.log('Preco => ', vm.preco);
+        console.log('Preco => ',    vm.preco);
         console.log('Envelope => ', vm.envelope);
         CotacaoLimite();
         vm.carregando = false;
+      }).catch(function (error) {
+         toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao buscar preco da moto = >' + error);
+        $state.go('placa');
       });
     }
 
     /**
-     * @function Activate
+     * @function BuscarPrecoTaxi
      * @descBusca os valores da cotação para taxi
      * @memberof CotacaoController
      */
@@ -333,12 +362,21 @@
             }
           }
         });
-        console.log('Adesao => ', vm.adesao);
+        console.log('Adesao => ',   vm.adesao);
         console.log('Franquia => ', vm.franquia);
-        console.log('Preco => ', vm.preco);
+        console.log('Preco => ',    vm.preco);
         console.log('Envelope => ', vm.envelope);
         CotacaoLimite();
         vm.carregando = false;
+      }).catch(function (error) {
+         toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao buscar preco do taxi = >' + error);
+        $state.go('placa');
       });
     }
 
@@ -359,6 +397,42 @@
 
         $state.go('placa');
       }
+    }
+
+    function Contratar() {
+      vm.carregando = true;
+      var planoEscolhido = {
+        'adesao'     : $filter('currency')(vm.adesao, 'R$ '),
+        'cotacao'    : $rootScope.usuario.idCotacao,
+        'franquia'   : vm.franquia,
+        'plano'      : vm.planoEscolhido,
+        'opcionais'  : '', //TODO: Adicionar opcionais
+        'tipoVeiculo': vm.cotacao.tipo,
+        'veiculo'    : vm.cotacao.veiculo,
+        'valor'      : $filter('currency')(vm.valorPlano, 'R$ ')
+      };
+
+      $rootScope.usuario.plano      = vm.adesao;
+      $rootScope.usuario.vlorAdesao = vm.planoEscolhido;
+      $rootScope.usuario.valorPlano = vm.valorPlano;
+
+      //TODO: Calcular a adesao
+
+       $http.post(api + 'planoescolhido', planoEscolhido).then(function (resp) {
+        console.info('Plano escolhido salvo ', planoEscolhido);
+        $rootScope.usuario.idPlano = resp.data;
+
+        $state.go('dados');
+      }).catch(function (error) {
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao enviar a requisição.',
+          body   : 'Por favor, tente mais tarde.',
+          timeout: 50000
+        });
+        console.warn('Não foi possivel salvar o plano escolhido = >', error);
+      });
+
     }
 
     /**
@@ -496,7 +570,18 @@
         $http.post(api + 'cotacao', vm.cotacao).then(function (resp) {
           console.info('Cotação salva');
           $rootScope.usuario.idCotacao = resp.data;
+        }).catch(function (error) {
+          console.warn('Erro ao pegar ip do usuario = >' + error);
         });
+      }).catch(function (error) {
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro ao conectar com o servidor',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao salvar cotacao = >' + error);
+        $state.go('placa');
       });
     }
 
