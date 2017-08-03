@@ -83,6 +83,12 @@
       'reboque'     : '',
       'vidros'      : ''
     };
+    vm.opcionaisMoto = {
+      'hospital'   : false,
+      'motoReserva': '',
+      'seguro'     : false,
+      'vidros'     : ''
+    };
     vm.opcionaisPopup = projectDir + 'views/opcionais.html';
     vm.valorFipe      = undefined;
 
@@ -484,6 +490,7 @@
         vm.cotacao.valor    = $rootScope.usuario.preco;
 
         console.log('Cotacao =>', vm.cotacao);
+        console.log('Usuario =>', $rootScope.usuario);
 
         //Salva no Banco de dados
         $http.post(api + 'cotacao', vm.cotacao).then(function (resp) {
