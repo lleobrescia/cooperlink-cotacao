@@ -45,7 +45,9 @@
      * @desc Setup docontrolador. Exetuca assim que o controlador inicia
      * @memberof MainController
      */
-    function Activate() {}
+    function Activate() {
+      //TODO: Verificar aonde o usuario parou e continuar
+    }
 
     /**
      * @function Scroll

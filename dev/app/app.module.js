@@ -25,3 +25,5 @@
     'toaster'
   ]);
 })();
+
+// TODO: Configurar cookie
