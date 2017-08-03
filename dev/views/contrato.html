@@ -1,0 +1,224 @@
+<div class="container">
+  <section class="row" style="padding-top:24px;margin-bottom:30px">
+    <div class="col-xs-12">
+      <p>Confirme seu plano e assine o contrato digital. <br> Uma cópia será enviada para seu email após o pagamento da adesão.</p>
+    </div>
+    <!-- col-xs-12 -->
+  </section>
+  <!-- row -->
+
+  <section class="row">
+    <div class="col-xs-12">
+      <table class="table cotacoes">
+        <tr ng-if="$root.usuario.plano == 'bronze'">
+          <td>
+            <h3><strong>Plano Básico</strong></h3>
+          </td>
+          <td>
+            <h3><strong>Mensalidade <br> <span>{{::$root.valorPlano | currency : 'R$ ' }}</span></strong></h3>
+          </td>
+          <td>
+            <h3><strong>Taxa de adesão <br> <span>{{::$root.vlorAdesao | currency : 'R$ ' }}</span></strong></h3>
+          </td>
+        </tr>
+
+        <tr ng-if="$root.usuario.plano == 'bronze'">
+          <td>
+            <h3 class="bronze"><strong>Plano Bronze</strong></h3>
+          </td>
+          <td>
+            <h3><strong>Mensalidade <br> <span>{{::$root.valorPlano | currency : 'R$ '}}</span></strong></h3>
+          </td>
+          <td>
+            <h3><strong>Taxa de adesão <br> <span>{{::$root.vlorAdesao | currency : 'R$ '}}</span></strong></h3>
+          </td>
+        </tr>
+
+        <tr ng-if="$root.usuario.plano == 'prata'">
+          <td>
+            <h3 class="prata"><strong>Plano Prata</strong></h3>
+          </td>
+          <td>
+            <h3><strong>Mensalidade <br> <span>{{::$root.valorPlano | currency : 'R$ '}}</span></strong></h3>
+          </td>
+          <td>
+            <h3><strong>Taxa de adesão <br> <span>{{::$root.vlorAdesao | currency : 'R$ '}}</span></strong></h3>
+          </td>
+        </tr>
+
+        <tr ng-if="$root.usuario.plano == 'ouro'">
+          <td>
+            <h3 class="ouro"><strong>Plano Ouro</strong></h3>
+          </td>
+          <td>
+            <h3><strong>Mensalidade <br> <span>{{::$root.valorPlano | currency : 'R$ '}}</span></strong></h3>
+          </td>
+          <td>
+            <h3><strong>Taxa de adesão <br> <span>{{::$root.vlorAdesao | currency : 'R$ '}}</span></strong></h3>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="col-xs-12">
+      <div style="padding: 10px;height: 578px;overflow-y: scroll;border: solid thin #dbdbdc;margin-bottom: 64px;">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi turpis odio, malesuada non pharetra a, iaculis quis
+          mauris. Donec a odio suscipit, porttitor quam nec, feugiat sapien. Sed placerat euismod justo, a varius orci iaculis
+          vitae. Mauris eu diam quis est gravida aliquet id ac elit. Donec fringilla non libero sit amet ultricies. Aenean
+          lacinia eget nulla dapibus laoreet. Maecenas dictum lobortis massa, ut aliquet arcu aliquet non. Quisque aliquet
+          feugiat pretium. Proin maximus lorem volutpat erat efficitur dapibus quis in dolor. Duis sit amet purus quis augue
+          sollicitudin ultricies. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+          Sed ullamcorper diam et justo imperdiet, eu tincidunt sapien cursus. Aenean malesuada ante sed ligula volutpat
+          malesuada. Mauris ut nulla interdum, posuere felis vitae, ultricies mauris. Integer quis diam purus. Phasellus
+          non velit lectus.</p>
+
+        <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris augue tellus, porta
+          ac consectetur non, elementum ac lacus. Quisque fringilla sagittis porta. Nulla scelerisque, nunc nec iaculis imperdiet,
+          justo urna eleifend est, dictum vulputate urna urna ut leo. Donec suscipit facilisis mauris. Duis vel hendrerit
+          ligula, sed pharetra elit. Vestibulum in bibendum est, et commodo ligula.</p>
+
+        <p>Integer est nulla, posuere eget metus sed, aliquet luctus purus. Vestibulum mollis, sem in venenatis suscipit, orci
+          felis molestie tortor, a pretium felis tortor eu nisl. Etiam nec ornare orci. Duis ut diam ac dui finibus iaculis.
+          Ut varius ultricies justo, non porta diam lacinia aliquam. Quisque leo elit, tristique at tellus vitae, ultricies
+          congue quam. Aenean nec accumsan diam, at elementum sapien. Sed laoreet mauris venenatis turpis imperdiet tincidunt.
+          Nam sollicitudin, leo ut varius ullamcorper, ligula quam commodo arcu, in tincidunt leo tellus non quam. Curabitur
+          consectetur feugiat diam, et commodo nibh dignissim at. Phasellus urna sem, egestas a iaculis id, placerat non
+          lorem. Duis sem tellus, molestie id augue eget, aliquet pulvinar ex. Vivamus sit amet erat ultricies, pellentesque
+          metus vitae, bibendum augue. Maecenas faucibus, libero eget sagittis pretium, lectus lorem commodo turpis, in hendrerit
+          ligula ex nec nunc.</p>
+
+        <p>Nullam consectetur, augue ac varius dignissim, arcu felis sodales augue, sed viverra nisl risus sit amet nulla. Mauris
+          ultrices dapibus nisi quis porttitor. Nunc rhoncus massa nec maximus eleifend. Praesent non eros et dui congue
+          laoreet faucibus ut metus. Nunc ut ante mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+          posuere cubilia Curae; Praesent consectetur diam eu orci semper, nec rutrum sapien pulvinar. Nulla libero nisl,
+          dictum ac efficitur sit amet, cursus sit amet arcu. Phasellus aliquam dui ornare, aliquam sapien eget, volutpat
+          risus. Nam lacinia eget magna quis pretium.</p>
+
+        <p>Nunc ac vestibulum elit. Proin id consequat sapien. Ut scelerisque malesuada accumsan. Integer sed rhoncus metus,
+          id ornare ante. Duis aliquet nisi nec arcu imperdiet fermentum. Integer finibus metus vitae enim molestie, in vulputate
+          libero interdum. Nunc magna tellus, tincidunt nec lectus vitae, dictum iaculis mauris. Phasellus nec fermentum
+          sapien. Praesent ac lectus dui. Praesent eget lorem et diam ullamcorper tincidunt.</p>
+
+        <p>Phasellus lobortis ultricies facilisis. Sed efficitur purus ut pulvinar consequat. Mauris vitae ligula porta, mollis
+          augue id, gravida magna. Pellentesque justo odio, vehicula sit amet cursus quis, pharetra quis justo. Pellentesque
+          tempor, urna in hendrerit convallis, nulla leo convallis libero, et fringilla dui lectus eu urna. Nunc quis commodo
+          arcu, quis congue orci. Proin mattis mattis magna, eu consequat orci elementum nec. Class aptent taciti sociosqu
+          ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean eu convallis quam. Donec ac dui in lorem
+          sodales eleifend tristique id tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+          himenaeos. Quisque at augue vehicula, suscipit neque sit amet, semper ex. Mauris in porttitor felis. Curabitur
+          fringilla tristique lectus vitae pretium. Curabitur mauris augue, laoreet ac arcu in, malesuada condimentum dui.</p>
+
+        <p>Donec eleifend, nisi in finibus viverra, ante mi facilisis mi, ac condimentum ligula magna ut magna. In volutpat
+          sapien eu metus dignissim feugiat. Phasellus mauris elit, iaculis posuere mollis vitae, feugiat ac risus. Curabitur
+          rhoncus eu mauris quis placerat. Donec eros nibh, rutrum non lorem quis, tincidunt semper risus. In quis ex sed
+          lectus sollicitudin sodales. Suspendisse dui arcu, varius et rhoncus vel, sollicitudin eget nisl. Vestibulum rhoncus
+          felis quis tempor sodales. Aliquam ut magna a purus accumsan pretium.</p>
+
+        <p>Vestibulum volutpat sed elit ut facilisis. Mauris est turpis, eleifend vel sem id, pretium imperdiet dui. Aenean
+          pellentesque erat dolor, et hendrerit lectus pellentesque vel. Orci varius natoque penatibus et magnis dis parturient
+          montes, nascetur ridiculus mus. In nec augue felis. Mauris et massa interdum, ultrices nisi a, sollicitudin ipsum.
+          Sed eu mi ac neque sollicitudin hendrerit eu id nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+          Integer bibendum lectus tellus, tempus aliquam sem vulputate vel. Quisque non ligula sit amet nunc ultrices aliquet.
+          Aenean non mauris at lectus condimentum sollicitudin sit amet at risus. Phasellus est nulla, tempus in risus eu,
+          dictum hendrerit massa. Fusce vestibulum lorem at turpis tempor, quis feugiat dui tincidunt. Vestibulum tincidunt
+          rutrum massa. Donec tempus tellus in facilisis sagittis. Etiam est purus, commodo sit amet viverra sed, pulvinar
+          sit amet urna.
+        </p>
+
+        <p>Pellentesque eget vehicula arcu, vitae rutrum elit. In egestas, lectus a interdum rutrum, turpis lorem vulputate
+          orci, eu elementum lacus quam a turpis. Nulla dolor nunc, blandit ut viverra ut, placerat ac arcu. Donec velit
+          mi, vulputate ac consequat a, consequat at erat. Curabitur semper aliquet elit, at tincidunt massa condimentum
+          eget. Nunc aliquet viverra neque quis interdum. Praesent consequat nulla ligula, vel tincidunt libero scelerisque
+          at. Aenean vehicula dictum enim.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" style="margin-bottom:80px;">
+    <div class="col-xs-12">
+      <div class="checkbox" style="display: inline-block;">
+        <label>
+          <input type="checkbox" ng-model="$scope.aceitar"> Li e concordo com o <a href="" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">termo de associado.</a>
+        </label>
+      </div>
+      <a class="btn btn-success pull-right" title="Contratar" style="font-size: 1.250em;width: 233px;" ng-disabled="!$scope.aceitar">Contratar</a>
+  </section>
+  </div>
+  <!-- container -->
+
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="padding:10px">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi turpis odio, malesuada non pharetra a, iaculis quis
+          mauris. Donec a odio suscipit, porttitor quam nec, feugiat sapien. Sed placerat euismod justo, a varius orci iaculis
+          vitae. Mauris eu diam quis est gravida aliquet id ac elit. Donec fringilla non libero sit amet ultricies. Aenean
+          lacinia eget nulla dapibus laoreet. Maecenas dictum lobortis massa, ut aliquet arcu aliquet non. Quisque aliquet
+          feugiat pretium. Proin maximus lorem volutpat erat efficitur dapibus quis in dolor. Duis sit amet purus quis augue
+          sollicitudin ultricies. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+          Sed ullamcorper diam et justo imperdiet, eu tincidunt sapien cursus. Aenean malesuada ante sed ligula volutpat
+          malesuada. Mauris ut nulla interdum, posuere felis vitae, ultricies mauris. Integer quis diam purus. Phasellus
+          non velit lectus.</p>
+
+        <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris augue tellus, porta
+          ac consectetur non, elementum ac lacus. Quisque fringilla sagittis porta. Nulla scelerisque, nunc nec iaculis imperdiet,
+          justo urna eleifend est, dictum vulputate urna urna ut leo. Donec suscipit facilisis mauris. Duis vel hendrerit
+          ligula, sed pharetra elit. Vestibulum in bibendum est, et commodo ligula.</p>
+
+        <p>Integer est nulla, posuere eget metus sed, aliquet luctus purus. Vestibulum mollis, sem in venenatis suscipit, orci
+          felis molestie tortor, a pretium felis tortor eu nisl. Etiam nec ornare orci. Duis ut diam ac dui finibus iaculis.
+          Ut varius ultricies justo, non porta diam lacinia aliquam. Quisque leo elit, tristique at tellus vitae, ultricies
+          congue quam. Aenean nec accumsan diam, at elementum sapien. Sed laoreet mauris venenatis turpis imperdiet tincidunt.
+          Nam sollicitudin, leo ut varius ullamcorper, ligula quam commodo arcu, in tincidunt leo tellus non quam. Curabitur
+          consectetur feugiat diam, et commodo nibh dignissim at. Phasellus urna sem, egestas a iaculis id, placerat non
+          lorem. Duis sem tellus, molestie id augue eget, aliquet pulvinar ex. Vivamus sit amet erat ultricies, pellentesque
+          metus vitae, bibendum augue. Maecenas faucibus, libero eget sagittis pretium, lectus lorem commodo turpis, in hendrerit
+          ligula ex nec nunc.</p>
+
+        <p>Nullam consectetur, augue ac varius dignissim, arcu felis sodales augue, sed viverra nisl risus sit amet nulla. Mauris
+          ultrices dapibus nisi quis porttitor. Nunc rhoncus massa nec maximus eleifend. Praesent non eros et dui congue
+          laoreet faucibus ut metus. Nunc ut ante mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+          posuere cubilia Curae; Praesent consectetur diam eu orci semper, nec rutrum sapien pulvinar. Nulla libero nisl,
+          dictum ac efficitur sit amet, cursus sit amet arcu. Phasellus aliquam dui ornare, aliquam sapien eget, volutpat
+          risus. Nam lacinia eget magna quis pretium.</p>
+
+        <p>Nunc ac vestibulum elit. Proin id consequat sapien. Ut scelerisque malesuada accumsan. Integer sed rhoncus metus,
+          id ornare ante. Duis aliquet nisi nec arcu imperdiet fermentum. Integer finibus metus vitae enim molestie, in vulputate
+          libero interdum. Nunc magna tellus, tincidunt nec lectus vitae, dictum iaculis mauris. Phasellus nec fermentum
+          sapien. Praesent ac lectus dui. Praesent eget lorem et diam ullamcorper tincidunt.</p>
+
+        <p>Phasellus lobortis ultricies facilisis. Sed efficitur purus ut pulvinar consequat. Mauris vitae ligula porta, mollis
+          augue id, gravida magna. Pellentesque justo odio, vehicula sit amet cursus quis, pharetra quis justo. Pellentesque
+          tempor, urna in hendrerit convallis, nulla leo convallis libero, et fringilla dui lectus eu urna. Nunc quis commodo
+          arcu, quis congue orci. Proin mattis mattis magna, eu consequat orci elementum nec. Class aptent taciti sociosqu
+          ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean eu convallis quam. Donec ac dui in lorem
+          sodales eleifend tristique id tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+          himenaeos. Quisque at augue vehicula, suscipit neque sit amet, semper ex. Mauris in porttitor felis. Curabitur
+          fringilla tristique lectus vitae pretium. Curabitur mauris augue, laoreet ac arcu in, malesuada condimentum dui.</p>
+
+        <p>Donec eleifend, nisi in finibus viverra, ante mi facilisis mi, ac condimentum ligula magna ut magna. In volutpat
+          sapien eu metus dignissim feugiat. Phasellus mauris elit, iaculis posuere mollis vitae, feugiat ac risus. Curabitur
+          rhoncus eu mauris quis placerat. Donec eros nibh, rutrum non lorem quis, tincidunt semper risus. In quis ex sed
+          lectus sollicitudin sodales. Suspendisse dui arcu, varius et rhoncus vel, sollicitudin eget nisl. Vestibulum rhoncus
+          felis quis tempor sodales. Aliquam ut magna a purus accumsan pretium.</p>
+
+        <p>Vestibulum volutpat sed elit ut facilisis. Mauris est turpis, eleifend vel sem id, pretium imperdiet dui. Aenean
+          pellentesque erat dolor, et hendrerit lectus pellentesque vel. Orci varius natoque penatibus et magnis dis parturient
+          montes, nascetur ridiculus mus. In nec augue felis. Mauris et massa interdum, ultrices nisi a, sollicitudin ipsum.
+          Sed eu mi ac neque sollicitudin hendrerit eu id nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+          Integer bibendum lectus tellus, tempus aliquam sem vulputate vel. Quisque non ligula sit amet nunc ultrices aliquet.
+          Aenean non mauris at lectus condimentum sollicitudin sit amet at risus. Phasellus est nulla, tempus in risus eu,
+          dictum hendrerit massa. Fusce vestibulum lorem at turpis tempor, quis feugiat dui tincidunt. Vestibulum tincidunt
+          rutrum massa. Donec tempus tellus in facilisis sagittis. Etiam est purus, commodo sit amet viverra sed, pulvinar
+          sit amet urna.
+        </p>
+
+        <p>Pellentesque eget vehicula arcu, vitae rutrum elit. In egestas, lectus a interdum rutrum, turpis lorem vulputate
+          orci, eu elementum lacus quam a turpis. Nulla dolor nunc, blandit ut viverra ut, placerat ac arcu. Donec velit
+          mi, vulputate ac consequat a, consequat at erat. Curabitur semper aliquet elit, at tincidunt massa condimentum
+          eget. Nunc aliquet viverra neque quis interdum. Praesent consequat nulla ligula, vel tincidunt libero scelerisque
+          at. Aenean vehicula dictum enim.</p>
+      </div>
+    </div>
+  </div>

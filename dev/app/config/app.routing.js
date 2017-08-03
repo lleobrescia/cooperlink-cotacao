@@ -44,6 +44,18 @@
         controllerAs: 'cotacao',
         templateUrl: projectDir + 'views/cotacao.html',
         url: '/cotacao'
+      })
+      .state('dados', {
+        controller: 'DadosPessoaisController',
+        controllerAs: 'dados',
+        templateUrl: projectDir + 'views/dadosPessoais.html',
+        url: '/dados-pessoais'
+      })
+      .state('contrato', {
+        controller: 'ContratoController',
+        controllerAs: 'contrato',
+        templateUrl: projectDir + 'views/contrato.html',
+        url: '/contrato'
       });
   }
 })();
