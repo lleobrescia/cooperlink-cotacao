@@ -14,7 +14,7 @@
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Verifica a placa do usuario e recebe o valor da tabela Fipe
-   * 
+   *
    * @property {object}   vm                 - A named variable for the `this` keyword representing the ViewModel
    * @property {json}     consulta           - Dados para consulta na Chekauto
    * @property {json}     $rootScope.usuario - Dados do veiculo do usuario
@@ -23,7 +23,7 @@
    * @property {boolean}  vm.isUber          - Usado para saber se o carro eh uber
    * @property {string}   vm.placa           - Placa do carro
    * @property {json}     vm.rejeitados      - Lista de carros rejeitados
-   * 
+   *
    * @param {service}  $http                   - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
    * @param {service}  $rootScope              - Escopo principal do angular {@link https://docs.angularjs.org/api/ng/service/$rootScope}
    * @param {service}  $state                  - Status da transição {@link https://github.com/angular-ui/ui-router/wiki/Quick-Reference#state-1}
@@ -31,7 +31,7 @@
    * @param {constant} api                     - url do api
    * @param {service}  conversorService        - Converte xml para json e virce versa
    * @param {service}  toaster                 - Seviço para mostrar mensagens
-   * 
+   *
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
@@ -234,15 +234,21 @@
         var retorno             = $(data).find('string');  // Recebe a resposta do servico
         var testeAno            = '';                      // Usado para verificar se o ano eh aceito
         var testeModelo         = '';                      // Usado para verificar se o modelo eh aceito
-        var veiculo             = '';                      // Usado para ver qual o tipo de veiculo (moto ou carro) 
+        var veiculo             = '';                      // Usado para ver qual o tipo de veiculo (moto ou carro)
 
         retorno = $.parseXML(retorno[0].textContent); // Converte string xml para objeto xml
 
         console.log(retorno);
-        
-        codigoConsulta      = $(retorno).find('Precificador').find('CodigoRetorno')[0].textContent || null;
-        codigoDecodificador = $(retorno).find('AgregadoCompleto').find('CodigoRetorno')[0].textContent || null;
 
+        try {
+          codigoConsulta      = $(retorno).find('Precificador').find('CodigoRetorno')[0].textContent || null;
+          codigoDecodificador = $(retorno).find('AgregadoCompleto').find('CodigoRetorno')[0].textContent || null;
+        } catch (error) {
+          console.warn('Erro na consulta =>', error);
+          codigoConsulta      =  null;
+          codigoDecodificador =  null;
+        }
+ 
         console.log('Codigo Consulta => ', codigoConsulta);
         console.log('Codigo Decodificador => ', codigoDecodificador);
 
