@@ -401,6 +401,9 @@
 
     function Contratar() {
       vm.carregando = true;
+      $('.bs-example-modal-lg').modal('hide');
+      $('.modal-backdrop').css('display','none');
+      $('body').removeClass('modal-open').css('padding-right','0');
       var planoEscolhido = {
         'adesao'     : $filter('currency')(vm.adesao, 'R$ '),
         'cotacao'    : $rootScope.usuario.idCotacao,
@@ -412,8 +415,8 @@
         'valor'      : $filter('currency')(vm.valorPlano, 'R$ ')
       };
 
-      $rootScope.usuario.plano      = vm.adesao;
-      $rootScope.usuario.vlorAdesao = vm.planoEscolhido;
+      $rootScope.usuario.plano      = vm.planoEscolhido;
+      $rootScope.usuario.vlorAdesao = vm.adesao;
       $rootScope.usuario.valorPlano = vm.valorPlano;
 
       //TODO: Calcular a adesao
@@ -422,6 +425,7 @@
         console.info('Plano escolhido salvo ', planoEscolhido);
         $rootScope.usuario.idPlano = resp.data;
 
+        vm.carregando = false;
         $state.go('dados');
       }).catch(function (error) {
         toaster.pop({
@@ -430,6 +434,7 @@
           body   : 'Por favor, tente mais tarde.',
           timeout: 50000
         });
+        vm.carregando = false;
         console.warn('Não foi possivel salvar o plano escolhido = >', error);
       });
 
