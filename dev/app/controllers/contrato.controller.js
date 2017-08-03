@@ -15,6 +15,8 @@
 
     ////////////////
 
-    function Activate() {}
+    function Activate() {
+      console.log($rootScope);
+    }
   }
 })();
