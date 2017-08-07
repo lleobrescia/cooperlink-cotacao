@@ -17,6 +17,9 @@
 
     function Activate() {
       console.log($rootScope);
+      if (!$rootScope.usuario) {
+        $state.go('placa');
+      }
     }
   }
 })();
