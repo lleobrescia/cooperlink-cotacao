@@ -149,15 +149,15 @@
         planoEscolhido.opcionais += 'Carro reserva 30 dias, ';
       }
 
-      if(vm.opcionais.rastreador !== 0.00){
+      if (vm.opcionais.rastreador !== 0.00) {
         planoEscolhido.opcionais += 'Rastreador e Bloqueador, ';
       }
 
-      if(vm.opcionais.reboque !== 0.00){
+      if (vm.opcionais.reboque !== 0.00) {
         planoEscolhido.opcionais += 'Reboque 1000Km, ';
       }
 
-      if(cotacao.opcionais.vidros !== 0.00){
+      if (vm.opcionais.vidros !== 0.00) {
         planoEscolhido.opcionais += 'Vidros faróis retrovisores';
       }
     }
