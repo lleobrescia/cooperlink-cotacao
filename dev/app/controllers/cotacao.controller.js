@@ -5,7 +5,7 @@
     .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir','projectDev'];
+  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir', 'projectDev'];
 
   /**
    * @ngdoc controller
@@ -16,31 +16,36 @@
    * @desc Mostra o resultado da cotação
    *
    * @property {object} vm                - A named variable for the `this` keyword representing the ViewModel
-   * @property {string} vm.carregando     - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.cotacao        - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.email          - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.envelope       - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.franquia       - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.hasRastreador  - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.planoEscolhido - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.preco          - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.opcionais      - Telefone da multiplicar que aparecerá no html
-   * @property {string} vm.valorFipe      - Telefone da multiplicar que aparecerá no html
+   * @property {string} vm.adesao         - Valor da adesao
+   * @property {string} vm.carregando     - Controla o loading
+   * @property {string} vm.cotacao        - Dados da cotacao
+   * @property {string} vm.email          - E-mail do usuario
+   * @property {string} vm.envelope       - Dados para enviar por e-mail
+   * @property {string} vm.franquia       - Valor da franquia
+   * @property {string} vm.hasRastreador  - Controla se tem ou nao rastreador
+   * @property {string} vm.planoEscolhido - Plano que o usuario escolheu
+   * @property {string} vm.preco          - Precos dos planos
+   * @property {string} vm.opcionais      - Opcionais do carro
+   * @property {string} vm.opcionaisMoto  - Opcionais da moto
+   * @property {string} vm.opcionaisPopup - Url do popup dos opcionais
+   * @property {string} vm.valorFipe      - Valor na tabela fipe do veiculo
+   * @property {string} vm.total          - Total da menalidade (valor do plano + opcionais)
    *
-   * @param {service}  $filter                 - Usado para formatação {@link https://docs.angularjs.org/api/ng/filter/filter}
-   * @param {service}  $http                   - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
-   * @param {service}  $rootScope              - Escopo principal do angular {@link https://docs.angularjs.org/api/ng/service/$rootScope}
-   * @param {service}  $state                  - Status da transição {@link https://github.com/angular-ui/ui-router/wiki/Quick-Reference#state-1}
-   * @param {service}  CheckConditionService   - Servico para velidação do veículo (Veja checkCondition.service.js)
-   * @param {constant} api                     - url do api
-   * @param {constant} rastreadorCarro         - Valor minimo para ter rastreador obrigatorio no carro
-   * @param {constant} rastreadorMoto          - Valor minimo para ter rastreador obrigatorio na moto
-   * @param {service}  toaster                 - Seviço para mostrar mensagens
-   *
+   * @param {service}  $filter          - Usado para formatação {@link https://docs.angularjs.org/api/ng/filter/filter}
+   * @param {service}  $http            - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
+   * @param {service}  $rootScope       - Escopo principal do angular {@link https://docs.angularjs.org/api/ng/service/$rootScope}
+   * @param {service}  $state           - Status da transição {@link https://github.com/angular-ui/ui-router/wiki/Quick-Reference#state-1}
+   * @param {constant} api              - Url do api
+   * @param {constant} rastreadorCarro  - Valor minimo para ter rastreador obrigatorio no carro
+   * @param {constant} rastreadorMoto   - Valor minimo para ter rastreador obrigatorio na moto
+   * @param {service}  toaster          - Seviço para mostrar mensagens
+   * @param {constant} projectDir       - Caminho para o diretorio de producao
+   * @param {constant} projectDev       - Caminho para o diretorio de desenvolvimento
+   * 
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir,projectDev) {
+  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir, projectDev) {
     var vm = this;
 
     vm.adesao     = '';
@@ -72,33 +77,35 @@
     vm.hasRastreador  = false;
     vm.planoEscolhido = 'basico';
     vm.preco          = {
-      basico: '29.90',
+      basico: 29.90,
       bronze: undefined,
       ouro  : undefined,
       prata : undefined
     };
     vm.opcionais = {
-      'carroReserva': '',
-      'rastreador'  : '',
-      'reboque'     : '',
-      'vidros'      : ''
+      'carroReserva': 0.00,
+      'rastreador'  : 0.00,
+      'reboque'     : 0.00,
+      'vidros'      : 0.00
     };
     vm.opcionaisMoto = {
       'hospital'   : false,
       'motoReserva': '',
       'seguro'     : false,
-      'vidros'     : ''
+      'vidros'     : 0.0
     };
     vm.opcionaisPopup = projectDir + 'views/opcionais.html';
     vm.valorFipe      = undefined;
-    vm.valorPlano     = '';
+    vm.total          = 0.00;
 
 
     /**
      * Atribuição das funções no escopo
      */
-    vm.Contratar   = Contratar;
-    vm.EnviarEmail = EnviarEmail;
+    vm.Contratar       = Contratar;
+    vm.EnviarEmail     = EnviarEmail;
+    vm.LimparOpcionais = LimparOpcionais;
+    vm.SomarTotal      = SomarTotal;
 
     Activate();
 
@@ -115,6 +122,43 @@
         $state.go('placa');
       } else {
         GetPrecos();
+      }
+    }
+
+    /**
+     * @function AdicionarOpcionais
+     * @desc Adiciona os nomes dos opcionais na variavel que vai para o bd
+     * @memberof CotacaoController
+     */
+    function AdicionarOpcionais(planoEscolhido) {
+      if (vm.opcionaisMoto.motoReserva === 9.00) {
+        planoEscolhido.opcionais += 'Moto reserva 7 dias, ';
+      } else if (vm.opcionaisMoto.motoReserva === 15.00) {
+        planoEscolhido.opcionais += 'Moto reserva 20 dias, ';
+      }
+
+      if (vm.opcionaisMoto.motoReserva !== 0.00) {
+        planoEscolhido.opcionais += 'Vidros faróis retrovisores, ';
+      }
+
+      if (vm.opcionais.carroReserva === 7.00) {
+        planoEscolhido.opcionais += 'Carro reserva 7 dias, ';
+      } else if (vm.opcionais.carroReserva === 15.00) {
+        planoEscolhido.opcionais += 'Carro reserva 15 dias, ';
+      } else if (vm.opcionais.carroReserva === 30.00) {
+        planoEscolhido.opcionais += 'Carro reserva 30 dias, ';
+      }
+
+      if(vm.opcionais.rastreador !== 0.00){
+        planoEscolhido.opcionais += 'Rastreador e Bloqueador, ';
+      }
+
+      if(vm.opcionais.reboque !== 0.00){
+        planoEscolhido.opcionais += 'Reboque 1000Km, ';
+      }
+
+      if(cotacao.opcionais.vidros !== 0.00){
+        planoEscolhido.opcionais += 'Vidros faróis retrovisores';
       }
     }
 
@@ -136,7 +180,7 @@
               case 'Bronze':
                 vm.adesao               = value.adesao;
                 vm.franquia             = value.franquia;
-                vm.preco.bronze         = value.valor;
+                vm.preco.bronze         = parseFloat(value.valor);
                 vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia    = value.franquia;
                 vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
@@ -145,7 +189,7 @@
               case 'Prata':
                 vm.adesao              = value.adesao;
                 vm.franquia            = value.franquia;
-                vm.preco.prata         = value.valor;
+                vm.preco.prata         = parseFloat(value.valor);
                 vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia   = value.franquia;
                 vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
@@ -154,7 +198,7 @@
               case 'Ouro':
                 vm.adesao             = value.adesao;
                 vm.franquia           = value.franquia;
-                vm.preco.ouro         = value.valor;
+                vm.preco.ouro         = parseFloat(value.valor);
                 vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia  = value.franquia;
                 vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
@@ -201,7 +245,7 @@
               case 'Bronze':
                 vm.adesao               = value.adesao;
                 vm.franquia             = value.franquia;
-                vm.preco.bronze         = value.valor;
+                vm.preco.bronze         = parseFloat(value.valor);
                 vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia    = value.franquia;
                 vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
@@ -210,7 +254,7 @@
               case 'Prata':
                 vm.adesao              = value.adesao;
                 vm.franquia            = value.franquia;
-                vm.preco.prata         = value.valor;
+                vm.preco.prata         = parseFloat(value.valor);
                 vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia   = value.franquia;
                 vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
@@ -219,7 +263,7 @@
               case 'Ouro':
                 vm.adesao             = value.adesao;
                 vm.franquia           = value.franquia;
-                vm.preco.ouro         = value.valor;
+                vm.preco.ouro         = parseFloat(value.valor);
                 vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia  = value.franquia;
                 vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
@@ -267,7 +311,7 @@
               case 'Bronze':
                 vm.adesao               = value.adesao;
                 vm.franquia             = value.franquia;
-                vm.preco.bronze         = value.valor;
+                vm.preco.bronze         = parseFloat(value.valor);
                 vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia    = value.franquia;
                 vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
@@ -276,16 +320,16 @@
               case 'Prata':
                 vm.adesao              = value.adesao;
                 vm.franquia            = value.franquia;
-                vm.preco.prata         = value.valor;
+                vm.preco.prata         = parseFloat(value.valor);
                 vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia   = value.franquia;
-                vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
+                vm.envelope.valorPrata = $filter('currency')(parseFloat(value.valor), 'R$ ');
                 break;
 
               case 'Ouro':
                 vm.adesao             = value.adesao;
                 vm.franquia           = value.franquia;
-                vm.preco.ouro         = value.valor;
+                vm.preco.ouro         = parseFloat(value.valor);
                 vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia  = value.franquia;
                 vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
@@ -333,7 +377,7 @@
               case 'Bronze':
                 vm.adesao               = value.adesao;
                 vm.franquia             = value.franquia;
-                vm.preco.bronze         = value.valor;
+                vm.preco.bronze         = parseFloat(value.valor);
                 vm.envelope.adesao      = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia    = value.franquia;
                 vm.envelope.valorBronze = $filter('currency')(value.valor, 'R$ ');
@@ -342,7 +386,7 @@
               case 'Prata':
                 vm.adesao              = value.adesao;
                 vm.franquia            = value.franquia;
-                vm.preco.prata         = value.valor;
+                vm.preco.prata         = parseFloat(value.valor);
                 vm.envelope.adesao     = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia   = value.franquia;
                 vm.envelope.valorPrata = $filter('currency')(value.valor, 'R$ ');
@@ -351,7 +395,7 @@
               case 'Ouro':
                 vm.adesao             = value.adesao;
                 vm.franquia           = value.franquia;
-                vm.preco.ouro         = value.valor;
+                vm.preco.ouro         = parseFloat(value.valor);
                 vm.envelope.adesao    = $filter('currency')(value.adesao, 'R$ ');
                 vm.envelope.franquia  = value.franquia;
                 vm.envelope.valorOuro = $filter('currency')(value.valor, 'R$ ');
@@ -399,27 +443,34 @@
       }
     }
 
+    /**
+     * @function Contratar
+     * @desc Salva as informações da cotacao, o plano escolhido e os opcionais.
+     * Depois envio o usuario para digitar os dados pessoais
+     * @memberof CotacaoController
+     */
     function Contratar() {
       vm.carregando = true;
       $('.bs-example-modal-lg').modal('hide');
       $('.modal-backdrop').css('display','none');
       $('body').removeClass('modal-open').css('padding-right','0');
+
       var planoEscolhido = {
         'adesao'     : $filter('currency')(vm.adesao, 'R$ '),
         'cotacao'    : $rootScope.usuario.idCotacao,
         'franquia'   : vm.franquia,
         'plano'      : vm.planoEscolhido,
-        'opcionais'  : '', //TODO: Adicionar opcionais
+        'opcionais'  : '',
         'tipoVeiculo': vm.cotacao.tipo,
         'veiculo'    : vm.cotacao.veiculo,
-        'valor'      : $filter('currency')(vm.valorPlano, 'R$ ')
+        'valor'      : $filter('currency')(vm.total, 'R$ ')
       };
+
+      AdicionarOpcionais(planoEscolhido);
 
       $rootScope.usuario.plano      = vm.planoEscolhido;
       $rootScope.usuario.vlorAdesao = vm.adesao;
-      $rootScope.usuario.valorPlano = vm.valorPlano;
-
-      //TODO: Calcular a adesao
+      $rootScope.usuario.valorPlano = vm.total;
 
        $http.post(api + 'planoescolhido', planoEscolhido).then(function (resp) {
         console.info('Plano escolhido salvo ', planoEscolhido);
@@ -554,6 +605,28 @@
     }
 
     /**
+     * @function LimparOpcionais
+     * @desc Limpa as escolhas feitas nos opcionais quando troca de plano
+     * @memberof CotacaoController
+     */
+    function LimparOpcionais() {
+      vm.opcionais = {
+        'carroReserva': 0.00,
+        'rastreador'  : 0.00,
+        'reboque'     : 0.00,
+        'vidros'      : 0.00
+      };
+      vm.opcionaisMoto = {
+        'hospital'   : false,
+        'motoReserva': 0.00,
+        'seguro'     : false,
+        'vidros'     : 0.00
+      };
+
+      vm.total =  vm.preco[vm.planoEscolhido];
+    }
+
+    /**
      * @function SalvarCotacao
      * @desc Salva os dados da cotação no banco de dados
      * @memberof CotacaoController
@@ -561,6 +634,7 @@
     function SalvarCotacao() {
       $http.get(projectDev + 'php/ipvisitor.php').then(function (resp) {
 
+        // Salva as informacoes para enviar para o BD
         vm.cotacao.adesao   = $filter('currency')(vm.adesao, 'R$ ');
         vm.cotacao.fipe     = $rootScope.usuario.codigoTabelaFipe;
         vm.cotacao.franquia = vm.franquia;
@@ -590,8 +664,35 @@
       });
     }
 
-    function SalvarPepidrive(){
+    function SalvarPepidrive() {
       //TODO: Salvar no pepidrive
+    }
+
+    /**
+     * @function SomarTotal
+     * @desc Soma o valor do plano escolhido com os opcionais escolhidos
+     * @memberof CotacaoController
+     */
+    function SomarTotal() {
+      /**
+       * Reseta o valor do total baseado no plano
+       * Evita erro quando o usuario troca de plano
+       */
+      vm.total =  vm.preco[vm.planoEscolhido];
+
+      vm.total +=
+        vm.opcionaisMoto.vidros +
+        vm.opcionaisMoto.motoReserva +
+        vm.opcionais.carroReserva +
+        vm.opcionais.vidros +
+        vm.opcionais.rastreador;
+
+        console.log(vm.opcionaisMoto.vidros);
+        console.log(vm.opcionaisMoto.motoReserva);
+        console.log(vm.opcionais.carroReserva);
+        console.log(vm.opcionais.vidros);
+        console.log(vm.opcionais.rastreador);
+        console.log(vm.total);
     }
 
   }
