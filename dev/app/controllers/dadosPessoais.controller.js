@@ -18,12 +18,12 @@
    * @property {object} vm            - A named variable for the `this` keyword representing the ViewModel
    * @property {string} vm.carregando - Controla o loading
    * @property {string} vm.passo      - Dados do veiculo da cotacao
-   * @property {string} vm.usuario    - dados do usuario
+   * @property {string} vm.usuario    - Dados do usuario
    *
    * @param {service}  $http      - Usado para comunicação HTTP {@link https://docs.angularjs.org/api/ng/service/$http}
    * @param {service}  $rootScope - Escopo principal do angular {@link https://docs.angularjs.org/api/ng/service/$rootScope}
    * @param {service}  $state     - Status da transição {@link https://github.com/angular-ui/ui-router/wiki/Quick-Reference#state-1}
-   * @param {constant} api        - url do api
+   * @param {constant} api        - Url do api
    * @param {service}  consultCEP - Servico para consultar cep
 
    *

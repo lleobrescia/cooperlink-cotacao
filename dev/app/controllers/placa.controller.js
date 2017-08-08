@@ -179,12 +179,7 @@
         PesquisarPlaca(resp.data.url);
       }).catch(function (error) {
         vm.carregando = false;
-        toaster.pop({
-          type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
-          body   : 'Não foi possível completar a requisição.',
-          timeout: 50000
-        });
+        $state.go('fipe');
         console.warn('Erro ao pegar os dados de consulta = >' + error);
       });
     }
