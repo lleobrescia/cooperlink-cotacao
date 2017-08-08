@@ -2,6 +2,7 @@
  * 
  * @property autoprefixer - {@link https://github.com/sindresorhus/gulp-autoprefixer} - Add vendor prefixes to CSS
  * @property concat       - {@link https://github.com/contra/gulp-concat}             - Concatenates js files
+ * @property ftp          - {@link https://github.com/morris/vinyl-ftp}               - Blazing fast vinyl adapter for FTP
  * @property gulp         - {@link http://gulpjs.com/}                                - Tasks runner
  * @property htmlmin      - {@link https://github.com/jonschlinkert/gulp-htmlmin}     - Gulp plugin to minify HTML.
  * @property htmlreplace  - {@link https://github.com/VFK/gulp-html-replace}          - Replace build blocks in HTML. Like useref but done right.
@@ -17,6 +18,7 @@
  */
 var autoprefixer = require('gulp-autoprefixer');
 var concat       = require('gulp-concat');
+var ftp          = require( 'vinyl-ftp' );
 var gulp         = require('gulp');
 var htmlmin      = require('gulp-htmlmin');
 var htmlreplace  = require('gulp-html-replace');
@@ -64,6 +66,16 @@ var paths = {
     views : 'dis/views/'
   }
 };
+
+function GetFtpConnection() {
+  return ftp.create({
+    host: 'ftp.multiplicarbrasil.com.br',
+    user: 'multi721',
+    password: 'u3l4oe9DU2',
+    parallel: 5,
+    log: util.log
+  });
+}
 
 gulp.task('default', ['html', 'img', 'js', 'php', 'vendor', 'views', 'css', 'watch']);
 
@@ -219,6 +231,8 @@ gulp.task('views', function () {
  * @desc 'Vigia' todos os arquivos. Havendo modificação executa sua respectiva task
  */
 gulp.task('watch', function () {
+  var conn = GetFtpConnection();
+
   gulp.watch(paths.dev.css, ['css']);
   gulp.watch(paths.dev.js, ['js']);
   gulp.watch(paths.dev.html, ['html']);
@@ -226,4 +240,12 @@ gulp.task('watch', function () {
   gulp.watch(paths.dev.vendor, ['vendor']);
   gulp.watch(paths.dev.img, ['img']);
   gulp.watch(paths.dev.php, ['php']);
+  gulp.watch(paths.dis.origin + '**/*').on('change', function (event) {
+    console.log('Uploading file "' + event.path + '", ' + event.type);
+
+    gulp.src([event.path], { base: './dis/', buffer: false })
+      .pipe(conn.newer('/sistemanovo')) // only upload newer files 
+      .pipe(conn.dest('/public_html/sistemanovo'));
+
+  });
 });
