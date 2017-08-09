@@ -5,7 +5,7 @@
     .module('app')
     .config(RouteConfig);
 
-  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'projectDir'];
+  RouteConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
 
   /**
    * @ngdoc config
@@ -22,7 +22,7 @@
    * @see Veja [Angular DOC]    {@link https://ui-router.github.io/ng1/} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#routing} Para melhores praticas
    */
-  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider, projectDir) {
+  function RouteConfig($stateProvider, $locationProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
 
@@ -30,37 +30,37 @@
       .state('placa', {
         controller: 'PlacaController',
         controllerAs: 'placa',
-        templateUrl: projectDir + 'views/placa.html',
-        url: '/'
+        templateUrl: 'placa.html',
+        url: '/' 
       })
       .state('fipe', {
         controller: 'SemPlacaController',
         controllerAs: 'placa',
-        templateUrl: projectDir + 'views/fipe.html',
+        templateUrl: 'fipe.html',
         url: '/placa-nao-encontrada'
       })
       .state('cotacao', {
         controller: 'CotacaoController',
         controllerAs: 'cotacao',
-        templateUrl: projectDir + 'views/cotacao.html',
+        templateUrl: 'cotacao.html',
         url: '/cotacao'
       })
       .state('dados', {
         controller: 'DadosPessoaisController',
         controllerAs: 'dados',
-        templateUrl: projectDir + 'views/dadosPessoais.html',
+        templateUrl: 'dadosPessoais.html',
         url: '/dados-pessoais'
       })
       .state('contrato', {
         controller: 'ContratoController',
         controllerAs: 'contrato',
-        templateUrl: projectDir + 'views/contrato.html',
+        templateUrl: 'contrato.html',
         url: '/contrato'
       })
       .state('checkout', {
         controller: 'CheckoutController',
         controllerAs: 'checkout',
-        templateUrl: projectDir + 'views/checkout.html',
+        templateUrl: 'checkout.html',
         url: '/checkout'
       });
   }

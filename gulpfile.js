@@ -16,24 +16,25 @@
  * @property uglify       - {@link https://github.com/terinjokes/gulp-uglify}         - Minify JavaScript with UglifyJS3.
  * @property util         - {@link https://github.com/gulpjs/gulp-util}               - Utility functions for gulp plugins
  */
-var autoprefixer = require('gulp-autoprefixer');
-var concat       = require('gulp-concat');
-var ftp          = require( 'vinyl-ftp' );
-var gulp         = require('gulp');
-var htmlmin      = require('gulp-htmlmin');
-var htmlreplace  = require('gulp-html-replace');
-var imagemin     = require('gulp-imagemin');
-var minifyCss    = require('gulp-clean-css');
-var ngAnnotate   = require('gulp-ng-annotate');
-var phpMinify    = require('@aquafadas/gulp-php-minify');
-var plumber      = require('gulp-plumber');
-var rename       = require('gulp-rename');
-var replace      = require('gulp-replace');
-var replacePhp   = require('gulp-replace-task');
-var shell        = require('gulp-shell');
-var stripDebug   = require('gulp-strip-debug');
-var uglify       = require('gulp-uglify');
-var util         = require('gulp-util');
+var autoprefixer  = require('gulp-autoprefixer');
+var concat        = require('gulp-concat');
+var ftp           = require( 'vinyl-ftp' );
+var gulp          = require('gulp');
+var htmlmin       = require('gulp-htmlmin');
+var htmlreplace   = require('gulp-html-replace');
+var imagemin      = require('gulp-imagemin');
+var minifyCss     = require('gulp-clean-css');
+var ngAnnotate    = require('gulp-ng-annotate');
+var phpMinify     = require('@aquafadas/gulp-php-minify');
+var plumber       = require('gulp-plumber');
+var rename        = require('gulp-rename');
+var replace       = require('gulp-replace');
+var replacePhp    = require('gulp-replace-task');
+var shell         = require('gulp-shell');
+var stripDebug    = require('gulp-strip-debug');
+var uglify        = require('gulp-uglify');
+var util          = require('gulp-util');
+var templateCache = require('gulp-angular-templatecache');
 
 var names = {
   js    : 'app.js',
@@ -62,8 +63,7 @@ var paths = {
     js    : 'dis/js/',
     origin: 'dis/',
     php   : 'dis/php/',
-    vendor: 'dis/js/vendor',
-    views : 'dis/views/'
+    vendor: 'dis/js/vendor'
   }
 };
 
@@ -77,7 +77,7 @@ function GetFtpConnection() {
   });
 }
 
-gulp.task('default', ['html', 'img', 'js', 'php', 'vendor', 'views', 'css', 'watch']);
+gulp.task('default', ['html', 'img', 'templates', 'php', 'vendor', 'css', 'watch']);
 
 gulp.task('css', function () {
   return gulp.src(paths.dev.css)
@@ -125,6 +125,7 @@ gulp.task('html', function () {
     .pipe(plumber())
     .pipe(htmlreplace({
       'app': 'js/' + names.js,
+      'templates': 'js/app.templates.js',
       'base': {
         src: paths.serverBase,
         tpl: '<base href="%s">'
@@ -212,17 +213,11 @@ gulp.task('vendor', function () {
     .on('error', util.log);
 });
 
-/**
- * @task views
- * @desc Concatena os html
- */
-gulp.task('views', function () {
+gulp.task('templates', function () {
   return gulp.src(paths.dev.views)
     .pipe(plumber())
-    .pipe(htmlmin({
-      collapseWhitespace: true
-    }))
-    .pipe(gulp.dest(paths.dis.views))
+    .pipe(templateCache('app.templates.js',{standalone:true }))
+    .pipe(gulp.dest(paths.dis.js))
     .on('error', util.log);
 });
 
@@ -236,7 +231,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.dev.css, ['css']);
   gulp.watch(paths.dev.js, ['js']);
   gulp.watch(paths.dev.html, ['html']);
-  gulp.watch(paths.dev.views, ['views']);
+  gulp.watch(paths.dev.views, ['templates', 'js']);
   gulp.watch(paths.dev.vendor, ['vendor']);
   gulp.watch(paths.dev.img, ['img']);
   gulp.watch(paths.dev.php, ['php']);

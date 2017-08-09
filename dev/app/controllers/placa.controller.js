@@ -5,7 +5,7 @@
     .module('app')
     .controller('PlacaController', PlacaController);
 
-  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster', 'projectDir', 'projectDev'];
+  PlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'conversorService', 'toaster', 'projectDev'];
 
   /**
    * @ngdoc controller
@@ -35,7 +35,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster, projectDir, projectDev) {
+  function PlacaController($http, $rootScope, $state, CheckConditionService, api, conversorService, toaster, projectDev) {
     var vm = this;
     var consulta = {
       "xml": {

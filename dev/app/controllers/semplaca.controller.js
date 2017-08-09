@@ -5,7 +5,7 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'projectDir'];
+  SemPlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'fipeService', 'toaster'];
 
   /**
    * @ngdoc controller
@@ -38,12 +38,11 @@
    * @param {constant} api                     - url do api
    * @param {service}  fipeService             - Serviço para consulta na tabela fipe
    * @param {service}  toaster                 - Seviço para mostrar mensagens
-   * @param {constant} projectDir              - Nome do diretorio do projeto
    *
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function SemPlacaController($http, $rootScope, $state, CheckConditionService, api, fipeService, toaster, projectDir) {
+  function SemPlacaController($http, $rootScope, $state, CheckConditionService, api, fipeService, toaster) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -58,12 +57,7 @@
     };
 
     vm.anoEscolhido    = '';
-    vm.caminho1        = projectDir + 'views/fipe/passo1.html';
-    vm.caminho2        = projectDir + 'views/fipe/passo2.html';
-    vm.caminho3        = projectDir + 'views/fipe/passo3.html';
-    vm.caminho4        = projectDir + 'views/fipe/passo4.html';
     vm.carregando      = true;
-    vm.diretorio       = projectDir;
     vm.fipePasso       = 'passo1';
     vm.isUber          = false;
     vm.listaAnos       = [];

@@ -22,7 +22,8 @@
     'ngAnimate',
     'ui.router',
     'ngMessages',
-    'toaster'
+    'toaster',
+    'templates'
   ]);
 })();
 
