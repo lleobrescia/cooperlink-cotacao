@@ -124,7 +124,7 @@ gulp.task('html', function () {
   return gulp.src(paths.dev.html)
     .pipe(plumber())
     .pipe(htmlreplace({
-      'app': 'js/' + names.jsMin,
+      'app': 'js/' + names.js,
       'base': {
         src: paths.serverBase,
         tpl: '<base href="%s">'

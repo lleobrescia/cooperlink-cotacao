@@ -56,6 +56,12 @@
         controllerAs: 'contrato',
         templateUrl: projectDir + 'views/contrato.html',
         url: '/contrato'
+      })
+      .state('checkout', {
+        controller: 'CheckoutController',
+        controllerAs: 'checkout',
+        templateUrl: projectDir + 'views/checkout.html',
+        url: '/checkout'
       });
   }
 })();

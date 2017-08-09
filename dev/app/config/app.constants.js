@@ -12,6 +12,7 @@
   angular
     .module('app')
     .constant('api', 'http://localhost/multiplicar/cotacao/api.php/')
+    .constant('PagSeguroDirectPayment', PagSeguroDirectPayment)
     .constant('projectDir', 'dis/')
     .constant('projectDev', 'dev/')
     .constant('rastreadorCarro', 20000)
