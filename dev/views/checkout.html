@@ -22,7 +22,7 @@
 
           <label class="control-label" for="cpf">CPF do tituar</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required mask="999.999.999-99">
+            <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-br-phone-number>
           </div>
           <!--input-group-->
 
@@ -34,7 +34,7 @@
 
           <label class="control-label" for="tel">Telefone</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required mask="(99) 9?9999-9999">
+            <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-br-cep-mask>
           </div>
           <!--input-group-->
 
@@ -107,8 +107,8 @@
 
           <label class="control-label" for="cartao">Número do cartão</label>
           <div class="form-group">
-            <input class="form-control input-lg cartao" ng-style="checkout.imgBrand" name="cartao" ng-keyup="checkout.GetBrand()" ng-maxlength="checkout.cartaoNumberMax"
-              ng-model="checkout.cardDados.cardNumber" type="text" required>
+            <input class="form-control input-lg cartao" name="cartao" ng-keyup="checkout.GetBrand()" ng-maxlength="checkout.cartaoNumberMax"
+              ng-model="checkout.cardDados.cardNumber" ng-style="checkout.imgBrand" type="text" required>
           </div>
           <!--input-group-->
 
@@ -118,7 +118,7 @@
             <div class="col-sm-6">
               <label class="control-label" for="cidade">Data de expiração</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ng-required="checkout.validador.config.hasDueDate"
+                <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ui-date-mask="MM/YYYY" ng-required="checkout.validador.config.hasDueDate"
                   type="text">
               </div>
               <!--form-group-->
