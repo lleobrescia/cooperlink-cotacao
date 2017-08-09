@@ -77,7 +77,7 @@ function GetFtpConnection() {
   });
 }
 
-gulp.task('default', ['html', 'img', 'templates', 'php', 'vendor', 'css', 'watch']);
+gulp.task('default', ['html', 'img', 'templates', 'js', 'php', 'vendor', 'css', 'watch']);
 
 gulp.task('css', function () {
   return gulp.src(paths.dev.css)
@@ -231,7 +231,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.dev.css, ['css']);
   gulp.watch(paths.dev.js, ['js']);
   gulp.watch(paths.dev.html, ['html']);
-  gulp.watch(paths.dev.views, ['templates', 'js']);
+  gulp.watch(paths.dev.views, ['templates']);
   gulp.watch(paths.dev.vendor, ['vendor']);
   gulp.watch(paths.dev.img, ['img']);
   gulp.watch(paths.dev.php, ['php']);
