@@ -121,7 +121,7 @@
 
             toaster.pop({
               type: 'error',
-              title: 'Erro ao conectar com o servidor',
+              title: 'Erro #801',
               body: 'Não foi possível completar a requisição.',
               timeout: 50000
             });
@@ -129,7 +129,7 @@
         }).catch(function (error) {
           toaster.pop({
             type: 'error',
-            title: 'Erro ao conectar com o servidor',
+            title: 'Erro #702',
             body: 'Não foi possível completar a requisição.',
             timeout: 50000
           });
@@ -254,7 +254,7 @@
             vm.hasBrand = false;
             toaster.pop({
               type: 'error',
-              title: 'Erro ao conectar com o servidor',
+              title: 'Erro #801',
               body: 'Não foi possível completar a requisição.',
               timeout: 50000
             });
@@ -298,7 +298,7 @@
           console.warn('Erro ao pegar os meios de pagamento => ', response);
           toaster.pop({
             type: 'error',
-            title: 'Erro ao conectar com o servidor',
+            title: 'Erro #801',
             body: 'Não foi possível completar a requisição.',
             timeout: 50000
           });
@@ -431,7 +431,7 @@
         vm.carregando = false;
         toaster.pop({
           type: 'error',
-          title: 'Pagamento não realizado',
+          title: 'Pagamento não realizado #801',
           body: 'Erro ao realizar o pagamento. Por favor,tente novamente mais tarde.',
           timeout: 50000
         });

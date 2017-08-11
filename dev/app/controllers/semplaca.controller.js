@@ -114,7 +114,15 @@
 
         vm.carregando = false;
         vm.fipePasso  = 'passo4';
-      });
+      }).catch(function (error) {
+        toaster.pop({
+         type   : 'error',
+         title  : 'Erro #802',
+         body   : 'Não foi possível completar a requisição.',
+         timeout: 50000
+       });
+       console.warn('Passo 3 = >' + error);
+     });
 
     }
 
@@ -142,7 +150,15 @@
 
         vm.fipePasso  = 'passo3';
         vm.carregando = false;
-      });
+      }).catch(function (error) {
+        toaster.pop({
+         type   : 'error',
+         title  : 'Erro #802',
+         body   : 'Não foi possível completar a requisição.',
+         timeout: 50000
+       });
+       console.warn('Erro passo2 = >' + error);
+     });
     }
 
     /**
@@ -233,7 +249,15 @@
             $state.go('cotacao');
           }
         }
-      });
+      }).catch(function (error) {
+        toaster.pop({
+         type   : 'error',
+         title  : 'Erro #802',
+         body   : 'Não foi possível completar a requisição.',
+         timeout: 50000
+       });
+       console.warn('Erro passo 4 = >' + error);
+     });
     }
 
     /**

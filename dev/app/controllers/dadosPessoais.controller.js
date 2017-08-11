@@ -91,7 +91,7 @@
       }).catch(function (error) {
         toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro #701',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });

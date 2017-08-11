@@ -218,7 +218,7 @@
       }).catch(function (error) {
          toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro #701',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });
@@ -284,7 +284,7 @@
       }).catch(function (error) {
          toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro #701',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });
@@ -350,7 +350,7 @@
       }).catch(function (error) {
          toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro #701',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });
@@ -415,7 +415,7 @@
       }).catch(function (error) {
          toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro #701',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });
@@ -481,7 +481,7 @@
       }).catch(function (error) {
         toaster.pop({
           type   : 'error',
-          title  : 'Erro ao enviar a requisição.',
+          title  : 'Erro #701',
           body   : 'Por favor, tente mais tarde.',
           timeout: 50000
         });
@@ -507,7 +507,7 @@
           console.warn('Não foi possivel enviar e-mail = >', resp);
           toaster.pop({
             type   : 'error',
-            title  : 'Erro ao enviar o e-mail',
+            title  : 'Erro ao enviar o e-mail #803',
             body   : 'Por favor, tente mais tarde.',
             timeout: 50000
           });
@@ -523,7 +523,7 @@
       }).catch(function (error) {
         toaster.pop({
           type   : 'error',
-          title  : 'Erro ao enviar o e-mail',
+          title  : 'Erro ao enviar o e-mail #702',
           body   : 'Por favor, tente mais tarde.',
           timeout: 50000
         });
@@ -655,7 +655,7 @@
       }).catch(function (error) {
         toaster.pop({
           type   : 'error',
-          title  : 'Erro ao conectar com o servidor',
+          title  : 'Erro ao conectar com o servidor #702',
           body   : 'Não foi possível completar a requisição.',
           timeout: 50000
         });
