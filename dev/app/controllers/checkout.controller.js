@@ -5,93 +5,61 @@
     .module('app')
     .controller('CheckoutController', CheckoutController);
 
-  CheckoutController.$inject = ['$http', 'projectDev', 'PagSeguroDirectPayment', 'toaster', 'conversorService', 'consultCEP'];
+  CheckoutController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'consultCEP', 'conversorService', 'PagSeguroDirectPayment', 'projectDev', 'toaste'];
 
-  function CheckoutController($http, projectDev, PagSeguroDirectPayment, toaster, conversorService, consultCEP) {
+  function CheckoutController($filter, $http, $rootScope, $state, api, consultCEP, conversorService, PagSeguroDirectPayment, projectDev, toaster) {
     var vm = this;
     var token = '';
     var requisicao = {
-      'payment': {
-        'mode': 'default',
-        'method': 'creditCard',
-        'sender': {
-          'name': '',
-          'email': '',
-          'phone': {
-            'areaCode': '',
-            'number': ''
-          },
-          'documents': {
-            'document': {
-              'type': 'CPF',
-              'value': ''
-            },
-            '#text': ''
-          },
-          'hash': 'abc1234'
-        },
-        'currency': 'BRL',
-        'notificationURL': '',
-        'items': {
-          'item': {
-            'id': '1',
-            'description': 'Descricao do item a ser vendido',
-            'quantity': '1',
-            'amount': '1.00'
-          }
-        },
-        'extraAmount': '0.00',
-        'reference': 'R123456',
-        'shipping': {
-          'address': {
-            'street': '',
-            'number': '',
-            'complement': '',
-            'district': '',
-            'city': '',
-            'state': '',
-            'country': 'BRA',
-            'postalCode': ''
-          },
-          'type': '3',
-          'cost': '0.00'
-        },
-        '#text': ' 1',
-        'creditCard': {
-          'token': '',
-          'installment': {
-            'quantity': '1',
-            'value': '5.50'
-          },
-          'holder': {
-            'name': '',
-            'documents': {
-              'document': {
-                'type': 'CPF',
-                'value': ''
-              }
-            },
-            'birthDate': '',
-            'phone': {
-              'areaCode': '',
-              'number': ''
-            }
-          },
-          'billingAddress': {
-            'street': '',
-            'number': '',
-            'complement': '',
-            'district': '',
-            'city': '',
-            'state': '',
-            'country': '',
-            'postalCode': ''
-          }
-        }
-      }
+      'email': '',
+      'token': '',
+      'paymentMode': 'default',
+      'paymentMethod': 'creditCard',
+      'receiverEmail': '',
+      'currency': 'BRL',
+      'extraAmount': '',
+      'itemId1': '',
+      'itemDescription1': '',
+      'itemAmount1': '',
+      'itemQuantity1': '1',
+      'notificationURL': '',
+      'reference': '',
+      'senderName': '',
+      'senderCPF': '',
+      'senderAreaCode': '',
+      'senderPhone': '',
+      'senderEmail': '',
+      'senderHash': '',
+      'shippingAddressStreet': '',
+      'shippingAddressNumber': '',
+      'shippingAddressComplement': '',
+      'shippingAddressDistrict': '',
+      'shippingAddressPostalCode': '',
+      'shippingAddressCity': '',
+      'shippingAddressState': '',
+      'shippingAddressCountry': 'BRA',
+      'shippingType': '',
+      'shippingCost': '',
+      'creditCardToken': '',
+      'installmentQuantity': '1',
+      'installmentValue': '',
+      'creditCardHolderName': '',
+      'creditCardHolderCPF': '',
+      'creditCardHolderBirthDate': '',
+      'creditCardHolderAreaCode': '',
+      'creditCardHolderPhone': '',
+      'billingAddressStreet': '',
+      'billingAddressNumber': '',
+      'billingAddressComplement': '',
+      'billingAddressDistrict': '',
+      'billingAddressPostalCode': '',
+      'billingAddressCity': '',
+      'billingAddressState': '',
+      'billingAddressCountry': 'BRA'
     };
 
     vm.acceptedCreditCard = [];
+    vm.aniversario = '';
     vm.carregando = true;
     vm.cardDados = {
       'cardNumber': '',
@@ -99,17 +67,13 @@
       'cvv': '',
       'expirationMonth': '',
       'expirationYear': '',
-      'success': function (resp) {
-        console.log(resp);
-      },
-      'error': function (resp) {
-        console.log(resp);
-      }
+      'success': '',
+      'error': ''
     };
-    vm.cartaoNumberMax = 10;
-    vm.dataCartao = '';
+    vm.cardToken = '';
     vm.expericaoCartao = '';
     vm.hasBrand = false;
+    vm.hasPaid = false;
     vm.imgBrand = '';
     vm.usuario = {
       'bairro': '',
@@ -135,48 +99,125 @@
     ////////////////
 
     function Activate() {
-      $http.get(projectDev + 'php/getID.php').then(function (resp) {
-        var retorno = $.parseXML(resp.data);
-        token = $(retorno).find('id')[0].textContent || null;
+      if (!$rootScope.usuario) {
+        $state.go('placa');
+      } else {
+        GetDadosUsuario();
+        console.log('Globas => ', $rootScope);
 
-        console.log('Retorno => ', retorno);
-        console.log('ID =>', token);
+        $http.get(projectDev + 'php/getID.php').then(function (resp) {
+          var retorno = $.parseXML(resp.data);
+          token = $(retorno).find('id')[0].textContent || null;
 
-        if (token) {
-          vm.carregando = false;
-          PagSeguroDirectPayment.setSessionId(token);
-          GetMeiosPagamento();
-        } else {
-          console.warn('Pagseguro retornou null');
+          console.log('Retorno => ', retorno);
+          console.log('ID =>', token);
 
+          if (token) {
+            vm.carregando = false;
+            PagSeguroDirectPayment.setSessionId(token);
+            GetMeiosPagamento();
+          } else {
+            console.warn('Pagseguro retornou null');
+
+            toaster.pop({
+              type: 'error',
+              title: 'Erro ao conectar com o servidor',
+              body: 'Não foi possível completar a requisição.',
+              timeout: 50000
+            });
+          }
+        }).catch(function (error) {
           toaster.pop({
             type: 'error',
             title: 'Erro ao conectar com o servidor',
             body: 'Não foi possível completar a requisição.',
             timeout: 50000
           });
-        }
-      }).catch(function (error) {
-
-        toaster.pop({
-          type: 'error',
-          title: 'Erro ao conectar com o servidor',
-          body: 'Não foi possível completar a requisição.',
-          timeout: 50000
+          console.warn('Erro ao buscar dados do pagseguro = >' + error);
         });
-        console.warn('Erro ao buscar dados do pagseguro = >' + error);
-      });
+      }
 
     }
 
-    function CreateCardToken() {}
+    function CheckErrosCartao(erros) {
+      var lista = [];
+      erros = conversorService.Xml2Json(erros);
+      erros = erros.replace('undefined', '');
+      erros = JSON.parse(erros);
+
+      angular.forEach(erros.errors.error, function (value, key) {
+        if (!lista.includes(value.code)) {
+          switch (value.code) {
+            case '53019' || '53050':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'DDD inválido.',
+                timeout: 50000
+              });
+              lista.push('53019');
+              lista.push('53050');
+              break;
+            case '53015' || '53044':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Por favor, digite o nome completo.',
+                timeout: 50000
+              });
+              lista.push('53015');
+              lista.push('53044');
+              break;
+            default:
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Verifique os dados e tente novamente.',
+                timeout: 50000
+              });
+              break;
+          }
+        }
+      });
+      vm.carregando = false;
+    }
+
+    function CreateCardToken() {
+      vm.carregando = true;
+
+      vm.cardDados.expirationMonth = $filter('date')(vm.expericaoCartao, 'MM');
+      vm.cardDados.expirationYear = $filter('date')(vm.expericaoCartao, 'yyyy');
+
+      console.log('Dados do cartao =>', vm.cardDados);
+
+      vm.cardDados.success = function (resp) {
+        console.log('CreateCardToken =>', resp);
+
+        requisicao.creditCardToken = resp.card.token;
+        PagarCreditCard();
+      };
+      vm.cardDados.error = function (resp) {
+        vm.carregando = false;
+        console.warn('CreateCardToken =>', resp);
+
+        toaster.pop({
+          type: 'error',
+          title: 'Erro com o cartão',
+          body: 'Cartão inválido.',
+          timeout: 50000
+        });
+      };
+
+      console.log('Dados do cartao =>', vm.cardDados);
+      PagSeguroDirectPayment.createCardToken(vm.cardDados);
+    }
 
     function EnviarEmail() {
       // TODO: Enviar email de confirmacao de pagamento
     }
 
     function GetBrand() {
-      if (vm.cardDados.cardNumber.length > 7) {
+      if (vm.cardDados.cardNumber.length >= 6) {
         PagSeguroDirectPayment.getBrand({
           cardBin: vm.cardDados.cardNumber,
           success: function (resp) {
@@ -189,6 +230,7 @@
              */
             var cartaoNome = resp.brand.name;
             cartaoNome = cartaoNome.toUpperCase();
+            vm.cardDados.brand = resp.brand.name;
 
             console.log('Brand name => ', cartaoNome);
 
@@ -199,7 +241,6 @@
             if (cartaoValid === 'AVAILABLE') {
               console.info('Cartao Valido');
 
-              vm.cartaoNumberMax = resp.brand.config.acceptedLengths['0']; // Limita o numero de digitos do input do cartao
               vm.hasBrand = true; // Mostra os campos restantes do cartao
               vm.imgBrand = {
                 'background-image': 'url(https://stc.pagseguro.uol.com.br' + vm.acceptedCreditCard[cartaoNome].images.MEDIUM.path + ')'
@@ -208,10 +249,15 @@
             } else {
               vm.hasBrand = false;
             }
-
           },
           error: function (resp) {
             vm.hasBrand = false;
+            toaster.pop({
+              type: 'error',
+              title: 'Erro ao conectar com o servidor',
+              body: 'Não foi possível completar a requisição.',
+              timeout: 50000
+            });
             console.warn('Erro ao pegar o brand => ', resp);
           }
         });
@@ -232,6 +278,14 @@
       }
     }
 
+    function GetDadosUsuario() {
+      $http.get(api + 'cliente/' + $rootScope.usuario.idUsuario).then(function (resp) {
+        console.log('cliente => ', resp);
+        vm.usuario = resp.data;
+        console.log('usuario => ', vm.usuario);
+      });
+    }
+
     function GetMeiosPagamento() {
       PagSeguroDirectPayment.getPaymentMethods({
         amount: 100,
@@ -242,13 +296,147 @@
         },
         error: function (response) {
           console.warn('Erro ao pegar os meios de pagamento => ', response);
-          //tratamento do erro  
+          toaster.pop({
+            type: 'error',
+            title: 'Erro ao conectar com o servidor',
+            body: 'Não foi possível completar a requisição.',
+            timeout: 50000
+          });
         }
       });
     }
 
     function PagarCreditCard() {
+      var tel = vm.usuario.telefone;
 
+      // Dados do plano
+      requisicao.itemId1 = $rootScope.usuario.idCotacao;
+      requisicao.itemDescription1 = 'Adesão do plano ' + $rootScope.usuario.plano + '. Para o modelo ' + $rootScope.usuario.modelo;
+      requisicao.itemAmount1 = requisicao.installmentValue = ($filter('number')($rootScope.usuario.vlorAdesao, 2)).replace(',', '.');
+      requisicao.reference = $rootScope.usuario.idUsuario;
+
+      // Dados do comprador
+      requisicao.senderName = requisicao.creditCardHolderName = vm.usuario.nome;
+      requisicao.senderCPF = requisicao.creditCardHolderCPF = vm.usuario.cpf;
+      requisicao.senderAreaCode = requisicao.creditCardHolderAreaCode = tel.substring(0, 2);
+      requisicao.senderPhone = requisicao.creditCardHolderPhone = tel.slice(2);
+      requisicao.senderEmail = vm.usuario.email;
+      requisicao.senderHash = PagSeguroDirectPayment.getSenderHash();
+      requisicao.creditCardHolderBirthDate = $filter('date')(vm.aniversario, 'dd/MM/yyyy');
+
+      //Endereco
+      requisicao.shippingAddressStreet = requisicao.billingAddressStreet = vm.usuario.logradouro;
+      requisicao.shippingAddressNumber = requisicao.billingAddressNumber = vm.usuario.numero;
+      requisicao.shippingAddressComplement = requisicao.billingAddressComplement = vm.usuario.complemento;
+      requisicao.shippingAddressDistrict = requisicao.billingAddressDistrict = vm.usuario.bairro;
+      requisicao.shippingAddressPostalCode = requisicao.billingAddressPostalCode = vm.usuario.cep;
+      requisicao.shippingAddressCity = requisicao.billingAddressCity = vm.usuario.cidade;
+      requisicao.shippingAddressState = requisicao.billingAddressState = vm.usuario.estado;
+
+      console.log('Requisisao => ', requisicao);
+
+      $http({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'charset=ISO-8859-1'
+        },
+        data: requisicao,
+        url: projectDev + 'php/pagar.php'
+      }).then(function (resp) {
+        var retorno = $.parseXML(resp.data);
+        console.log('Resposta pagamento cartao =>', resp);
+        console.log(retorno);
+
+        var transacao = {
+          'cliente': '',
+          'codigo': '',
+          'criacao': '',
+          'descricao': '',
+          'pagamento': '',
+          'status': '',
+          'valor': ''
+        };
+        var erros = $(retorno).find('errors').find('error') || null;
+
+        if (erros.length > 0) {
+          console.warn('Erros => ', erros);
+          CheckErrosCartao(resp.data);
+        } else {
+          var status = '';
+          var hoje = new Date();
+          var pagamento = '';
+
+          switch ($(retorno).find('transaction').find('status')[0].textContent) {
+            case '1':
+              status = 'Aguardando pagamento';
+              break;
+            case '2':
+              status = 'Em análise';
+              break;
+            case '3':
+              status = 'Paga';
+              break;
+            case '4':
+              status = 'Disponível';
+              break;
+            case '5':
+              status = 'Em disputa';
+              break;
+            case '6':
+              status = 'Devolvida';
+              break;
+            case '7':
+              status = 'Cancelada';
+              break;
+            case '8':
+              status = 'Debitado';
+              break;
+            case '9':
+              status = 'Retenção temporária';
+              break;
+            default:
+              break;
+          }
+
+          switch ($(retorno).find('transaction').find('paymentMethod').find('type')[0].textContent) {
+            case '1':
+              pagamento = 'Cartão de crédito';
+              break;
+            case '2':
+              pagamento = 'Boleto';
+              break;
+            default:
+              break;
+          }
+
+          transacao.cliente = $(retorno).find('transaction').find('reference')[0].textContent || null;
+          transacao.codigo = $(retorno).find('transaction').find('code')[0].textContent || null;
+          transacao.criacao = $filter('date')(hoje, 'yyyy-MM-dd HH:mm:ss', '+0300');
+          transacao.descricao = $(retorno).find('transaction').find('items').find('item').find('description')[0].textContent || null;
+          transacao.pagamento = pagamento;
+          transacao.status = status;
+          transacao.valor = $(retorno).find('transaction').find('items').find('item').find('amount')[0].textContent || null;
+
+          $http.post(api + 'transacao', transacao).then(function (resp) {
+            vm.carregando = false;
+            vm.hasPaid = true;
+          }).catch(function (error) {
+            vm.carregando = false;
+            vm.hasPaid = true;
+            //TODO: Enviar um email para o admin avisando
+            console.warn('Erro ao salvar no BD = >' + error);
+          });
+        }
+      }).catch(function (error) {
+        vm.carregando = false;
+        toaster.pop({
+          type: 'error',
+          title: 'Pagamento não realizado',
+          body: 'Erro ao realizar o pagamento. Por favor,tente novamente mais tarde.',
+          timeout: 50000
+        });
+        console.warn('Erro ao pagar = >' + error);
+      });
     }
   }
 })();

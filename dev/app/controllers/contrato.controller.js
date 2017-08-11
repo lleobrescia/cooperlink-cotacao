@@ -11,6 +11,8 @@
     var vm = this;
 
 
+    vm.Contratar = Contratar;
+
     Activate();
 
     ////////////////
@@ -20,6 +22,10 @@
       if (!$rootScope.usuario) {
         $state.go('placa');
       }
+    }
+
+    function Contratar() {
+      $state.go('checkout');
     }
   }
 })();

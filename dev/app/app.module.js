@@ -23,7 +23,8 @@
     'ui.router',
     'ngMessages',
     'toaster',
-    'templates'
+    'templates',
+    'ui.mask'
   ]);
 })();
 

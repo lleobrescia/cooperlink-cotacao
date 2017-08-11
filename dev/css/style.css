@@ -176,8 +176,8 @@ body {
 }
 
 .header span {
-  font-size: 0.875em;
   display: inline-block;
+  font-size: 0.875em;
 }
 
 @media(min-width:27.625em) {
@@ -574,6 +574,7 @@ body {
 }
 
 .form__passo .form-control:focus {
+  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -581,6 +582,9 @@ body {
   background-color: #41c4ec;
   border: none;
   border-bottom: solid 7px #12386a;
+  height: 94px;
+  min-width: 66px;
+  position: relative;
 }
 
 .form__passo .input-group-addon:hover {
@@ -592,6 +596,11 @@ body {
   border: none;
   color: #1a4783;
   font-size: 2.500em;
+  height: 94px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 66px;
 }
 
 .form__passo .input-group-addon button:focus {

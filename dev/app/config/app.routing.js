@@ -31,7 +31,7 @@
         controller: 'PlacaController',
         controllerAs: 'placa',
         templateUrl: 'placa.html',
-        url: '/' 
+        url: '/'
       })
       .state('fipe', {
         controller: 'SemPlacaController',
@@ -62,6 +62,11 @@
         controllerAs: 'checkout',
         templateUrl: 'checkout.html',
         url: '/checkout'
+      })
+      .state('resposta', {
+        controller: 'RespostaPagSeguroController',
+        controllerAs: 'resposta',
+        url: '/resposta-pagseguro'
       });
   }
 })();

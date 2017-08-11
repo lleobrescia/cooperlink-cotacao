@@ -11,18 +11,23 @@
 
     <div class="row">
       <div class="col-sm-8 col-sm-offset-2">
+        <div ng-show="checkout.hasPaid">
+          <h2>Pagamento enviado!</h2>
+          <p>Seu pagamento está sendo processado. Por favor, acompanhe seus e-mails para mais informações.</p>
+        </div>
 
-        <form class="form__passo" name="formPasso" ng-hide="checkout.carregando" novalidate>
+        <form class="form__passo" name="formPagamento" ng-hide="checkout.carregando && !checkout.hasPaid" novalidate>
 
-          <label class="control-label" for="nome">Nome completo do tituar</label>
+          <label class="control-label" for="nome">Nome completo do titular</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="nome" ng-model="checkout.usuario.nome" type="text" required>
+            <input class="form-control input-lg" name="nome" ng-model="checkout.usuario.nome" type="text" style="text-transform: capitalize"
+              required>
           </div>
           <!--input-group-->
 
-          <label class="control-label" for="cpf">CPF do tituar</label>
+          <label class="control-label" for="cpf">CPF do titular</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-br-phone-number>
+            <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-mask="999.999.999-99">
           </div>
           <!--input-group-->
 
@@ -34,14 +39,14 @@
 
           <label class="control-label" for="tel">Telefone</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-br-cep-mask>
+            <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-mask="(99) 9?9999-9999">
           </div>
           <!--input-group-->
 
           <label class="control-label" for="cep">CEP</label>
           <div class="form-group">
             <input class="form-control input-lg" name="cep" ng-keyup="checkout.GetCep()" ng-model="checkout.usuario.cep" type="text"
-              mask="99.999-999" required>
+              ui-mask="99.999-999" required>
           </div>
           <!--input-group-->
 
@@ -100,15 +105,20 @@
 
           <label class="control-label" for="nomeCartao">Nome impresso no cartão</label>
           <div class="form-group">
-            <input class="form-control input-lg" name="nomeCartao" ng-model="checkout.requisicao.creditCard.holder.name" type="text"
-              style="text-transform: uppercase" required>
+            <input class="form-control input-lg" name="nomeCartao" ng-model="checkout.requisicao.creditCardHolderName" type="text" style="text-transform: uppercase"
+              required>
           </div>
           <!--input-group-->
-
+          <label class="control-label" for="ani">Data de aniversário do titular</label>
+          <div class="form-group">
+            <input class="form-control input-lg " name="ani" ng-model="checkout.aniversario" type="text" ui-date-mask="DD/MM/YYYY" placeholder="dd/mm/aaaa"
+              required>
+          </div>
+          <!--input-group-->
           <label class="control-label" for="cartao">Número do cartão</label>
           <div class="form-group">
-            <input class="form-control input-lg cartao" name="cartao" ng-keyup="checkout.GetBrand()" ng-maxlength="checkout.cartaoNumberMax"
-              ng-model="checkout.cardDados.cardNumber" ng-style="checkout.imgBrand" type="text" required>
+            <input class="form-control input-lg cartao" name="cartao" ng-keyup="checkout.GetBrand()" ng-model="checkout.cardDados.cardNumber"
+              ng-style="checkout.imgBrand" type="text" required>
           </div>
           <!--input-group-->
 
@@ -118,8 +128,8 @@
             <div class="col-sm-6">
               <label class="control-label" for="cidade">Data de expiração</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ui-date-mask="MM/YYYY" ng-required="checkout.validador.config.hasDueDate"
-                  type="text">
+                <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ng-required="checkout.validador.config.hasDueDate"
+                  type="text" ui-date-mask="MM/YY">
               </div>
               <!--form-group-->
             </div>
@@ -128,7 +138,7 @@
             <div class="col-sm-6">
               <label class="control-label" for="estado">Código de segurança</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="estado" ng-maxlength="checkout.validador.cvvSize" ng-model="checkout.usuario.cvv"
+                <input class="form-control input-lg" name="estado" ng-maxlength="checkout.validador.cvvSize" ng-model="checkout.cardDados.cvv"
                   ng-required="checkout.validador.config.hasCvv" type="text">
               </div>
               <!--form-group-->
@@ -137,7 +147,7 @@
           </div>
           <!-- row -->
           <div class="form-group" style="margin-bottom: 50px;">
-            <button class="btn btn-submit btn-success" ng-click="checkout.CreateCardToken()" type="submit">Finalizar <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i></button>
+            <button class="btn btn-submit btn-success" ng-click="checkout.CreateCardToken()" ng-disabled="formPagamento.$invalid" type="submit">Finalizar <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i></button>
           </div>
           <style>
             .btn-submit {

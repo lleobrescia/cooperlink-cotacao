@@ -50,8 +50,8 @@
               <section class="animate-switch" ng-switch-when="telefone">
                 <label class="control-label text-center" for="tel">Informe seu telefone / Whatsapp</label>
                 <div class="input-group">
-                  <input class="form-control input-lg" name="tel" ng-model="dados.usuario.telefone" type="text" ui-br-phone-number focus-me="dados.focusInput"
-                    required>
+                  <input class="form-control input-lg" name="tel" ng-model="dados.usuario.telefone" type="text" ui-mask="(99) 9?9999-9999"
+                    focus-me="dados.focusInput" required>
                   <div class="input-group-addon">
                     <button ng-click="dados.passo = 'cpf';dados.focusInput = true" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                   </div>
@@ -64,7 +64,7 @@
               <section class="animate-switch" ng-switch-when="cpf">
                 <label class="control-label text-center" for="cpf">Informe seu CPF</label>
                 <div class="input-group">
-                  <input class="form-control input-lg" name="cpf" ng-model="dados.usuario.cpf" type="text" focus-me="dados.focusInput" mask="999.999.999-99"
+                  <input class="form-control input-lg" name="cpf" ng-model="dados.usuario.cpf" type="text" focus-me="dados.focusInput" ui-mask="999.999.999-99"
                     required>
                   <div class="input-group-addon">
                     <button ng-click="dados.passo = 'cep';dados.focusInput = true" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
@@ -79,7 +79,7 @@
                 <label class="control-label text-center" for="cep">Informe o CEP da sua residência</label>
                 <div class="input-group">
                   <input class="form-control input-lg" name="cep" ng-keyup="dados.GetCep()" ng-model="dados.usuario.cep" type="text" focus-me="dados.focusInput"
-                    ui-br-cep-mask required>
+                    ui-mask="99.999-999" required>
                   <div class="input-group-addon">
                     <button ng-click="dados.passo = 'end';dados.focusInput = true" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                   </div>
@@ -146,7 +146,7 @@
                 <!-- row -->
 
                 <div class="form-group" style="margin-bottom: 50px;">
-                  <button class="btn btn-submit btn-success" ng-click="dados.SalvarDados()" type="submit">Finalizar <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i></button>
+                  <button class="btn btn-submit btn-success" ng-click="dados.SalvarDados()" type="submit" ng-disabled="formPasso.$invalid">Finalizar <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i></button>
                 </div>
                 <style>
                   .btn-submit {
@@ -158,7 +158,7 @@
                     font-weight: bold;
                     text-transform: uppercase;
                   }
-                </style>
+                </style> 
 
               </section>
               <!--end-->

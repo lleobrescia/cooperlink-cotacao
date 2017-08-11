@@ -94,7 +94,7 @@
       'seguro'     : false,
       'vidros'     : 0.0
     };
-    vm.opcionaisPopup = 'views/opcionais.html';
+    vm.opcionaisPopup = 'opcionais.html';
     vm.valorFipe      = undefined;
     vm.total          = 0.00;
 
