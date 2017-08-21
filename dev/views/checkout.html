@@ -4,6 +4,7 @@
     <div class="row">
       <div class="col-xs-12 text-center">
         <h1 class="title">Pagamento</h1>
+        <p>O pagamento será processado pelo PagSeguro </p>
       </div>
       <!-- col-xs-12 -->
     </div>
@@ -16,7 +17,7 @@
           <p>Seu pagamento está sendo processado. Por favor, acompanhe seus e-mails para mais informações.</p>
         </div>
 
-        <form class="form__passo" name="formPagamento" ng-hide="checkout.carregando && !checkout.hasPaid" novalidate>
+        <form class="form__passo" name="formPagamento" ng-hide="checkout.carregando || checkout.hasPaid" novalidate>
 
           <label class="control-label" for="nome">Nome completo do titular</label>
           <div class="form-group">
@@ -111,7 +112,7 @@
           <!--input-group-->
           <label class="control-label" for="ani">Data de aniversário do titular</label>
           <div class="form-group">
-            <input class="form-control input-lg " name="ani" ng-model="checkout.aniversario" type="text" ui-date-mask="DD/MM/YYYY" placeholder="dd/mm/aaaa"
+            <input class="form-control input-lg " name="ani" ng-model="checkout.aniversario" type="text" ui-mask="99/99/9999" placeholder="dd/mm/aaaa"
               required>
           </div>
           <!--input-group-->
@@ -162,6 +163,8 @@
           </style>
 
         </form>
+        <img ng-show="!checkout.carregando || !checkout.hasPaid" style="display: block;margin: -20px auto 50px;" src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/avista_estatico_550_70.gif"
+          alt="Logotipos de meios de pagamento do PagSeguro" title="Este site aceita pagamentos com os principais bancos, saldo em conta PagSeguro e boleto.">
         <div class="loader" ng-show="checkout.carregando"></div>
       </div>
       <!--col-sm-8 col-sm-offset-2-->

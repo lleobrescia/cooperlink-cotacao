@@ -5,7 +5,7 @@
     .module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$location', '$anchorScroll', 'projectDir'];
+  MainController.$inject = ['$location', '$anchorScroll', 'projectDir', '$window'];
 
   /**
    * @ngdoc controller
@@ -27,7 +27,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function MainController($location, $anchorScroll, projectDir) {
+  function MainController($location, $anchorScroll, projectDir, $window) {
     var vm = this;
 
     vm.directory = projectDir;
@@ -47,6 +47,10 @@
      */
     function Activate() {
       //TODO: Verificar aonde o usuario parou e continuar
+      console.log($location.protocol());
+      if ($location.protocol() !== 'https') {
+        $window.location.href = $location.absUrl().replace('http', 'https');
+      }
     }
 
     /**

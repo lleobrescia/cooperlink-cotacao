@@ -1,8 +1,9 @@
 <?php
 require('functions.php');
+require ('constants.php');
 require('php_crud_api_transform.php');
 
-$retorno = httpGet("https://multiplicarbrasil.com.br/sistemanovo/api.php/transacao?filter=codigo,eq,1");
+$retorno = httpGet(api."transacao?filter=codigo,eq,1");
 $retorno = json_decode($retorno, true);
 
 $retorno = php_crud_api_transform($retorno);

@@ -5,7 +5,7 @@
     .module('app')
     .controller('CheckoutController', CheckoutController);
 
-  CheckoutController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'consultCEP', 'conversorService', 'PagSeguroDirectPayment', 'projectDev', 'toaste'];
+  CheckoutController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'consultCEP', 'conversorService', 'PagSeguroDirectPayment', 'projectDev', 'toaster'];
 
   function CheckoutController($filter, $http, $rootScope, $state, api, consultCEP, conversorService, PagSeguroDirectPayment, projectDev, toaster) {
     var vm = this;
