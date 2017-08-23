@@ -285,10 +285,11 @@
             modelo      = marcaModelo[1];
 
             //Salva os dados do usuario
-            $rootScope.usuario.data    = $(retorno).find('DataHoraConsulta')[0].textContent;
-            $rootScope.usuario.modelo  = modelo;
-            $rootScope.usuario.preco   = 'R$ ' + $(retorno).find('Precificador').find('Valor')[0].textContent + ',00';
-            $rootScope.usuario.veiculo = veiculo;
+            $rootScope.usuario.data             = $(retorno).find('DataHoraConsulta')[0].textContent;
+            $rootScope.usuario.codigoTabelaFipe = $(retorno).find('Precificador').find('CodigoFipe')[0].textContent;
+            $rootScope.usuario.modelo           = modelo;
+            $rootScope.usuario.preco            = 'R$ ' + $(retorno).find('Precificador').find('Valor')[0].textContent + ',00';
+            $rootScope.usuario.veiculo          = veiculo;
 
             console.log('Dados do usuario => ', $rootScope.usuario);
 
