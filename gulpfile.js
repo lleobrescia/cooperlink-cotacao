@@ -40,7 +40,8 @@ var names = {
   js    : 'app.js',
   jsMin : 'app.min.js',
   css   : 'style.css',
-  cssMin: 'style.min.css'
+  cssMin: 'style.min.css',
+  serverFolder:'sistemanovo'
 };
 var paths = {
   local     : 'http://localhost/multiplicar/cotacao',
@@ -77,7 +78,7 @@ function GetFtpConnection() {
   });
 }
 
-gulp.task('default', ['html', 'img', 'templates', 'js', 'php', 'vendor', 'css', 'watch']);
+gulp.task('default', ['html', 'img', 'templates', 'js', 'php', 'vendor', 'css']);
 
 gulp.task('css', function () {
   return gulp.src(paths.dev.css)
@@ -239,8 +240,8 @@ gulp.task('watch', function () {
     console.log('Uploading file "' + event.path + '", ' + event.type);
 
     gulp.src([event.path], { base: './dis/', buffer: false })
-      .pipe(conn.newer('/sistemanovo')) // only upload newer files 
-      .pipe(conn.dest('/public_html/sistemanovo'));
+      .pipe(conn.newer('/' + names.serverFolder)) // only upload newer files 
+      .pipe(conn.dest('/public_html/' + names.serverFolder));
 
   });
 });
