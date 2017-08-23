@@ -8,5 +8,5 @@ $data['email'] = $emailVendedor;
 $data['token'] = $tokenVendedor;
 
 
-echo httpPost("https://ws.sandbox.pagseguro.uol.com.br/v2/transactions", $data );
+echo httpPost($pagseguro ."v2/transactions", $data );
  

@@ -8,6 +8,6 @@ $params = array(
    "token" => $tokenVendedor
 );
  
-echo httpPost("https://ws.pagseguro.uol.com.br/v2/sessions", $params);
+echo httpPost($pagseguro ."v2/sessions", $params);
 
 ?> 

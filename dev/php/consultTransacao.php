@@ -4,7 +4,7 @@ require('constants.php');
 require('functions.php');
  
 if (isset($_POST['notificationType']) && $_POST['notificationType'] == 'transaction') {
-    $url = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/' . $_POST['notificationCode'] . '?email=' . $emailVendedor . '&token=' . $tokenVendedor;
+    $url = $pagseguro .'/v2/transactions/notifications/' . $_POST['notificationCode'] . '?email=' . $emailVendedor . '&token=' . $tokenVendedor;
 
     $transaction = httpGet($url);
 
