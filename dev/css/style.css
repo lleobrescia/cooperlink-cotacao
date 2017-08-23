@@ -460,7 +460,9 @@ body {
 @media(min-width:75.000em) {
   .assistencia__table {
     background-image: url('../img/casal.png');
-    background-size: cover;
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
   }
 }
 
