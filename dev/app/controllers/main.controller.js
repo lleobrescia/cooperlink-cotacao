@@ -31,7 +31,7 @@
     var vm = this;
 
     vm.directory = projectDir;
-    vm.telefone = '0800 000 000';
+    vm.telefone = '0800 941 5001';
 
     //Atribuicao dos metodos no escopo
     vm.Scroll = Scroll;
