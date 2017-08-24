@@ -375,6 +375,9 @@
               break;
             case '3':
               status = 'Paga';
+              $http.post('php/emailTransacao.php', {
+                'id': $(retorno).find('transaction').find('reference')[0].textContent
+              });
               break;
             case '4':
               status = 'Disponível';

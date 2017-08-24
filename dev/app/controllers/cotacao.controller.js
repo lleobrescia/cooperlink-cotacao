@@ -459,11 +459,14 @@
         'adesao'     : $filter('currency')(vm.adesao, 'R$ '),
         'cotacao'    : $rootScope.usuario.idCotacao,
         'franquia'   : vm.franquia,
+        'fipe'       : $rootScope.usuario.codigoTabelaFipe,
+        'ip'         : vm.cotacao.ip,
         'plano'      : vm.planoEscolhido,
+        'modelo'     : $rootScope.usuario.modelo,
         'opcionais'  : '',
         'tipoVeiculo': vm.cotacao.tipo,
         'veiculo'    : vm.cotacao.veiculo,
-        'valor'      : $filter('currency')(vm.total, 'R$ ')
+        'mensalidade': $filter('currency')(vm.total, 'R$ ')
       };
 
       AdicionarOpcionais(planoEscolhido);
@@ -499,34 +502,16 @@
     function EnviarEmail() {
       console.info('Email enviado.');
 
+      toaster.pop({
+        type   : 'success',
+        body   : 'E-mail enviado.',
+        timeout: 30000
+      });
+
       vm.envelope.to = vm.email;
       vm.email = undefined;
 
-      $http.post(projectDir + 'php/emailCotacao.php', vm.envelope).then(function (resp) {
-        if (resp.data === 'false') {
-          console.warn('Não foi possivel enviar e-mail = >', resp);
-          toaster.pop({
-            type   : 'error',
-            title  : 'Erro ao enviar o e-mail #803',
-            body   : 'Por favor, tente mais tarde.',
-            timeout: 50000
-          });
-        } else if (resp.data === 'true') {
-          console.log('Envelope =>', vm.envelope);
-
-          toaster.pop({
-            type   : 'success',
-            body   : 'E-mail enviado.',
-            timeout: 30000
-          });
-        }
-      }).catch(function (error) {
-        toaster.pop({
-          type   : 'error',
-          title  : 'Erro ao enviar o e-mail #702',
-          body   : 'Por favor, tente mais tarde.',
-          timeout: 50000
-        });
+      $http.post(projectDir + 'php/emailCotacao.php', vm.envelope).catch(function (error) {
         console.warn('Não foi possivel enviar e-mail = >', error);
       });
     }
@@ -635,9 +620,7 @@
       $http.get(projectDev + 'php/ipvisitor.php').then(function (resp) {
 
         // Salva as informacoes para enviar para o BD
-        vm.cotacao.adesao   = $filter('currency')(vm.adesao, 'R$ ');
         vm.cotacao.fipe     = $rootScope.usuario.codigoTabelaFipe;
-        vm.cotacao.franquia = vm.franquia;
         vm.cotacao.ip       = resp.data || null;
         vm.cotacao.modelo   = $rootScope.usuario.modelo;
         vm.cotacao.valor    = $rootScope.usuario.preco;

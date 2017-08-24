@@ -1,6 +1,7 @@
 <?php
 
-$api           = 'https://multiplicarbrasil.com.br/cotacao/api.php/';
+$api           = 'https://multiplicarbrasil.com.br/sistemanovo/api.php/';
+$emailSuporte  = 'leo@basic.com.br';
 $emailVendedor = 'eduardo@multiplicarbrasil.com.br';
 $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';

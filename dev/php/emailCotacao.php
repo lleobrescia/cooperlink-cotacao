@@ -14,9 +14,9 @@
   $to               = $data["to"];
   $subject          = "Sua Cotação [ Multiplicar Brasil ]";
 
-  $headers  = 'MIME-Version: 1.0' . "\r\n";
+  $headers  = 'MIME-Version: 1.0' . "\r\n"; 
   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  $headers .= "From: Moto Fest Oficina <contato@multiplicarbrasil.com.br>" . "\r\n";
+  $headers .= "From: Multiplicar Brasil <contato@multiplicarbrasil.com.br>" . "\r\n";
 
   $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
   <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
@@ -145,7 +145,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; padding-top:20px">
           <tr>
-            <td valign="top"> Franquia do carro '+$franquia+'  </td>
+            <td valign="top"> Franquia do carro '.$franquia.'  </td>
           </tr>
         </table>
       </td>
@@ -240,8 +240,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 55px;border: solid #82ca70;border-radius: 5px;padding-bottom: 20px;padding-top: 20px;">
           <tr style="font-size:35px;color:#82ca70">
-            <td align="center"> 31 3351-4900 </td>
-            <td align="center"> <img src="https://multiplicarbrasil.com.br/images/whatsapp.png" alt="ícone"> 97158-5861 </td>
+            <td align="center"> <img src="https://multiplicarbrasil.com.br/images/whatsapp.png" alt="ícone"> (19) 9 9846-0362 </td>
           </tr>
         </table>
       </td>
