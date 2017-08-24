@@ -3,12 +3,12 @@
   "version": "1.0.5",
   "description": "Sistema de Cotação para a Multiplicar Brasil",
   "homepage": "https://multiplicarbrasil.com.br/",
-  "repository": "bitbucket:https://bitbucket.org/citylinkbr/dashboard",
+  "repository": "bitbucket:https://bitbucket.org/basicgetrocket/cotacao",
   "main": "index.html",
   "author": {
-    "name": "Get Rocket",
-    "email": "contato@getrocket.com.br",
-    "url": "http://getrocket.com.br/"
+    "name": "Basic",
+    "email": "contato@basic.com.br",
+    "url": "http://basic.com.br/"
   },
   "contributors": [
     "Leo Brescia <leonardo@leobrescia.com.br> (https://leobrescia.com.br/)"
