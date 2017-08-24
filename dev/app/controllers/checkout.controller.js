@@ -168,6 +168,16 @@
               lista.push('53015');
               lista.push('53044');
               break;
+            case '53046' || '53017':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Por favor, digite um CPF válido',
+                timeout: 50000
+              });
+              lista.push('53046');
+              lista.push('53017');
+              break;
             default:
               toaster.pop({
                 type: 'error',
