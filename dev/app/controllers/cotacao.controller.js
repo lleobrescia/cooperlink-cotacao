@@ -668,6 +668,7 @@
         vm.opcionaisMoto.motoReserva +
         vm.opcionais.carroReserva +
         vm.opcionais.vidros +
+        vm.opcionais.reboque +
         vm.opcionais.rastreador;
 
         console.log(vm.opcionaisMoto.vidros);

@@ -158,7 +158,56 @@
               lista.push('53019');
               lista.push('53050');
               break;
-            case '53015' || '53044':
+            case '5003':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Falha de comunicação com a instituição financeira.',
+                timeout: 50000
+              });
+              lista.push('5003');
+              break;
+            case '10001':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Número do cartão de crédito inválido.',
+                timeout: 50000
+              });
+              lista.push('10001');
+              break;
+            case '10002':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Data inválida',
+                timeout: 50000
+              });
+              lista.push('10002');
+              break;
+            case '53010' || '53011' || '53012':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'E-mail inválido',
+                timeout: 50000
+              });
+              lista.push('53011');
+              lista.push('53012');
+              lista.push('53010');
+              break;
+
+            case '53034' || '53065':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'Estado inválido.',
+                timeout: 50000
+              });
+              lista.push('53034');
+              lista.push('53065');
+              break;
+            case '53015' || '53044' :
               toaster.pop({
                 type: 'error',
                 title: 'Erro ao enviar os dados',
@@ -182,7 +231,7 @@
               toaster.pop({
                 type: 'error',
                 title: 'Erro ao enviar os dados',
-                body: 'Verifique os dados e tente novamente.',
+                body: 'Verifique os dados e tente novamente. Em caso de dúvidas, por favor, entre em contato com a gente.',
                 timeout: 50000
               });
               break;
@@ -341,7 +390,7 @@
       requisicao.shippingAddressDistrict = requisicao.billingAddressDistrict = vm.usuario.bairro;
       requisicao.shippingAddressPostalCode = requisicao.billingAddressPostalCode = vm.usuario.cep;
       requisicao.shippingAddressCity = requisicao.billingAddressCity = vm.usuario.cidade;
-      requisicao.shippingAddressState = requisicao.billingAddressState = vm.usuario.estado;
+      requisicao.shippingAddressState = requisicao.billingAddressState = vm.usuario.estado.toUpperCase();
 
       console.log('Requisisao => ', requisicao);
 

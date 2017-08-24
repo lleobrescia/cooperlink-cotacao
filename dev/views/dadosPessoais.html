@@ -81,7 +81,8 @@
                   <input class="form-control input-lg" name="cep" ng-keyup="dados.GetCep()" ng-model="dados.usuario.cep" type="text" focus-me="dados.focusInput"
                     ui-mask="99.999-999" required>
                   <div class="input-group-addon">
-                    <button ng-click="dados.passo = 'end';dados.focusInput = true" ng-disabled="formPasso.$invalid" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button ng-click="dados.passo = 'end';dados.focusInput = true" ng-disabled="formPasso.$invalid || !dados.usuario.bairro" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                   <span ng-if="dados.usuario.cep.lenght > 7 && !dados.usuario.bairro">CEP Inválido</span>
                   </div>
                   <!--input-group-addon-->
                 </div>

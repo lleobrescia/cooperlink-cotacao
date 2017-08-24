@@ -94,7 +94,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; ">
           <tr>
-            <td valign="top"> Adesão <span style="font-weight:bold">R$'.$valorAdesaAdesao.',00</span> </td>
+            <td valign="top"> Adesão <span style="font-weight:bold">R$'.$valorAdesaAdesao.'</span> </td>
             '.$restreadorEmail.'
           </tr>
         </table>

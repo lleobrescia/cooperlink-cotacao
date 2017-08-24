@@ -125,7 +125,7 @@
 
           <p ng-if="checkout.cardDados.cardNumber.length > 8 && !checkout.hasBrand">Cartão inválido</p>
 
-          <div class="row" ng-if="checkout.cardDados.cardNumber.length > 8 && checkout.hasBrand">
+          <div class="row">
             <div class="col-sm-6">
               <label class="control-label" for="cidade">Data de expiração</label>
               <div class="form-group">
@@ -163,8 +163,9 @@
           </style>
 
         </form>
-        <img ng-show="!checkout.carregando || !checkout.hasPaid" style="display: block;auto 50px;" src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/avista_estatico_550_70.gif"
-          alt="Logotipos de meios de pagamento do PagSeguro" title="Este site aceita pagamentos com os principais bancos, saldo em conta PagSeguro e boleto.">
+        <img ng-show="!checkout.carregando || !checkout.hasPaid" src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/avista_estatico_550_70.gif"
+          title="Este site aceita pagamentos com os principais bancos, saldo em conta PagSeguro e boleto." alt="Logotipos de meios de pagamento do PagSeguro"
+          style="display: block;margin:auto 50px;">
         <div class="loader" ng-show="checkout.carregando"></div>
       </div>
       <!--col-sm-8 col-sm-offset-2-->
