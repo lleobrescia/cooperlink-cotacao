@@ -9,6 +9,7 @@
   /**
    * @memberof app
    * @ngdoc factory
+   * @scope {}
    * @name fipeService
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Serviço de consulta da tabela fipe

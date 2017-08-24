@@ -10,6 +10,7 @@
   /**
    * @memberof app
    * @ngdoc factory
+   * @scope {}
    * @name CheckConditionService
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Serviço para checar se o carro ou a moto eh valido

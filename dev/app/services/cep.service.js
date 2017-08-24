@@ -9,6 +9,7 @@
   /**
    * @memberof app
    * @ngdoc factory
+   * @scope {}
    * @name cep
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @param {service} $q - promise

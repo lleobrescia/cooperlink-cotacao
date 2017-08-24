@@ -25,6 +25,7 @@
    * @param {service}  $state     - Status da transição {@link https://github.com/angular-ui/ui-router/wiki/Quick-Reference#state-1}
    * @param {constant} api        - Url do api
    * @param {service}  consultCEP - Servico para consultar cep
+   * @param {toaster}  toaster    - Serviço de mensagem popup
 
    *
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações

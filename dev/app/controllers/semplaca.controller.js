@@ -19,7 +19,6 @@
    * @property {json}     $rootScope.usuario  - Dados do veiculo do usuario
    * @property {string}   vm.anoEscolhido     - Ano do veiculo
    * @property {boolean}  vm.carregando       - Usado para controlar o loading
-   * @property {constant} vm.diretorio        - Nome do diretorio do projeto
    * @property {string}   vm.fipePasso        - Usado para controlar as telas que aparecem
    * @property {string}   vm.isUber           - Usado para saber se o carro eh uber
    * @property {json}     vm.listaAnos        - Lista dos anos do modelo escolhido

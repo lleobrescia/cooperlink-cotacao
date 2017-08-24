@@ -31,6 +31,7 @@
    * @param {constant} api                     - url do api
    * @param {service}  conversorService        - Converte xml para json e virce versa
    * @param {service}  toaster                 - Seviço para mostrar mensagens
+   * @param {constant} projectDev              - Caminho do diretorio de desenvolvimento
    *
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
@@ -109,6 +110,13 @@
       GetRejeitados();
     }
 
+    /**
+     * @function fabricante
+     * @desc Verifica qual é o tipo de veiculo.
+     * @param {string} fabricante - Nome do fabricante do veiculo
+     * @param {string} combustivel - Tipo de compustivel do veiculo
+     * @memberof PlacaController
+     */
     function CheckTipoCarro(fabricante, combustivel) {
       combustivel = combustivel.toUpperCase();
 
@@ -185,7 +193,7 @@
     }
 
     /**
-     * @function GetDadosRequisicao
+     * @function GetRejeitados
      * @desc Pega os veiculos rejeitados no banco de dados
      * @memberof PlacaController
      */

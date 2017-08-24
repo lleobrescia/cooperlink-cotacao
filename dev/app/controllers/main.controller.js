@@ -15,14 +15,14 @@
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Controle principal da cotação.
    * 
-   * @property {object} vm          - A named variable for the `this` keyword representing the ViewModel
-   * @property {string} vm.telefone - Telefone da multiplicar que aparecerá no html
+   * @property {object} vm            - A named variable for the `this` keyword representing the ViewModel
+   * @property {string} vm.directory  - Caminho do diretorio do sistema
+   * @property {string} vm.telefone   - Telefone da multiplicar que aparecerá no html
    * 
-   * @param {service} $location             - Usado para fazer requisições. Semelhante ao ajax
-   * @param {service} $anchorScroll  - Converte xml para json e json para xml
-   * @param {service} $state            - Usado para troca de views
-   * @param {service} fipeService       - Consulta na tabela FIPE
-   * @param {constant} projectDir
+   * @param {service}  $location      - Usado para fazer requisições. Semelhante ao ajax
+   * @param {service}  $anchorScroll  - Serviço de scroll do angular
+   * @param {constant} projectDir     - Local do diretorio do sistema
+   * @param {service} $window         - Wrapper for window
    * 
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
