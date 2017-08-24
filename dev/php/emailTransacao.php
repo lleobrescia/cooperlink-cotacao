@@ -72,11 +72,7 @@ $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px;
                 <td>Endereço</td>
                 <td>'.$cliente['logradouro'].', '.$cliente['numero'].' - '.$cliente['complemento'].' - '.$cliente['bairro'].',
                   '.$cliente['cidade'].', '.$cliente['estado'].' - '.$cliente['cep'].'
-                </td>
-              </tr>
-              <tr>
-                <td>Modelo</td>
-                <td>'.$cliente['planoescolhido'][0]['valor'].'</td>
+                </td> 
               </tr>
               <tr>
                 <td>Código FIPE</td>
