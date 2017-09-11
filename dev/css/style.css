@@ -159,14 +159,14 @@ body {
 --------------------------------------------------------------*/
 
 .header {
-  background-color: #1a4783;
-  color: white;
+  background-color: white;
+  color: #002651;
   min-height: 100px;
   padding-top: 16px;
 }
 
 .header__contato {
-  padding-top: 23px;
+  padding-top: 13px;
 }
 
 @media(max-width:48.000em) {
@@ -189,11 +189,11 @@ body {
 .header .header_contato_tel {
   border: solid;
   border-radius: 3px;
-  color: #41c4ec;
+  color: #ffaa3c;
   float: none;
   font-size: 1.375em;
   margin-right: 20px;
-  padding: 9px 16px;
+  padding: 1px 10px;
 }
 
 
@@ -210,7 +210,7 @@ body {
 }
 
 .footer span {
-  color: #41c4ec;
+  color: #ffaa3c;
 }
 
 
@@ -219,8 +219,8 @@ body {
 --------------------------------------------------------------*/
 
 .bg__azul {
-  background: #1a4783 url('../img/bg.png') repeat;
-  color: white;
+  background: #ffaa3c url('../img/bg.png') repeat;
+  color: #002651;
   min-height: 82vh;
 }
 
@@ -256,6 +256,11 @@ body {
 
 .contacao__header p span {
   color: #41c4ec;
+}
+
+.contacao__header .btn-info {
+  background: #ffaa3c;
+  border: none;
 }
 
 @media(max-width:48.000em) {
@@ -371,7 +376,7 @@ body {
 }
 
 .assistencias li i {
-  color: #5bc0de;
+  color: #ffaa3c;
   font-size: 1.7em;
   margin-right: 8px;
   vertical-align: middle;
@@ -420,13 +425,13 @@ body {
 }
 
 .coberturas h2 {
-  color: white;
+  color: #002651;
   font-size: 3.125em;
   margin: 0;
 }
 
 .coberturas .table {
-  color: white;
+  color: #002651;
   font-size: 1.250em;
   margin-top: 46px;
 }
@@ -436,12 +441,12 @@ body {
 }
 
 .coberturas .table tr td:last-child p {
-  color: #41c4ec;
+  color: #002651;
   text-align: right;
 }
 
 .coberturas .table>tbody>tr>td {
-  border-bottom: dotted #dbdbdc;
+  border-bottom: dotted #002651;
   border-top: none;
   vertical-align: middle;
 }
@@ -460,14 +465,14 @@ body {
 @media(min-width:75.000em) {
   .assistencia__table {
     background-image: url('../img/casal.png');
-    background-size: contain;
     background-position: right;
     background-repeat: no-repeat;
+    background-size: contain;
   }
 }
 
 .assistencia__table i {
-  color: #41c4ec;
+  color: #ffaa3c;
   font-size: 1.5em;
   margin-right: 15px;
   vertical-align: middle;
@@ -570,7 +575,6 @@ body {
 
 .form__passo .form-control {
   border: none;
-  border-bottom: solid 7px #12386a;
   font-size: 2.500em;
   height: 94px;
 }
@@ -581,9 +585,8 @@ body {
 }
 
 .form__passo .input-group-addon {
-  background-color: #41c4ec;
+  background-color: #002651;
   border: none;
-  border-bottom: solid 7px #12386a;
   height: 94px;
   min-width: 66px;
   position: relative;
@@ -596,7 +599,7 @@ body {
 .form__passo .input-group-addon button {
   background: transparent;
   border: none;
-  color: #1a4783;
+  color: #ffaa3c;
   font-size: 2.500em;
   height: 94px;
   left: 0;
@@ -613,4 +616,30 @@ body {
   color: white;
   font-size: 1.125em;
   margin-top: 30px;
+}
+
+.btn-carro,
+.btn-moto {
+  background-color: #00142f !important;
+  font-size: 1.875em;
+  height: 80px;
+  text-transform: uppercase;
+  width: 180px;
+}
+
+.btn-carro:hover,
+.btn-moto:hover,
+.btn-carro:focus,
+.btn-moto:focus {
+  opacity: 0.7;
+}
+
+.btn-carro i,
+.btn-moto i {
+  color: #ffaa3c;
+  margin-right: 10px;
+}
+
+.btn-carro {
+  margin-right: 30px;
 }
