@@ -458,15 +458,15 @@
       var planoEscolhido = {
         'adesao'     : $filter('currency')(vm.adesao, 'R$ '),
         'cotacao'    : $rootScope.usuario.idCotacao,
-        'franquia'   : vm.franquia,
         'fipe'       : $rootScope.usuario.codigoTabelaFipe,
+        'franquia'   : vm.franquia,
         'ip'         : vm.cotacao.ip,
-        'plano'      : vm.planoEscolhido,
+        'mensalidade': $filter('currency')(vm.total, 'R$ '),
         'modelo'     : $rootScope.usuario.modelo,
         'opcionais'  : '',
+        'plano'      : vm.planoEscolhido, 
         'tipoVeiculo': vm.cotacao.tipo,
-        'veiculo'    : vm.cotacao.veiculo,
-        'mensalidade': $filter('currency')(vm.total, 'R$ ')
+        'veiculo'    : vm.cotacao.veiculo
       };
 
       AdicionarOpcionais(planoEscolhido);

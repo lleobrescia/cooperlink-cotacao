@@ -48,9 +48,9 @@
     function Activate() {
       //TODO: Verificar aonde o usuario parou e continuar
       console.log($location.protocol());
-      // if ($location.protocol() !== 'https') {
-      //   $window.location.href = $location.absUrl().replace('http', 'https');
-      // }
+      if ($location.protocol() !== 'https') {
+        $window.location.href = $location.absUrl().replace('http', 'https');
+      }
     }
 
     /**

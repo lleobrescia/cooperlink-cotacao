@@ -12,11 +12,11 @@
   $valorOuro        = $data["valorOuro"];
   $valorPrata       = $data["valorPrata"];
   $to               = $data["to"];
-  $subject          = "Sua Cotação [ Multiplicar Brasil ]";
+  $subject          = "Sua Cotação [ Cooperlink Brasil ]";
 
   $headers  = 'MIME-Version: 1.0' . "\r\n"; 
   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  $headers .= "From: Multiplicar Brasil <contato@multiplicarbrasil.com.br>" . "\r\n";
+  $headers .= "From: Cooperlink Brasil <contato@cooperlink.com.br>" . "\r\n";
 
   $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
   <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
@@ -25,7 +25,7 @@
         <table cellpadding="0" cellspacing="0" align="center" bgcolor="#1a4783" style="width: 600px">
           <tr>
             <td style="height: 104px;" align="center">
-              <a href="http://multiplicarbrasil.com.br/" title="Multiplicar Brasil" target="_blank"> <img src="https://multiplicarbrasil.com.br/images/multiplicar-brasil.png" alt="Multiplicar Brasil"> </a>
+              <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/images/multiplicar-brasil.png" alt="Cooperlink Brasil"> </a>
             </td>
           </tr>
         </table>
@@ -213,8 +213,8 @@
           <tr>
             <td> 1. Agende agora a vistoria do seu veículo com o consultor que te enviou essa cotação <br><br>2. Pague da adesão
               no ato da vistoria<br><br>3. Enviamos nosso vistoriador até você para realizar a vistoria do seu veículo<br><br>4.
-              Assine o contrato com a Multiplicar e receba seus documentos<br><br>5. Pronto, seu veículo fica protegido imediatamente
-              pela Multiplicar <br><br><br>
+              Assine o contrato com a Cooperlink e receba seus documentos<br><br>5. Pronto, seu veículo fica protegido imediatamente
+              pela Cooperlink <br><br><br>
               <h3>Formas de pagamento e vencimento</h3><br><br>Pagamento através de Boleto Bancário, com vencimento todo dias
               05, 10, 15, 20, 25 e 30 de cada mês com tolerância de 5 dias após vencimento, ficando sem a proteção a partir
               do 1o dia.<br><br>
@@ -240,7 +240,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 55px;border: solid #82ca70;border-radius: 5px;padding-bottom: 20px;padding-top: 20px;">
           <tr style="font-size:35px;color:#82ca70">
-            <td align="center"> <img src="https://multiplicarbrasil.com.br/images/whatsapp.png" alt="ícone"> (19) 9 9846-0362 </td>
+            <td align="center"> <img src="https://cooperlink.com.br/images/whatsapp.png" alt="ícone"> (19) 9 9846-0362 </td>
           </tr>
         </table>
       </td>
@@ -258,7 +258,7 @@
       <td style="    padding-top: 52px;">
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 55px;    border-top: solid thin #f4f4f4;">
           <tr>
-            <td align="center"> multiplicarbrasil.com.br </td>
+            <td align="center"> cooperlink.com.br </td>
           </tr>
         </table>
       </td>

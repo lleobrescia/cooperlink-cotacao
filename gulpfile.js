@@ -41,13 +41,13 @@ var names = {
   jsMin : 'app.min.js',
   css   : 'style.css',
   cssMin: 'style.min.css',
-  serverFolder:'sistemanovo'
+  serverFolder:'desenvolvimento'
 };
 var paths = {
   local     : 'http://localhost/multiplicar/cotacao',
   localBase : '/multiplicar/cotacao/',
-  server    : 'https://multiplicarbrasil.com.br/sistemanovo',
-  serverBase: '/sistemanovo/',
+  server    : 'cooperlink.com.br',
+  serverBase: '/desenvolvimento/',
   dev: {
     css   : ['dev/css/**/*.css'],
     html  : ['index.html'],
@@ -70,9 +70,9 @@ var paths = {
 
 function GetFtpConnection() {
   return ftp.create({
-    host: 'ftp.multiplicarbrasil.com.br',
-    user: 'multi721',
-    password: 'u3l4oe9DU2',
+    host: 'ftp.cooperlink.com.br',
+    user: 'cooperlink',
+    password: 'Sinappe159',
     parallel: 5,
     log: util.log
   });
@@ -133,7 +133,7 @@ gulp.task('html', function () {
       },
       'css': 'css/' + names.cssMin,
       'favicon': {
-        src: 'img/favicon-multiplicar.png',
+        src: 'img/favicon-cooperlink.png',
         tpl: '<link type="image/png" href="%s" rel="icon">'
       },
       'vendor': 'js/vendor/vendor.min.js'
@@ -191,7 +191,7 @@ gulp.task('php', function () {
     .pipe(replacePhp({
       patterns: [{
         match: /localhost/g,
-        replacement: 'multiplicarbrasil.com.br'
+        replacement: 'cooperlink.com.br'
       }]
     }))
     .pipe(gulp.dest(paths.dis.php))
@@ -229,19 +229,20 @@ gulp.task('templates', function () {
 gulp.task('watch', function () {
   var conn = GetFtpConnection();
 
-  gulp.watch(paths.dev.css, ['css']);
-  gulp.watch(paths.dev.js, ['js']);
-  gulp.watch(paths.dev.html, ['html']);
-  gulp.watch(paths.dev.views, ['templates']);
-  gulp.watch(paths.dev.vendor, ['vendor']);
-  gulp.watch(paths.dev.img, ['img']);
-  gulp.watch(paths.dev.php, ['php']);
+  gulp.watch(paths.dev.css,     ['css']);
+  gulp.watch(paths.dev.js,      ['js']);
+  gulp.watch(paths.dev.html,    ['html']);
+  gulp.watch(paths.dev.views,   ['templates']);
+  gulp.watch(paths.dev.vendor,  ['vendor']);
+  gulp.watch(paths.dev.img,     ['img']);
+  gulp.watch(paths.dev.php,     ['php']);
+
   gulp.watch(paths.dis.origin + '**/*').on('change', function (event) {
     console.log('Uploading file "' + event.path + '", ' + event.type);
 
     gulp.src([event.path], { base: './dis/', buffer: false })
       .pipe(conn.newer('/' + names.serverFolder)) // only upload newer files 
-      .pipe(conn.dest('/public_html/' + names.serverFolder));
+      .pipe(conn.dest('/www/' + names.serverFolder));
 
   });
 });

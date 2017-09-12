@@ -2703,9 +2703,10 @@ $api = new PHP_CRUD_API(array(
 ));
 $api->executeCommand();
 
-	// 'username'=>'multi721_john',
-	// 'password'=>'TMWygB?@J*Pg',
-	// 'database'=>'multi721_cotacaobrasil',
+// 'hostname'=>'mysql.cooperlink.com.br',
+// 'username'=>'cooperlink',
+// 'password'=>'Credmudou1592',
+// 'database'=>'cooperlink',
 
 // For Microsoft SQL Server 2012 use:
 

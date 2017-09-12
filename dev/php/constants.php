@@ -1,6 +1,6 @@
 <?php
 
-$api           = 'https://multiplicarbrasil.com.br/sistemanovo/api.php/';
+$api           = 'https://cooperlink.com.br/desenvolvimento/api.php/';
 $emailSuporte  = 'leo@basic.com.br';
 $emailVendedor = 'eduardo@multiplicarbrasil.com.br';
 $host          = "localhost";

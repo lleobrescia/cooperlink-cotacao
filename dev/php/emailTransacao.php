@@ -12,11 +12,11 @@ $retorno = php_crud_api_transform($retorno);
 $cliente = $retorno['cliente'][0];
 
 $to      = $emailSuporte;
-$subject = "Novo Associado [ Multiplicar Brasil ]";
+$subject = "Novo Associado [ Cooperlink Brasil ]";
 
 $headers  = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-$headers .= "From: Multiplicar Brasil <contato@multiplicarbrasil.com.br>" . "\r\n";
+$headers .= "From: Cooperlink Brasil <contato@cooperlink.com.br>" . "\r\n";
 
 $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
 <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
@@ -25,7 +25,7 @@ $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px;
       <table cellpadding="0" cellspacing="0" align="center" bgcolor="#1a4783" style="width: 600px">
         <tr>
           <td style="height: 104px;" align="center">
-            <a href="http://multiplicarbrasil.com.br/" title="Multiplicar Brasil" target="_blank"> <img src="https://multiplicarbrasil.com.br/images/multiplicar-brasil.png" alt="Multiplicar Brasil"> </a>
+            <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/images/multiplicar-brasil.png" alt="Cooperlink Brasil"> </a>
           </td>
         </tr>
       </table>

@@ -1,9 +1,9 @@
 /*
-Name: Multiplicar Brasil - Cotação
-URI: http://multiplicarbrasil.com.br/
+Name: Cooperlink - Cotação
+URI: http://cooperlink.com.br/
 Author: Basic
 Author URI: http://www.basic.com.br/
-Description: Sistema de Cotação da Multiplicar Brasil
+Description: Sistema de Cotação da Cooperlink Brasil
 
 
 Version: 1.0
@@ -219,7 +219,7 @@ body {
 --------------------------------------------------------------*/
 
 .bg__azul {
-  background: #ffaa3c url('../img/bg.png') repeat;
+  background: #ffaa3c repeat;
   color: #002651;
   min-height: 82vh;
 }
