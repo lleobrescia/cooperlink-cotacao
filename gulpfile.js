@@ -46,7 +46,7 @@ var names = {
 var paths = {
   local     : 'http://localhost/multiplicar/cotacao',
   localBase : '/multiplicar/cotacao/',
-  server    : 'cooperlink.com.br',
+  server    : 'https://cooperlink.com.br/desenvolvimento',
   serverBase: '/desenvolvimento/',
   dev: {
     css   : ['dev/css/**/*.css'],

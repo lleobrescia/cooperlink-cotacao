@@ -423,7 +423,7 @@
         } else {
           var status = '';
           var hoje = new Date();
-          var pagamento = '';
+          var pagamento = ''; 
 
           switch ($(retorno).find('transaction').find('status')[0].textContent) {
             case '1':

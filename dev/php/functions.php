@@ -16,7 +16,7 @@ function httpPost($url, $params)
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_POST, count($postData));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
     ));
  
