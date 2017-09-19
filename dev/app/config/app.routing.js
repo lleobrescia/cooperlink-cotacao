@@ -28,17 +28,17 @@
 
     $stateProvider
       .state('placa', {
-        controller: 'PlacaController',
-        controllerAs: 'placa',
-        templateUrl: 'placa.html',
-        url: '/'
-      })
-      .state('fipe', {
         controller: 'SemPlacaController',
         controllerAs: 'placa',
         templateUrl: 'fipe.html',
-        url: '/placa-nao-encontrada'
+        url: '/'
       })
+      // .state('fipe', {
+      //   controller: 'SemPlacaController',
+      //   controllerAs: 'placa',
+      //   templateUrl: 'fipe.html',
+      //   url: '/placa-nao-encontrada'
+      // })
       .state('cotacao', {
         controller: 'CotacaoController',
         controllerAs: 'cotacao',
