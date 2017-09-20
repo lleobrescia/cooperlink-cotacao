@@ -5,7 +5,7 @@ $emailSuporte  = 'leo@basic.com.br';
 $emailVendedor = 'eduardo@multiplicarbrasil.com.br';
 $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';
-$tokenVendedor = 'AC10190A53CB4F5C85A3C688C022FC5D';
+$tokenVendedor = 'E20D830DE85343C48603A475B530E567';
 
-//B1F57D4C8AFA49D9A66F7E5C24956439 - producao
+//E20D830DE85343C48603A475B530E567 - producao
 //AC10190A53CB4F5C85A3C688C022FC5D - teste 

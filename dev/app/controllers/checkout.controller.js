@@ -103,7 +103,7 @@
         $state.go('placa');
       } else {
         GetDadosUsuario();
-        console.log('Globas => ', $rootScope);
+        console.log('Globais => ', $rootScope);
 
         $http.get(projectDev + 'php/getID.php').then(function (resp) {
           var retorno = $.parseXML(resp.data);
