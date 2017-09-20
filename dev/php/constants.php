@@ -7,4 +7,5 @@ $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';
 $tokenVendedor = 'AC10190A53CB4F5C85A3C688C022FC5D';
 
-//B1F57D4C8AFA49D9A66F7E5C24956439
+//B1F57D4C8AFA49D9A66F7E5C24956439 - producao
+//AC10190A53CB4F5C85A3C688C022FC5D - teste 

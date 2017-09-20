@@ -22,10 +22,10 @@
   <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
     <tr>
       <td>
-        <table cellpadding="0" cellspacing="0" align="center" bgcolor="#1a4783" style="width: 600px">
+        <table cellpadding="0" cellspacing="0" align="center" bgcolor="#ffaa3c" style="width: 600px">
           <tr>
             <td style="height: 104px;" align="center">
-              <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/images/multiplicar-brasil.png" alt="Cooperlink Brasil"> </a>
+              <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/cotacao/img/cooperlink.png" alt="Cooperlink Brasil"> </a>
             </td>
           </tr>
         </table>
@@ -35,7 +35,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px">
           <tr>
-            <td align="center" style="height: 101px;font-size:16px; line-height: 2;color:#41434c "> Aqui está a sua cotação para seu '.$modelo.'  <br>Avaliado em <span style="color:#41c4ec;font-weight: 800;">'.$valorCarro.'</span>              segundo a tabela FIPE </td>
+            <td align="center" style="height: 101px;font-size:16px; line-height: 2;color:#41434c "> Aqui está a sua cotação para seu '.$modelo.'  <br>Avaliado em <span style="color:#ffaa3c;font-weight: 800;">'.$valorCarro.'</span>              segundo a tabela FIPE </td>
           </tr>
         </table>
       </td>
@@ -116,27 +116,27 @@
         <table cellpadding="0" cellspacing="0" style="width: 600px;">
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Colisões </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Perda total </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Roubo e furto </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Incêndio </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Alagamento e eventos da natureza </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">Indenização de 100% da tabela FIPE</span> </td>
           </tr>
           <tr style="height: 40px;">
             <td style="color:#41434c; font-size:16px;border-bottom:dotted 1px #ddddde;"> Danos corporais a terceiros </td>
-            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#41c4ec; font-size:16px;">R$ 30.000,00</span> </td>
+            <td align="right" style="border-bottom:dotted 1px #ddddde;"> <span style="color:#ffaa3c; font-size:16px;">R$ 30.000,00</span> </td>
           </tr>
         </table>
       </td>

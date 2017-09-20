@@ -48,10 +48,10 @@ if (isset($_POST['notificationType']) && $_POST['notificationType'] == 'transact
                 <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
                   <tr>
                     <td>
-                      <table cellpadding="0" cellspacing="0" align="center" bgcolor="#1a4783" style="width: 600px">
+                      <table cellpadding="0" cellspacing="0" align="center" bgcolor="#ffaa3c" style="width: 600px">
                         <tr>
                           <td style="height: 104px;" align="center">
-                            <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/images/multiplicar-brasil.png" alt="Cooperlink Brasil"> </a>
+                            <a href="http://cooperlink.com.br/" title="Cooperlink Brasil" target="_blank"> <img src="https://cooperlink.com.br/cotacao/img/cooperlink.png" alt="Cooperlink Brasil"> </a>
                           </td>
                         </tr>
                       </table>
