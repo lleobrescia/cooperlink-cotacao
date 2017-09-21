@@ -1,5 +1,5 @@
 /**
- * 
+ * @property argv         - {@link https://github.com/yargs/yargs}                    - Parsing arguments
  * @property autoprefixer - {@link https://github.com/sindresorhus/gulp-autoprefixer} - Add vendor prefixes to CSS
  * @property concat       - {@link https://github.com/contra/gulp-concat}             - Concatenates js files
  * @property ftp          - {@link https://github.com/morris/vinyl-ftp}               - Blazing fast vinyl adapter for FTP
@@ -16,6 +16,7 @@
  * @property uglify       - {@link https://github.com/terinjokes/gulp-uglify}         - Minify JavaScript with UglifyJS3.
  * @property util         - {@link https://github.com/gulpjs/gulp-util}               - Utility functions for gulp plugins
  */
+var argv          = require('yargs').argv;
 var autoprefixer  = require('gulp-autoprefixer');
 var concat        = require('gulp-concat');
 var ftp           = require( 'vinyl-ftp' );
@@ -32,50 +33,55 @@ var replace       = require('gulp-replace');
 var replacePhp    = require('gulp-replace-task');
 var shell         = require('gulp-shell');
 var stripDebug    = require('gulp-strip-debug');
+var templateCache = require('gulp-angular-templatecache');
 var uglify        = require('gulp-uglify');
 var util          = require('gulp-util');
-var templateCache = require('gulp-angular-templatecache');
 
 var names = {
-  js    : 'app.js',
-  jsMin : 'app.min.js',
-  css   : 'style.css',
-  cssMin: 'style.min.css',
-  serverFolder:'desenvolvimento'
+  css:          'style.css',
+  cssMin:       'style.min.css',
+  deployFolder: 'cotacao',
+  js:           'app.js',
+  jsMin:        'app.min.js',
+  serverFolder: 'desenvolvimento'
 };
 
 var paths = {
-  local     : 'http://localhost/multiplicar/cotacao',
-  localBase : '/multiplicar/cotacao/',
-  server    : 'https://cooperlink.com.br/desenvolvimento',
-  serverBase: '/desenvolvimento/',
+  deploy:     'https://cooperlink.com.br/'+ names.deployFolder,
+  deployBase: '/' + names.deployFolder + '/',
+  local:      'http://localhost/multiplicar/cotacao',
+  localBase:  '/multiplicar/cotacao/',
+  server:     'https://cooperlink.com.br/'+ names.serverFolder,
+  serverBase: '/' + names.serverFolder + '/',
   dev: {
-    css   : ['dev/css/**/*.css'],
-    html  : ['index.html'],
-    img   : ['dev/img/*.{JPG,jpg,png,gif}'],
-    js    : ['dev/app/**/*.js'],
+    css:    ['dev/css/**/*.css'],
+    html:   ['index.html'],
+    img:    ['dev/img/*.{JPG,jpg,png,gif}'],
+    js:     ['dev/app/**/*.js'],
     origin: ['dev/'],
-    php   : ['dev/php/*.php'],
+    php:    ['dev/php/*.php'],
     vendor: ['dev/js/**/*.js'],
-    views : ['dev/views/**/*.html']
+    views:  ['dev/views/**/*.html']
   },
   dis: {
-    css   : 'dis/css/',
-    img   : 'dis/img/',
-    js    : 'dis/js/',
+    css:    'dis/css/',
+    img:    'dis/img/',
+    js:     'dis/js/',
     origin: 'dis/',
-    php   : 'dis/php/',
+    php:    'dis/php/',
     vendor: 'dis/js/vendor'
   }
 };
 
+var production = false;
+
 function GetFtpConnection() {
   return ftp.create({
-    host: 'ftp.cooperlink.com.br',
-    user: 'cooperlink',
+    host:     'ftp.cooperlink.com.br',
+    user:     'cooperlink',
     password: 'Sinappe159',
     parallel: 5,
-    log: util.log
+    log:      util.log
   });
 }
 
@@ -126,10 +132,10 @@ gulp.task('html', function () {
   return gulp.src(paths.dev.html)
     .pipe(plumber())
     .pipe(htmlreplace({
-      'app': 'js/' + names.js,
+      'app': production || argv.production ? 'js/' + names.js : 'js/' + names.jsMin,
       'templates': 'js/app.templates.js',
       'base': {
-        src: paths.serverBase,
+        src: production || argv.production ? paths.deployBase : paths.serverBase,
         tpl: '<base href="%s">'
       },
       'css': 'css/' + names.cssMin,
@@ -150,7 +156,7 @@ gulp.task('html', function () {
  * @task img
  * @desc Minify imagem
  */
-gulp.task('img', function () {
+gulp.task('img', function () {   
   return gulp.src(paths.dev.img)
     .pipe(plumber())
     .pipe(imagemin())
@@ -168,7 +174,7 @@ gulp.task('js', function () {
     .pipe(plumber())
     .pipe(concat(names.js))
     .pipe(gulp.dest('./'))
-    .pipe(replace(paths.local, paths.server))
+    .pipe(replace(paths.local, production || argv.production ? paths.deploy : paths.server))
     .pipe(replace('dis/', ''))
     .pipe(replace('dev/', ''))
     .pipe(gulp.dest(paths.dis.js))
@@ -187,12 +193,15 @@ gulp.task('js', function () {
 gulp.task('php', function () {
   return gulp.src(paths.dev.php)
     .pipe(plumber())
-
     .pipe(phpMinify())
     .pipe(replacePhp({
       patterns: [{
-        match: /localhost/g,
+        match:       /localhost/g,
         replacement: 'cooperlink.com.br'
+      },
+      {
+        match:       /testeCooperlink/g,
+        replacement: production || argv.production ? 'producaoCooperlink' : 'testeCooperlink'
       }]
     }))
     .pipe(gulp.dest(paths.dis.php))
@@ -230,6 +239,8 @@ gulp.task('templates', function () {
 gulp.task('watch', function () {
   var conn = GetFtpConnection();
 
+  production = argv.production;
+
   gulp.watch(paths.dev.css,     ['css']);
   gulp.watch(paths.dev.js,      ['js']);
   gulp.watch(paths.dev.html,    ['html']);
@@ -242,8 +253,8 @@ gulp.task('watch', function () {
     console.log('Uploading file "' + event.path + '", ' + event.type);
 
     gulp.src([event.path], { base: './dis/', buffer: false })
-      .pipe(conn.newer('/' + names.serverFolder)) // only upload newer files 
-      .pipe(conn.dest('/www/' + names.serverFolder));
+      .pipe(conn.newer(argv.production ? '/' + names.deployFolder   : '/' + names.serverFolder)) // only upload newer files 
+      .pipe(conn.dest(argv.production ? '/www/' + names.deployFolder : '/www/' + names.serverFolder));
 
   });
 });
