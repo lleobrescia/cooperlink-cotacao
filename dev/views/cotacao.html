@@ -84,7 +84,7 @@
               <li><i class="fa fa-check-circle" aria-hidden="true"></i> 13 Assistências</li>
               <li><i class="fa fa-check-circle" aria-hidden="true"></i> 6 Coberturas</li>
               <li><i class="fa fa-check-circle" aria-hidden="true"></i> 1.000 Km Reboque</li>
-              <li><i class="fa fa-check-circle" aria-hidden="true"></i> 7 dias de carro reserva</li>
+              <li ng-hide="$root.usuario.taxi"><i class="fa fa-check-circle" aria-hidden="true"></i> 7 dias de <span ng-if="$root.usuario.veiculo == 'AUTOMOVEL'">carro</span> <span ng-if="$root.usuario.veiculo == 'MOTOCICLETA'">moto</span> reserva</li>
               <li><i class="fa fa-check-circle" aria-hidden="true"></i> Faróis, lanternas, vidros e retrovisores</li>
             </ul>
           </td>
@@ -273,8 +273,11 @@
                 <p><img ng-src="{{::main.directory}}img/danos.png" alt="icone">Danos corporais a terceiros</p>
               </td>
               <td>
-                <p>
-                  R$ 30.000,00
+                <p ng-if="$root.usuario.veiculo == 'AUTOMOVEL'">
+                  até R$ 30.000,00
+                </p>
+                <p ng-if="$root.usuario.veiculo == 'MOTOCICLETA'">
+                  até R$ 10.000,00
                 </p>
               </td>
             </tr>

@@ -46,7 +46,15 @@
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
   function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir, projectDev) {
-    var vm = this;
+    var carro15   = 15.00;
+    var carro30   = 20.00;
+    var carro7    = 11.00;
+    var moto15    = 12.00;
+    var moto30    = 15.00;
+    var moto7     = 9.00;
+    var rastLocal = 75.00;
+    var rastrador = 55.00;
+    var vm        = this;
 
     vm.adesao     = '';
     vm.carregando = true;
@@ -89,10 +97,11 @@
       'vidros'      : 0.00
     };
     vm.opcionaisMoto = {
-      'hospital'   : false,
-      'motoReserva': '',
-      'seguro'     : false,
-      'vidros'     : 0.0
+      'hospital'   : 0.00,
+      'motoReserva': 0.00,
+      'rastreador' : 0.00,
+      'reboque'    : 0.00,
+      'vidros'     : 0.00
     };
     vm.opcionaisPopup = 'opcionais.html';
     vm.valorFipe      = undefined;
@@ -131,34 +140,61 @@
      * @memberof CotacaoController
      */
     function AdicionarOpcionais(planoEscolhido) {
-      if (vm.opcionaisMoto.motoReserva === 9.00) {
+      //Moto reserva
+      if (vm.opcionaisMoto.motoReserva === moto7) {
         planoEscolhido.opcionais += 'Moto reserva 7 dias, ';
-      } else if (vm.opcionaisMoto.motoReserva === 15.00) {
-        planoEscolhido.opcionais += 'Moto reserva 20 dias, ';
+      } else if (vm.opcionaisMoto.motoReserva === moto15) {
+        planoEscolhido.opcionais += 'Moto reserva 15 dias, ';
+      } else if (vm.opcionaisMoto.motoReserva === moto30) {
+        planoEscolhido.opcionais += 'Moto reserva 30 dias, ';
       }
 
-      if (vm.opcionaisMoto.motoReserva !== 0.00) {
-        planoEscolhido.opcionais += 'Vidros faróis retrovisores, ';
+      //Moto vidros
+      if (vm.opcionaisMoto.vidros !== 0.00) {
+        planoEscolhido.opcionais += 'Vidros, fárois, lanternas e retrovisores, ';
       }
 
-      if (vm.opcionais.carroReserva === 7.00) {
+      //Reboque
+      if (vm.opcionaisMoto.reboque !== 0.00) {
+        planoEscolhido.opcionais += 'Reboque 1000Km, ';
+      }
+
+      //Hospital
+      if (vm.opcionaisMoto.hospital !== 0.00) {
+        planoEscolhido.opcionais += 'Auxilio hospitalar, ';
+      }
+
+      //Rastrador
+      if (vm.opcionaisMoto.rastreador === rastrador) {
+        planoEscolhido.opcionais += 'Rastreador, ';
+      } else if (vm.opcionais.rastreador === rastLocal) {
+        planoEscolhido.opcionais += 'Rastreador e localizador, ';
+      }
+
+      //Carro reserva
+      if (vm.opcionais.carroReserva === carro7) {
         planoEscolhido.opcionais += 'Carro reserva 7 dias, ';
-      } else if (vm.opcionais.carroReserva === 15.00) {
+      } else if (vm.opcionais.carroReserva === carro15) {
         planoEscolhido.opcionais += 'Carro reserva 15 dias, ';
-      } else if (vm.opcionais.carroReserva === 30.00) {
+      } else if (vm.opcionais.carroReserva === carro30) {
         planoEscolhido.opcionais += 'Carro reserva 30 dias, ';
       }
 
-      if (vm.opcionais.rastreador !== 0.00) {
-        planoEscolhido.opcionais += 'Rastreador e Bloqueador, ';
+      //Rastreador
+      if (vm.opcionais.rastreador === rastrador) {
+        planoEscolhido.opcionais += 'Rastreador, ';
+      } else if (vm.opcionais.rastreador === rastLocal) {
+        planoEscolhido.opcionais += 'Rastreador e localizador, ';
       }
 
+      //Reboque
       if (vm.opcionais.reboque !== 0.00) {
         planoEscolhido.opcionais += 'Reboque 1000Km, ';
       }
 
+      //Vidros
       if (vm.opcionais.vidros !== 0.00) {
-        planoEscolhido.opcionais += 'Vidros faróis retrovisores';
+        planoEscolhido.opcionais += 'Vidros, fárois, lanternas e retrovisores';
       }
     }
 
@@ -602,9 +638,10 @@
         'vidros'      : 0.00
       };
       vm.opcionaisMoto = {
-        'hospital'   : false,
+        'hospital'   : 0.00,
         'motoReserva': 0.00,
-        'seguro'     : false,
+        'rastreador' : 0.00,
+        'reboque'    : 0.00,
         'vidros'     : 0.00
       };
 
@@ -647,10 +684,6 @@
       });
     }
 
-    function SalvarPepidrive() {
-      //TODO: Salvar no pepidrive
-    }
-
     /**
      * @function SomarTotal
      * @desc Soma o valor do plano escolhido com os opcionais escolhidos
@@ -664,18 +697,25 @@
       vm.total =  vm.preco[vm.planoEscolhido];
 
       vm.total +=
-        vm.opcionaisMoto.vidros +
-        vm.opcionaisMoto.motoReserva +
         vm.opcionais.carroReserva +
-        vm.opcionais.vidros +
+        vm.opcionais.rastreador +
         vm.opcionais.reboque +
-        vm.opcionais.rastreador;
+        vm.opcionais.vidros +
+        vm.opcionaisMoto.hospital +
+        vm.opcionaisMoto.motoReserva +
+        vm.opcionaisMoto.rastreador +
+        vm.opcionaisMoto.reboque +
+        vm.opcionaisMoto.vidros ;
 
-        console.log(vm.opcionaisMoto.vidros);
+        console.log(vm.opcionaisMoto.hospital);
         console.log(vm.opcionaisMoto.motoReserva);
+        console.log(vm.opcionaisMoto.rastreador);
+        console.log(vm.opcionaisMoto.reboque);
+        console.log(vm.opcionaisMoto.vidros);
         console.log(vm.opcionais.carroReserva);
-        console.log(vm.opcionais.vidros);
         console.log(vm.opcionais.rastreador);
+        console.log(vm.opcionais.reboque);
+        console.log(vm.opcionais.vidros);
         console.log(vm.total);
     }
 

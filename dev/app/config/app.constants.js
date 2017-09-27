@@ -15,7 +15,7 @@
     .constant('PagSeguroDirectPayment', PagSeguroDirectPayment)
     .constant('projectDir', 'dis/')
     .constant('projectDev', 'dev/')
-    .constant('rastreadorCarro', 20000)
+    .constant('rastreadorCarro', 15000)
     .constant('rastreadorMoto', 7000)
     .constant('anoCarro', 20)
     .constant('anoMoto', 2005);
