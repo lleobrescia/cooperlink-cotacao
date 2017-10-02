@@ -132,7 +132,7 @@ gulp.task('html', function () {
   return gulp.src(paths.dev.html)
     .pipe(plumber())
     .pipe(htmlreplace({
-      'app': production || argv.production ? 'js/' + names.js : 'js/' + names.jsMin,
+      'app': production || argv.production ? 'js/' + names.jsMin : 'js/' + names.js,
       'templates': 'js/app.templates.js',
       'base': {
         src: production || argv.production ? paths.deployBase : paths.serverBase,
