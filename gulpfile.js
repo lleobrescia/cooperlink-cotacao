@@ -127,8 +127,13 @@ gulp.task('docs', shell.task([
 /**
  * @task html
  * @desc Troca o local de dev para dis no html
+ * 
  */
 gulp.task('html', function () {
+
+  var script1 = "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);      })(window,document,'script','dataLayer','GTM-TRZPL33');</script>";
+  var script2 = '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRZPL33"  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>';
+
   return gulp.src(paths.dev.html)
     .pipe(plumber())
     .pipe(htmlreplace({
@@ -142,6 +147,14 @@ gulp.task('html', function () {
       'favicon': {
         src: 'img/favicon-cooperlink.png',
         tpl: '<link type="image/png" href="%s" rel="icon">'
+      },
+      'manager': {
+        src: '',
+        tpl: production || argv.production ? script1 : ""
+      },
+      'managerbody': {
+        src: '',
+        tpl: production || argv.production ? script2 : ""
       },
       'vendor': 'js/vendor/vendor.min.js'
     }))
