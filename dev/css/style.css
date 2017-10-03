@@ -108,7 +108,7 @@ Version: 1.0
   /* Blue */
   border-radius: 50%;
   /* Light grey */
-  border-top: 16px solid #41c4ec;
+  border-top: 16px solid #001330;
   height: 120px;
   margin-left: auto;
   margin-right: auto;
@@ -189,7 +189,7 @@ body {
 .header .header_contato_tel {
   border: solid;
   border-radius: 3px;
-  color: #ffaa3c;
+  color: #f25b22 ;
   float: none;
   font-size: 1.375em;
   margin-right: 20px;
@@ -210,7 +210,7 @@ body {
 }
 
 .footer span {
-  color: #ffaa3c;
+  color: #f25b22 ;
 }
 
 
@@ -219,7 +219,7 @@ body {
 --------------------------------------------------------------*/
 
 .bg__azul {
-  background: #ffaa3c repeat;
+  background: #f25b22;
   color: #002651;
   min-height: 82vh;
 }
@@ -259,7 +259,7 @@ body {
 }
 
 .contacao__header .btn-info {
-  background: #ffaa3c;
+  background: #f25b22 ;
   border: none;
 }
 
@@ -376,7 +376,7 @@ body {
 }
 
 .assistencias li i {
-  color: #ffaa3c;
+  color: #f25b22 ;
   font-size: 1.7em;
   margin-right: 8px;
   vertical-align: middle;
@@ -472,7 +472,7 @@ body {
 }
 
 .assistencia__table i {
-  color: #ffaa3c;
+  color: #f25b22 ;
   font-size: 1.5em;
   margin-right: 15px;
   vertical-align: middle;
@@ -599,7 +599,7 @@ body {
 .form__passo .input-group-addon button {
   background: transparent;
   border: none;
-  color: #ffaa3c;
+  color: #f25b22 ;
   font-size: 2.500em;
   height: 94px;
   left: 0;
@@ -636,7 +636,7 @@ body {
 
 .btn-carro i,
 .btn-moto i {
-  color: #ffaa3c;
+  color: #f25b22 ;
   margin-right: 10px;
 }
 
