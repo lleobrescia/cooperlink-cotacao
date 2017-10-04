@@ -53,7 +53,7 @@ var paths = {
   localBase:  '/multiplicar/cotacao/',
   server:     'https://cooperlink.com.br/'+ names.serverFolder,
   serverBase: '/' + names.serverFolder + '/',
-  dev: {
+  src: {
     css:    ['src/css/**/*.css'],
     html:   ['index.html'],
     img:    ['src/img/*.{JPG,jpg,png,gif}'],
@@ -63,7 +63,7 @@ var paths = {
     vendor: ['src/js/**/*.js'],
     views:  ['src/views/**/*.html']
   },
-  dis: {
+  dist: {
     css:    'dist/css/',
     img:    'dist/img/',
     js:     'dist/js/',
@@ -88,7 +88,7 @@ function GetFtpConnection() {
 gulp.task('default', ['html', 'img', 'templates', 'js', 'php', 'vendor', 'css']);
 
 gulp.task('css', function () {
-  return gulp.src(paths.dev.css)
+  return gulp.src(paths.src.css)
     .pipe(plumber())
     .pipe(autoprefixer({
       browsers: [
@@ -104,10 +104,10 @@ gulp.task('css', function () {
       ],
       cascade: false
     }))
-    .pipe(gulp.dest(paths.dis.css))
+    .pipe(gulp.dest(paths.dist.css))
     .pipe(minifyCss())
     .pipe(rename(names.cssMin))
-    .pipe(gulp.dest(paths.dis.css))
+    .pipe(gulp.dest(paths.dist.css))
     .on('error', util.log);
 });
 
@@ -121,12 +121,12 @@ gulp.task('docs', shell.task([
   '-t ./node_modules/angular-jsdoc/angular-template ' +
   '-d ./docs ' +
   './README.md ' +
-  '-r ./' + paths.dis.js + names.js
+  '-r ./' + paths.dist.js + names.js
 ]));
 
 /**
  * @task html
- * @desc Troca o local de dev para dis no html
+ * @desc Troca o local de src para dist no html
  * 
  */
 gulp.task('html', function () {
@@ -134,7 +134,7 @@ gulp.task('html', function () {
   var script1 = "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);      })(window,document,'script','dataLayer','GTM-TRZPL33');</script>";
   var script2 = '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRZPL33"  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>';
 
-  return gulp.src(paths.dev.html)
+  return gulp.src(paths.src.html)
     .pipe(plumber())
     .pipe(htmlreplace({
       'app': production || argv.production ? 'js/' + names.jsMin : 'js/' + names.js,
@@ -161,7 +161,7 @@ gulp.task('html', function () {
     .pipe(htmlmin({
       collapseWhitespace: true
     }))
-    .pipe(gulp.dest(paths.dis.origin))
+    .pipe(gulp.dest(paths.dist.origin))
     .on('error', util.log);
 });
 
@@ -170,10 +170,10 @@ gulp.task('html', function () {
  * @desc Minify imagem
  */
 gulp.task('img', function () {   
-  return gulp.src(paths.dev.img)
+  return gulp.src(paths.src.img)
     .pipe(plumber())
     .pipe(imagemin())
-    .pipe(gulp.dest(paths.dis.img))
+    .pipe(gulp.dest(paths.dist.img))
     .on('error', util.log);
 });
 
@@ -183,19 +183,19 @@ gulp.task('img', function () {
  * 'criptografa', minify e envia para a pasta js
  */
 gulp.task('js', function () {
-  return gulp.src(paths.dev.js)
+  return gulp.src(paths.src.js)
     .pipe(plumber())
     .pipe(concat(names.js))
     .pipe(gulp.dest('./'))
     .pipe(replace(paths.local, production || argv.production ? paths.deploy : paths.server))
     .pipe(replace('dist/', ''))
     .pipe(replace('src/', ''))
-    .pipe(gulp.dest(paths.dis.js))
+    .pipe(gulp.dest(paths.dist.js))
     .pipe(stripDebug())
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(rename(names.jsMin))
-    .pipe(gulp.dest(paths.dis.js))
+    .pipe(gulp.dest(paths.dist.js))
     .on('error', util.log);
 });
 
@@ -204,7 +204,7 @@ gulp.task('js', function () {
  * @desc Concatena os html
  */
 gulp.task('php', function () {
-  return gulp.src(paths.dev.php)
+  return gulp.src(paths.src.php)
     .pipe(plumber())
     .pipe(phpMinify())
     .pipe(replacePhp({
@@ -217,7 +217,7 @@ gulp.task('php', function () {
         replacement: production || argv.production ? 'producaoCooperlink' : 'testeCooperlink'
       }]
     }))
-    .pipe(gulp.dest(paths.dis.php))
+    .pipe(gulp.dest(paths.dist.php))
     .on('error', util.log);
 });
 
@@ -226,22 +226,22 @@ gulp.task('php', function () {
  * @desc Concatena os scripts vendor
  */
 gulp.task('vendor', function () {
-  return gulp.src(paths.dev.vendor)
+  return gulp.src(paths.src.vendor)
     .pipe(plumber())
     .pipe(concat('vendor.js'))
-    .pipe(gulp.dest(paths.dis.vendor))
+    .pipe(gulp.dest(paths.dist.vendor))
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(rename('vendor.min.js'))
-    .pipe(gulp.dest(paths.dis.vendor))
+    .pipe(gulp.dest(paths.dist.vendor))
     .on('error', util.log);
 });
 
 gulp.task('templates', function () {
-  return gulp.src(paths.dev.views)
+  return gulp.src(paths.src.views)
     .pipe(plumber())
     .pipe(templateCache('app.templates.js',{standalone:true }))
-    .pipe(gulp.dest(paths.dis.js))
+    .pipe(gulp.dest(paths.dist.js))
     .on('error', util.log);
 });
 
@@ -254,15 +254,15 @@ gulp.task('watch', function () {
 
   production = argv.production;
 
-  gulp.watch(paths.dev.css,     ['css']);
-  gulp.watch(paths.dev.js,      ['js']);
-  gulp.watch(paths.dev.html,    ['html']);
-  gulp.watch(paths.dev.views,   ['templates']);
-  gulp.watch(paths.dev.vendor,  ['vendor']);
-  gulp.watch(paths.dev.img,     ['img']);
-  gulp.watch(paths.dev.php,     ['php']);
+  gulp.watch(paths.src.css,     ['css']);
+  gulp.watch(paths.src.js,      ['js']);
+  gulp.watch(paths.src.html,    ['html']);
+  gulp.watch(paths.src.views,   ['templates']);
+  gulp.watch(paths.src.vendor,  ['vendor']);
+  gulp.watch(paths.src.img,     ['img']);
+  gulp.watch(paths.src.php,     ['php']);
 
-  gulp.watch(paths.dis.origin + '**/*').on('change', function (event) {
+  gulp.watch(paths.dist.origin + '**/*').on('change', function (event) {
     console.log('Uploading file "' + event.path + '", ' + event.type);
 
     gulp.src([event.path], { base: './dist/', buffer: false })
