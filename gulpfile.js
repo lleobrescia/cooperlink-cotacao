@@ -54,22 +54,22 @@ var paths = {
   server:     'https://cooperlink.com.br/'+ names.serverFolder,
   serverBase: '/' + names.serverFolder + '/',
   dev: {
-    css:    ['dev/css/**/*.css'],
+    css:    ['src/css/**/*.css'],
     html:   ['index.html'],
-    img:    ['dev/img/*.{JPG,jpg,png,gif}'],
-    js:     ['dev/app/**/*.js'],
-    origin: ['dev/'],
-    php:    ['dev/php/*.php'],
-    vendor: ['dev/js/**/*.js'],
-    views:  ['dev/views/**/*.html']
+    img:    ['src/img/*.{JPG,jpg,png,gif}'],
+    js:     ['src/app/**/*.js'],
+    origin: ['src/'],
+    php:    ['src/php/*.php'],
+    vendor: ['src/js/**/*.js'],
+    views:  ['src/views/**/*.html']
   },
   dis: {
-    css:    'dis/css/',
-    img:    'dis/img/',
-    js:     'dis/js/',
-    origin: 'dis/',
-    php:    'dis/php/',
-    vendor: 'dis/js/vendor'
+    css:    'dist/css/',
+    img:    'dist/img/',
+    js:     'dist/js/',
+    origin: 'dist/',
+    php:    'dist/php/',
+    vendor: 'dist/js/vendor'
   }
 };
 
@@ -188,8 +188,8 @@ gulp.task('js', function () {
     .pipe(concat(names.js))
     .pipe(gulp.dest('./'))
     .pipe(replace(paths.local, production || argv.production ? paths.deploy : paths.server))
-    .pipe(replace('dis/', ''))
-    .pipe(replace('dev/', ''))
+    .pipe(replace('dist/', ''))
+    .pipe(replace('src/', ''))
     .pipe(gulp.dest(paths.dis.js))
     .pipe(stripDebug())
     .pipe(ngAnnotate())
@@ -265,7 +265,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.dis.origin + '**/*').on('change', function (event) {
     console.log('Uploading file "' + event.path + '", ' + event.type);
 
-    gulp.src([event.path], { base: './dis/', buffer: false })
+    gulp.src([event.path], { base: './dist/', buffer: false })
       .pipe(conn.newer(argv.production ? '/' + names.deployFolder   : '/' + names.serverFolder)) // only upload newer files 
       .pipe(conn.dest(argv.production ? '/www/' + names.deployFolder : '/www/' + names.serverFolder));
 
