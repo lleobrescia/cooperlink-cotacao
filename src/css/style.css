@@ -225,11 +225,18 @@ body {
 }
 
 .title {
-  color: white;
-  font-size: 3.125em;
-  font-weight: bold;
+  color: #fff;
+  font-size: 2.500em;
+  font-weight: 700;
   margin-bottom: 0;
-  margin-top: 89px;
+  margin-top: 30px;
+}
+
+@media(min-width:48.000em) {
+  .title {
+    font-size: 3.125em;
+    margin-top: 89px;
+  }
 }
 
 .title span {
@@ -508,11 +515,10 @@ body {
 --------------------------------------------------------------*/
 
 .capemisa {
-  background: #fd5a17;
-  color: white;
   min-height: 422px;
   padding-bottom: 48px;
   padding-top: 48px;
+  border-bottom: thin solid rgba(128, 128, 128, 0.22);
 }
 
 .capemisa .table {
@@ -537,6 +543,7 @@ body {
 }
 
 .capemisa i {
+  color: #fd5a17;
   font-size: 1.5em;
   margin-right: 15px;
   vertical-align: middle;
@@ -562,7 +569,13 @@ body {
 --------------------------------------------------------------*/
 
 .form__passo {
-  margin-top: 100px;
+  margin-top: 20px;
+}
+
+@media(min-width:48.00em) {
+  .form__passo {
+    margin-top: 100px;
+  }
 }
 
 .form__passo .control-label {
@@ -575,8 +588,8 @@ body {
 
 .form__passo .form-control {
   border: none;
-  font-size: 2.500em;
-  height: 94px;
+  font-size: 1.875em;
+  height: 80px;
 }
 
 .form__passo .form-control:focus {
@@ -587,7 +600,7 @@ body {
 .form__passo .input-group-addon {
   background-color: #002651;
   border: none;
-  height: 94px;
+  height: 80px;
   min-width: 66px;
   position: relative;
 }
@@ -601,7 +614,7 @@ body {
   border: none;
   color: #f25b22;
   font-size: 2.500em;
-  height: 94px;
+  height: 80px;
   left: 0;
   position: absolute;
   top: 0;
@@ -621,10 +634,18 @@ body {
 .btn-carro,
 .btn-moto {
   background-color: #00142f !important;
+  border: none;
   font-size: 1.875em;
   height: 80px;
   text-transform: uppercase;
-  width: 180px;
+  width: 100%;
+}
+
+@media(min-width:48.00em) {
+  .btn-carro,
+  .btn-moto {
+    width: 180px;
+  }
 }
 
 .btn-carro:hover,
@@ -641,5 +662,27 @@ body {
 }
 
 .btn-carro {
-  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.uber__buttons button {
+  font-size: 1.875em;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.uber__buttons .btn-success {
+  margin-bottom: 20px;
+}
+
+@media(min-width:48.00em) {
+  .uber__buttons button {
+    width: 200px;
+  }
+  .btn-carro,
+  .uber__buttons .btn-success {
+    margin-bottom: 0;
+    margin-right: 30px;
+  }
 }

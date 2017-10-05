@@ -5,7 +5,7 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state', 'CheckConditionService', 'api', 'fipeService', 'toaster'];
+  SemPlacaController.$inject = ['$http', '$rootScope', '$state','$window', 'CheckConditionService', 'api', 'fipeService', 'toaster'];
 
   /**
    * @ngdoc controller
@@ -41,7 +41,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function SemPlacaController($http, $rootScope, $state, CheckConditionService, api, fipeService, toaster) {
+  function SemPlacaController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -55,6 +55,7 @@
       'veiculo'         : ''
     };
 
+    vm.altura          = $window.innerHeight;
     vm.anoEscolhido    = '';
     vm.carregando      = true;
     vm.fipePasso       = 'passo1';
@@ -85,6 +86,7 @@
      * @memberof SemPlacaController
      */
     function Activate() {
+      console.log(vm.altura );
       GetRejeitados();
 
       fipeService.GetMotos().then(function (resp) {
