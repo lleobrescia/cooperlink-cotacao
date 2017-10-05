@@ -1,24 +1,24 @@
 <?php
-  $data     = json_decode(file_get_contents('php://input'), true); //Recebe JSON
-  $stop_date = new DateTime();
-  $stop_date->modify('+3 day');
+$data      = json_decode(file_get_contents('php://input'), true); //Recebe JSON
+$stop_date = new DateTime();
+$stop_date->modify('+3 day');
 
-  $valorAdesaAdesao = $data["adesao"];
-  $check            = $data["check"];
-  $franquia         = $data["franquia"];
-  $modelo           = $data["modelo"];
-  $valorBronze      = $data["valorBronze"];
-  $valorCarro       = $data["valorCarro"];
-  $valorOuro        = $data["valorOuro"];
-  $valorPrata       = $data["valorPrata"];
-  $to               = $data["to"];
-  $subject          = "Sua Cotação [ Cooperlink Brasil ]";
+$valorAdesaAdesao = $data["adesao"];
+$check            = $data["check"];
+$franquia         = $data["franquia"];
+$modelo           = $data["modelo"];
+$valorBronze      = $data["valorBronze"];
+$valorCarro       = $data["valorCarro"];
+$valorOuro        = $data["valorOuro"];
+$valorPrata       = $data["valorPrata"];
+$to               = $data["to"];
+$subject          = "Sua Cotação [ Cooperlink Brasil ]";
 
-  $headers  = 'MIME-Version: 1.0' . "\r\n"; 
-  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  $headers .= "From: Cooperlink Brasil <contato@cooperlink.com.br>" . "\r\n";
+$headers = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$headers .= "From: Cooperlink Brasil <contato@cooperlink.com.br>" . "\r\n";
 
-  $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
+$corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
   <table cellpadding="0" cellspacing="0" style="width: 600px;padding-left: 20px;padding-right: 20px;padding-bottom: 50px;margin-left:auto;margin-right:auto;background-color: white;">
     <tr>
       <td>
@@ -35,7 +35,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px">
           <tr>
-            <td align="center" style="height: 101px;font-size:16px; line-height: 2;color:#41434c "> Aqui está a sua cotação para seu '.$modelo.'  <br>Avaliado em <span style="color:#ffaa3c;font-weight: 800;">'.$valorCarro.'</span>              segundo a tabela FIPE </td>
+            <td align="center" style="height: 101px;font-size:16px; line-height: 2;color:#41434c "> Aqui está a sua cotação para seu ' . $modelo . '  <br>Avaliado em <span style="color:#ffaa3c;font-weight: 800;">' . $valorCarro . '</span>              segundo a tabela FIPE </td>
           </tr>
         </table>
       </td>
@@ -60,7 +60,7 @@
             <td style="width: 250px;color:#41434c; border-left:dotted 1px #ddddde;padding-left: 20px;">
               13 Assistências <br><br>6 Coberturas <br><br>300 Km Reboque </td>
             <td style="width: 160px; color:#41434c;font-weight: bold;border-left:dotted 1px #ddddde;padding-left: 20px;">
-              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">'.$valorBronze.'</span> </td>
+              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">' . $valorBronze . '</span> </td>
           </tr>
         </table>
       </td>
@@ -72,7 +72,7 @@
             <td style="width: 91px; font-weight: bold; color:#41434c;font-size: 18px; padding-left: 20px;"> Plano <br>Prata </td>
             <td style="width: 250px;color:#41434c;border-left:dotted 1px #ddddde;padding-left: 20px; "> 13 Assistências <br><br>6 Coberturas <br><br>1000 Km Reboque </td>
             <td style="width: 160px; color:#41434c;font-weight: bold;border-left:dotted 1px #ddddde;padding-left: 20px;">
-              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">'.$valorPrata.'</span> </td>
+              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">' . $valorPrata . '</span> </td>
           </tr>
         </table>
       </td>
@@ -85,7 +85,7 @@
             <td style="width: 250px;color:#41434c; border-left:dotted 1px #ddddde;padding-left: 20px;"> 13 Assistências <br><br>6 Coberturas <br><br>1000 Km Reboque <br><br>7 dias de carro reserva <br><br>Faróis,
               lanternas, vidros e retrovisores <br><br></td>
             <td style="width: 160px; color:#41434c;font-weight: bold;border-left:dotted 1px #ddddde;padding-left: 20px;">
-              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">'.$valorOuro.'</span> </td>
+              Mensalidade <br><span style="color:#82ca70;font-size:24px;font-weight: bold">' . $valorOuro . '</span> </td>
           </tr>
         </table>
       </td>
@@ -94,8 +94,8 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; ">
           <tr>
-            <td valign="top"> Adesão <span style="font-weight:bold">R$'.$valorAdesaAdesao.'</span> </td>
-            '.$restreadorEmail.'
+            <td valign="top"> Adesão <span style="font-weight:bold">R$' . $valorAdesaAdesao . '</span> </td>
+            ' . $restreadorEmail . '
           </tr>
         </table>
       </td>
@@ -145,7 +145,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 100px; padding-top:20px">
           <tr>
-            <td valign="top"> Franquia do carro '.$franquia.'  </td>
+            <td valign="top"> Franquia do carro ' . $franquia . '  </td>
           </tr>
         </table>
       </td>
@@ -249,7 +249,7 @@
       <td>
         <table cellpadding="0" cellspacing="0" style="width: 600px;height: 55px; ">
           <tr>
-            <td align="center">Lembrando que é válida até o dia '.$stop_date->format('d/m/Y').' </td>
+            <td align="center">Lembrando que é válida até o dia ' . $stop_date->format('d/m/Y') . ' </td>
           </tr>
         </table>
       </td>
@@ -266,11 +266,12 @@
   </table>
 </div>';
 
-if( $check == 'umapalavrarealmentemuitograndeparaserlembradafeitapormim'){
+if ($check == 'umapalavrarealmentemuitograndeparaserlembradafeitapormim') {
   if (mail($to, $subject, $corpo, $headers)) {
-      echo 'true';
-  } else {
-      echo 'false';
+    echo 'true';
+  }
+  else {
+    echo 'false';
   }
 }
 
