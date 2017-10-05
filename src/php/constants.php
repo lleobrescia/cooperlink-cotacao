@@ -1,6 +1,6 @@
 <?php
 $api           = 'https://cooperlink.com.br/desenvolvimento/api.php/';
-$emailSuporte  = 'leo@basic.com.br';
+$emailSuporte  = 'eduardo@cooperlink.com.br';
 $emailVendedor = 'eduardo@multiplicarbrasil.com.br';
 $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';
