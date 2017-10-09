@@ -86,17 +86,29 @@
      * @memberof SemPlacaController
      */
     function Activate() {
-      console.log(vm.altura );
       GetRejeitados();
 
-      fipeService.GetMotos().then(function (resp) {
-        vm.listaMotos = resp;
-        console.log('Motos carregadas =>', vm.listaMotos);
-      });
-      fipeService.GetCarros().then(function (resp) {
-        vm.listaCarros = resp;
-        console.log('Carros carregados =>', vm.listaCarros);
+      $http.get(api + 'fp_marca').then(function (resp) {
+        var resposta = php_crud_api_transform(resp.data).fp_marca;
+
+        angular.forEach(resposta, function (value, key) {
+          if (value.tipo == '1') {
+            vm.listaCarros.push(value);
+          } else {
+            vm.listaMotos.push(value);
+          }
+        });
+        console.log('Carros', vm.listaCarros);
+        console.log('Motos', vm.listaMotos);
         vm.carregando = false;
+      }).catch(function (error) {
+        toaster.pop({
+          type:    'error',
+          title:   'Erro #802',
+          body:    'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Passo 1 = >' + error);
       });
     }
 
@@ -106,24 +118,26 @@
      * @memberof SemPlacaController
      */
     function GetAnos() {
+      vm.modeloEscolhido = angular.fromJson(vm.modeloEscolhido);
+
       console.info('Passo 3');
       vm.carregando = true;
 
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos').then(function (resp) {
-        vm.listaAnos  = resp;
+      $http.get(api + 'fp_ano?filter=codigo_modelo,eq,' + vm.modeloEscolhido.codigo_modelo).then(function (resp) {
+        vm.listaAnos = php_crud_api_transform(resp.data).fp_ano;
         console.log('Anos =>', vm.listaAnos);
 
         vm.carregando = false;
-        vm.fipePasso  = 'passo4';
+        vm.fipePasso = 'passo4';
       }).catch(function (error) {
         toaster.pop({
-         type   : 'error',
-         title  : 'Erro #802',
-         body   : 'Não foi possível completar a requisição.',
-         timeout: 50000
-       });
-       console.warn('Passo 3 = >' + error);
-     });
+          type:    'error',
+          title:   'Erro #802',
+          body:    'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Passo 3 = >' + error);
+      });
 
     }
 
@@ -133,11 +147,14 @@
      * @memberof SemPlacaController
      */
     function GetModelos() {
+      vm.marcaEscolhida = angular.fromJson(vm.marcaEscolhida);
       console.info('Passo 2');
+      console.info('Marca escolhida ', vm.marcaEscolhida);
+
       vm.carregando = true;
       //Pega o veiculo escolhido(moto ou carro) e o modelo escolhido (atraves da lista de um dos dois) e envia a requisicao
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos').then(function (resp) {
-        vm.listaModelos = resp.modelos;
+      $http.get(api + 'fp_modelo?filter=codigo_marca,eq,' + vm.marcaEscolhida.codigo_marca).then(function (resp) {
+        vm.listaModelos = php_crud_api_transform(resp.data).fp_modelo;
 
         console.log('Modelos =>', vm.listaModelos);
 
@@ -153,13 +170,13 @@
         vm.carregando = false;
       }).catch(function (error) {
         toaster.pop({
-         type   : 'error',
-         title  : 'Erro #802',
-         body   : 'Não foi possível completar a requisição.',
-         timeout: 50000
-       });
-       console.warn('Erro passo2 = >' + error);
-     });
+          type:    'error',
+          title:   'Erro #802',
+          body:    'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro passo2 = >' + error);
+      });
     }
 
     /**
@@ -168,97 +185,100 @@
      * @memberof SemPlacaController
      */
     function GetPreco() {
+      vm.anoEscolhido = angular.fromJson(vm.anoEscolhido);
+      
       console.info('Passo 4');
-      vm.carregando   = true;
-      var testeAno    = '';
+      console.info('Ano escolhido ',vm.anoEscolhido);
+      vm.carregando = true;
+
+      var ano = vm.anoEscolhido.ano;
+      var marca = vm.marcaEscolhida.marca;
+      var modelo = vm.modeloEscolhido.modelo;
+      var testeAno = '';
       var testeModelo = '';
 
-      fipeService.Consultar(vm.veiculo + '/marcas/' + vm.marcaEscolhida + '/modelos/' + vm.modeloEscolhido + '/anos/' + vm.anoEscolhido).then(function (resp) {
-        var combustivel = resp.Combustivel;
+      var combustivel = vm.anoEscolhido.combustivel;
 
-        //Armazena os dados da consulta para mostrar na tela de cotacao
-        $rootScope.usuario.preco            = resp.Valor;
-        $rootScope.usuario.preco            = $rootScope.usuario.preco.replace('R$ ','').replace('.','').replace(',00','');
-        $rootScope.usuario.modelo           = resp.Modelo;
-        $rootScope.usuario.codigoTabelaFipe = resp.CodigoFipe;
+      //Armazena os dados da consulta para mostrar na tela de cotacao
+      $rootScope.usuario.preco = vm.anoEscolhido.valor.toString();
+      $rootScope.usuario.modelo = vm.modeloEscolhido.modelo;
+      $rootScope.usuario.codigoTabelaFipe = vm.anoEscolhido.codigo_fipe;
 
-         console.log('Preco =>', resp);
+      CheckConditionService.Activate(modelo, marca, ano, vm.rejeitados);
 
-        CheckConditionService.Activate(resp.Modelo, resp.Marca, resp.AnoModelo, vm.rejeitados);
+      if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
+        console.info('Carro');
 
-        if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
-          console.info('Carro');
+        testeAno = CheckConditionService.CarHasValidYear(); //Valida o ano
+        testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
 
-          testeAno    = CheckConditionService.CarHasValidYear(); //Valida o ano
-          testeModelo = CheckConditionService.CarHasValidModel(); //Valida o modelo
+        console.log('Teste Ano =>', testeAno);
+        console.log('Teste Modelo =>', testeModelo);
 
-          console.log('Teste Ano =>', testeAno);
-          console.log('Teste Modelo =>', testeModelo);
-
-          if (!testeAno || !testeModelo) {
-            console.warn('Carro Invalido');
-            vm.carregando = false;
-            toaster.pop({
-              type:    'error',
-              title:   'Atenção!',
-              body:    'Não é possível fazer cotação para esse veículo.',
-              timeout: 50000
-            });
-          }else{
-            if (vm.isUber) {
-              console.info('Taxi');
-              $rootScope.usuario.taxi = true;
-              $state.go('cotacao');
-
-            }else if(combustivel.toUpperCase() === 'DISEL'){
-               console.info('Disel');
-
-              $rootScope.usuario.disel = true;
-              $state.go('cotacao');
-            } else {
-              $http.get(api + 'importado?filter=nome,eq,' + resp.Marca).then(function (resp) {
-                var retorno = php_crud_api_transform(resp.data).importado;
-
-                if (retorno.length > 0) {
-                   console.info('Importado');
-                  $rootScope.usuario.importado = true;
-                }
-                $state.go('cotacao');
-              });
-            }
-          }
-        } else if ($rootScope.usuario.veiculo === 'MOTOCICLETA') {
-          console.info('Moto');
-
-          testeAno    = CheckConditionService.MotoHasValidYear();
-          testeModelo = CheckConditionService.MotoHasValidYear();
-
-          console.log('Teste Ano =>', testeAno);
-          console.log('Teste Modelo =>', testeModelo);
-
-          if (!testeAno || !testeModelo) {
-            console.warn('Moto Invalida');
-
-            vm.carregando = false;
-            toaster.pop({
-              type:    'error',
-              title:   'Atenção!',
-              body:    'Não é possível fazer cotação para esse veículo.',
-              timeout: 50000
-            });
-          }else{
+        if (!testeAno || !testeModelo) {
+          console.warn('Carro Invalido');
+          vm.carregando = false;
+          toaster.pop({
+            type: 'error',
+            title: 'Atenção!',
+            body: 'Não é possível fazer cotação para esse veículo.',
+            timeout: 50000
+          });
+        } else {
+          if (vm.isUber) {
+            console.info('Taxi');
+            $rootScope.usuario.taxi = true;
             $state.go('cotacao');
+
+          } else if (combustivel.toUpperCase() === 'DISEL') {
+            console.info('Disel');
+
+            $rootScope.usuario.disel = true;
+            $state.go('cotacao');
+          } else {
+            $http.get(api + 'importado').then(function (resp) {
+              var retorno = php_crud_api_transform(resp.data).importado;
+              var isImportado = false;//marca
+
+              angular.forEach(retorno, function (value, key) {
+                var upperImportado = value.nome.toUpperCase();
+
+                if (marca.toUpperCase() == upperImportado) {
+                  isImportado = true;
+                }
+              });
+
+              if (isImportado) {
+                console.info('Importado');
+                $rootScope.usuario.importado = true;
+              }
+              $state.go('cotacao');
+            });
           }
         }
-      }).catch(function (error) {
-        toaster.pop({
-         type   : 'error',
-         title  : 'Erro #802',
-         body   : 'Não foi possível completar a requisição.',
-         timeout: 50000
-       });
-       console.warn('Erro passo 4 = >' + error);
-     });
+      } else if ($rootScope.usuario.veiculo === 'MOTOCICLETA') {
+        console.info('Moto');
+
+        testeAno = CheckConditionService.MotoHasValidYear();
+        testeModelo = CheckConditionService.MotoHasValidYear();
+
+        console.log('Teste Ano =>', testeAno);
+        console.log('Teste Modelo =>', testeModelo);
+
+        if (!testeAno || !testeModelo) {
+          console.warn('Moto Invalida');
+
+          vm.carregando = false;
+          toaster.pop({
+            type: 'error',
+            title: 'Atenção!',
+            body: 'Não é possível fazer cotação para esse veículo.',
+            timeout: 50000
+          });
+        } else {
+          $state.go('cotacao');
+        }
+      }
     }
 
     /**

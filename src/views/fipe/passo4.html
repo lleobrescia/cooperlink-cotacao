@@ -1,15 +1,18 @@
 <form name="formFipe">
   <label class="control-label text-center" for="placa">
-  <span>Qual é o ano?</span>
-</label>
+    <span>Qual é o ano?</span>
+  </label>
   <div class="input-group">
     <select class="form-control input-lg" name="modelo" ng-model="placa.anoEscolhido">
-    <option value="">Selecione um ano</option> <!-- not selected / blank option -->
-    <option ng-repeat="item in placa.listaAnos | orderBy: 'nome' track by $index " value="{{::item.codigo}}" required>{{::item.nome}}</option> 
-  </select>
+      <option value="">Selecione um ano</option>
+      <!-- not selected / blank option -->
+      <option ng-repeat="item in placa.listaAnos | orderBy: 'ano' track by $index " value="{{::item}}" required>{{::item.ano}}</option>
+    </select>
 
     <div class="input-group-addon">
-      <button ng-click="placa.fipePasso = 'passo5'" ng-disabled="!placa.anoEscolhido" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      <button ng-click="placa.fipePasso = 'passo5'" ng-disabled="!placa.anoEscolhido" type="submit">
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </button>
     </div>
     <!--input-group-addon-->
   </div>
