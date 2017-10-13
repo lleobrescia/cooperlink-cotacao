@@ -156,6 +156,7 @@ gulp.task('html', function () {
         src: '',
         tpl: production || argv.production ? script2 : ""
       },
+      'pagseguro': production || argv.production ? 'https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js' : 'https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js',
       'vendor': 'js/vendor/vendor.min.js'
     }))
     .pipe(htmlmin({
@@ -191,7 +192,7 @@ gulp.task('js', function () {
     .pipe(replace('dist/', ''))
     .pipe(replace('src/', ''))
     .pipe(gulp.dest(paths.dist.js))
-    .pipe(stripDebug())
+    // .pipe(stripDebug())
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(rename(names.jsMin))
