@@ -57,6 +57,37 @@
       'billingAddressState': '',
       'billingAddressCountry': 'BRA'
     };
+    var requisicaoBoleto = {
+      'email': '',
+      'token': '',
+      'paymentMode': 'default',
+      'paymentMethod': 'boleto',
+      'receiverEmail': '',
+      'currency': 'BRL',
+      'extraAmount': '',
+      'itemId1': '',
+      'itemDescription1': '',
+      'itemAmount1': '',
+      'itemQuantity1': '1',
+      'notificationURL': '',
+      'reference': '',
+      'senderName': '',
+      'senderCPF': '',
+      'senderAreaCode': '',
+      'senderPhone': '',
+      'senderEmail': '',
+      'senderHash': '',
+      'shippingAddressStreet': '',
+      'shippingAddressNumber': '',
+      'shippingAddressComplement': '',
+      'shippingAddressDistrict': '',
+      'shippingAddressPostalCode': '',
+      'shippingAddressCity': '',
+      'shippingAddressState': '',
+      'shippingAddressCountry': 'BRA',
+      'shippingType': '',
+      'shippingCost': ''
+    };
 
     vm.acceptedCreditCard = [];
     vm.aniversario = '';
@@ -93,6 +124,7 @@
     vm.CreateCardToken = CreateCardToken;
     vm.GetBrand = GetBrand;
     vm.GetCep = GetCep;
+    vm.PagarBoleto = PagarBoleto;
 
     Activate();
 
@@ -139,7 +171,7 @@
 
     }
 
-    function CheckErrosCartao(erros) {
+    function CheckErros(erros) {
       var lista = [];
       erros = conversorService.Xml2Json(erros);
       erros = erros.replace('undefined', '');
@@ -157,6 +189,15 @@
               });
               lista.push('53019');
               lista.push('53050');
+              break;
+            case '53122':
+              toaster.pop({
+                type: 'error',
+                title: 'Erro ao enviar os dados',
+                body: 'E-mail inválido.',
+                timeout: 50000
+              });
+              lista.push('53122');
               break;
             case '5003':
               toaster.pop({
@@ -207,7 +248,7 @@
               lista.push('53034');
               lista.push('53065');
               break;
-            case '53015' || '53044' :
+            case '53015' || '53044':
               toaster.pop({
                 type: 'error',
                 title: 'Erro ao enviar os dados',
@@ -365,6 +406,141 @@
       });
     }
 
+    function PagarBoleto() {
+      var tel = vm.usuario.telefone;
+
+      // Dados do plano
+      requisicaoBoleto.itemId1 = $rootScope.usuario.idCotacao;
+      requisicaoBoleto.itemDescription1 = 'Adesão do plano ' + $rootScope.usuario.plano + '. Para o modelo ' + $rootScope.usuario.modelo;
+      requisicaoBoleto.itemAmount1 = ($filter('number')($rootScope.usuario.vlorAdesao, 2)).replace(',', '.');
+      requisicaoBoleto.reference = $rootScope.usuario.idUsuario;
+
+      // Dados do comprador
+      requisicaoBoleto.senderName = vm.usuario.nome;
+      requisicaoBoleto.senderCPF = vm.usuario.cpf;
+      requisicaoBoleto.senderAreaCode = tel.substring(0, 2);
+      requisicaoBoleto.senderPhone = tel.slice(2);
+      requisicaoBoleto.senderEmail = vm.usuario.email;
+      requisicaoBoleto.senderHash = PagSeguroDirectPayment.getSenderHash();
+
+      //Endereco
+      requisicaoBoleto.shippingAddressStreet = vm.usuario.logradouro;
+      requisicaoBoleto.shippingAddressNumber = vm.usuario.numero;
+      requisicaoBoleto.shippingAddressComplement = vm.usuario.complemento;
+      requisicaoBoleto.shippingAddressDistrict = vm.usuario.bairro;
+      requisicaoBoleto.shippingAddressPostalCode = vm.usuario.cep;
+      requisicaoBoleto.shippingAddressCity = vm.usuario.cidade;
+      requisicaoBoleto.shippingAddressState = vm.usuario.estado.toUpperCase();
+
+      console.log('Requisisao Boleto => ', requisicaoBoleto);
+
+      $http({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'charset=ISO-8859-1'
+        },
+        data: requisicaoBoleto,
+        url: projectDev + 'php/pagar.php'
+      }).then(function (resp) {
+        var retorno = $.parseXML(resp.data);
+        console.log('Resposta pagamento boleto =>', resp);
+        console.log(retorno);
+
+        var transacao = {
+          'cliente': '',
+          'codigo': '',
+          'criacao': '',
+          'descricao': '',
+          'pagamento': '',
+          'status': '',
+          'valor': ''
+        };
+        var erros = $(retorno).find('errors').find('error') || null;
+
+        if (erros.length > 0) {
+          console.warn('Erros => ', erros);
+          CheckErros(resp.data);
+        } else {
+          var status = '';
+          var hoje = new Date();
+          var pagamento = '';
+
+          switch ($(retorno).find('transaction').find('status')[0].textContent) {
+            case '1':
+              status = 'Aguardando pagamento';
+              break;
+            case '2':
+              status = 'Em análise';
+              break;
+            case '3':
+              status = 'Paga';
+              $http.post('php/emailTransacao.php', {
+                'id': $(retorno).find('transaction').find('reference')[0].textContent
+              });
+              break;
+            case '4':
+              status = 'Disponível';
+              break;
+            case '5':
+              status = 'Em disputa';
+              break;
+            case '6':
+              status = 'Devolvida';
+              break;
+            case '7':
+              status = 'Cancelada';
+              break;
+            case '8':
+              status = 'Debitado';
+              break;
+            case '9':
+              status = 'Retenção temporária';
+              break;
+            default:
+              break;
+          }
+
+          switch ($(retorno).find('transaction').find('paymentMethod').find('type')[0].textContent) {
+            case '1':
+              pagamento = 'Cartão de crédito';
+              break;
+            case '2':
+              pagamento = 'Boleto';
+              break;
+            default:
+              break;
+          }
+
+          transacao.cliente = $(retorno).find('transaction').find('reference')[0].textContent || null;
+          transacao.codigo = $(retorno).find('transaction').find('code')[0].textContent || null;
+          transacao.criacao = $filter('date')(hoje, 'yyyy-MM-dd HH:mm:ss', '+0300');
+          transacao.descricao = $(retorno).find('transaction').find('items').find('item').find('description')[0].textContent || null;
+          transacao.pagamento = pagamento;
+          transacao.status = status;
+          transacao.valor = $(retorno).find('transaction').find('items').find('item').find('amount')[0].textContent || null;
+
+          $http.post(api + 'transacao', transacao).then(function (resp) {
+            vm.carregando = false;
+            vm.hasPaid = true;
+          }).catch(function (error) {
+            vm.carregando = false;
+            vm.hasPaid = true;
+            //TODO: Enviar um email para o admin avisando
+            console.warn('Erro ao salvar no BD = >' + error);
+          });
+        }
+      }).catch(function (error) {
+        vm.carregando = false;
+        toaster.pop({
+          type: 'error',
+          title: 'Pagamento não realizado #801',
+          body: 'Erro ao realizar o pagamento. Por favor,tente novamente mais tarde.',
+          timeout: 50000
+        });
+        console.warn('Erro ao pagar = >' + error);
+      });
+    }
+
     function PagarCreditCard() {
       var tel = vm.usuario.telefone;
 
@@ -419,7 +595,7 @@
 
         if (erros.length > 0) {
           console.warn('Erros => ', erros);
-          CheckErrosCartao(resp.data);
+          CheckErros(resp.data);
         } else {
           var status = '';
           var hoje = new Date();

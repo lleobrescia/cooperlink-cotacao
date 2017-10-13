@@ -17,155 +17,255 @@
           <p>Seu pagamento está sendo processado. Por favor, acompanhe seus e-mails para mais informações.</p>
         </div>
 
-        <form class="form__passo" name="formPagamento" ng-hide="checkout.carregando || checkout.hasPaid" novalidate>
+        <ul class="nav nav-tabs" ng-hide="checkout.carregando || checkout.hasPaid" role="tablist" style="margin-bottom: 20px;margin-top: 30px;">
+          <li class="active" role="presentation">
+            <a data-toggle="tab" href="#cartao" role="tab" aria-controls="cartao">Cartão</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="tab" href="#boleto" role="tab" aria-controls="boleto">Boleto</a>
+          </li>
+        </ul>
 
-          <label class="control-label" for="nome">Nome completo do titular</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="nome" ng-model="checkout.usuario.nome" type="text" style="text-transform: capitalize"
-              required>
-          </div>
-          <!--input-group-->
-
-          <label class="control-label" for="cpf">CPF do titular</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-mask="999.999.999-99">
-          </div>
-          <!--input-group-->
-
-          <label class="control-label" for="email">E-mail</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="email" ng-model="checkout.usuario.email" type="text" required>
-          </div>
-          <!--input-group-->
-
-          <label class="control-label" for="tel">Telefone</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-mask="(99) 9?9999-9999">
-          </div>
-          <!--input-group-->
-
-          <label class="control-label" for="cep">CEP</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="cep" ng-keyup="checkout.GetCep()" ng-model="checkout.usuario.cep" type="text"
-              ui-mask="99.999-999" required>
-          </div>
-          <!--input-group-->
-
-          <label class="control-label" for="logradouro">Logradouro</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="logradouro" ng-model="checkout.usuario.logradouro" type="text" required>
-          </div>
-          <!--form-group-->
-
-          <div class="row">
-            <div class="col-sm-3">
-              <label class="control-label" for="numero">Número</label>
+        <div class="tab-content" ng-hide="checkout.carregando || checkout.hasPaid">
+          <div class="tab-pane active" id="cartao" role="tabpanel">
+            <form class name="formPagamento" novalidate>
+              <label class="control-label" for="nome">Nome completo do titular</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="numero" ng-model="checkout.usuario.numero" type="text" required>
+                <input class="form-control input-lg" name="nome" ng-model="checkout.usuario.nome" type="text" style="text-transform: capitalize"
+                  required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="cpf">CPF do titular</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-mask="999.999.999-99">
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="email">E-mail</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="email" ng-model="checkout.usuario.email" type="text" required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="tel">Telefone</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-mask="(99) 9?9999-9999">
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="cep">CEP</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="cep" ng-keyup="checkout.GetCep()" ng-model="checkout.usuario.cep" type="text"
+                  ui-mask="99.999-999" required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="logradouro">Logradouro</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="logradouro" ng-model="checkout.usuario.logradouro" type="text" required>
               </div>
               <!--form-group-->
-            </div>
-            <!-- col-sm-3 -->
-            <div class="col-sm-9">
-              <label class="control-label" for="complemento">Complemento</label>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <label class="control-label" for="numero">Número</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="numero" ng-model="checkout.usuario.numero" type="text" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-3 -->
+                <div class="col-sm-9">
+                  <label class="control-label" for="complemento">Complemento</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="complemento" ng-model="checkout.usuario.complemento" type="text">
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-8 -->
+              </div>
+              <!-- row -->
+
+              <label class="control-label" for="bairro">Bairro</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="complemento" ng-model="checkout.usuario.complemento" type="text">
+                <input class="form-control input-lg" name="bairro" ng-model="checkout.usuario.bairro" type="text" required>
               </div>
               <!--form-group-->
-            </div>
-            <!-- col-sm-8 -->
-          </div>
-          <!-- row -->
 
-          <label class="control-label" for="bairro">Bairro</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="bairro" ng-model="checkout.usuario.bairro" type="text" required>
-          </div>
-          <!--form-group-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <label class="control-label" for="cidade">Cidade</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="cidade" ng-model="checkout.usuario.cidade" type="text" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-9 -->
 
-          <div class="row">
-            <div class="col-sm-9">
-              <label class="control-label" for="cidade">Cidade</label>
+                <div class="col-sm-3">
+                  <label class="control-label" for="estado">Estado</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="estado" ng-model="checkout.usuario.estado" type="text" maxlength="2" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-3 -->
+              </div>
+              <!-- row -->
+              <label class="control-label" for="nomeCartao">Nome impresso no cartão</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="cidade" ng-model="checkout.usuario.cidade" type="text" required>
+                <input class="form-control input-lg" name="nomeCartao" ng-model="checkout.requisicao.creditCardHolderName" type="text" style="text-transform: uppercase"
+                  required>
+              </div>
+              <!--input-group-->
+              <label class="control-label" for="ani">Data de aniversário do titular</label>
+              <div class="form-group">
+                <input class="form-control input-lg " name="ani" ng-model="checkout.aniversario" type="text" ui-mask="99/99/9999" placeholder="dd/mm/aaaa"
+                  required>
+              </div>
+              <!--input-group-->
+              <label class="control-label" for="cartao">Número do cartão</label>
+              <div class="form-group">
+                <input class="form-control input-lg cartao" name="cartao" ng-keyup="checkout.GetBrand()" ng-model="checkout.cardDados.cardNumber"
+                  ng-style="checkout.imgBrand" type="text" required>
+              </div>
+              <!--input-group-->
+
+              <p ng-if="checkout.cardDados.cardNumber.length > 8 && !checkout.hasBrand">Cartão inválido</p>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <label class="control-label" for="cidade">Data de expiração</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ng-required="checkout.validador.config.hasDueDate"
+                      type="text" ui-date-mask="MM/YY">
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-9 -->
+
+                <div class="col-sm-6">
+                  <label class="control-label" for="estado">Código de segurança</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="estado" ng-maxlength="checkout.validador.cvvSize" ng-model="checkout.cardDados.cvv"
+                      ng-required="checkout.validador.config.hasCvv" type="text">
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-3 -->
+              </div>
+              <!-- row -->
+              <div class="form-group" style="margin-bottom: 50px;">
+                <button class="btn btn-submit btn-success" ng-click="checkout.CreateCardToken()" ng-disabled="formPagamento.$invalid" type="submit">Finalizar
+                  <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i>
+                </button>
+              </div>
+
+            </form>
+          </div>
+          <div class="tab-pane" id="boleto" role="tabpanel">
+            <form class name="formPagamentoBoleto" novalidate>
+
+              <label class="control-label" for="nome">Nome completo</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="nome" ng-model="checkout.usuario.nome" type="text" style="text-transform: capitalize"
+                  required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="cpf">CPF</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="cpf" ng-model="checkout.usuario.cpf" type="text" required ui-mask="999.999.999-99">
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="email">E-mail</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="email" ng-model="checkout.usuario.email" type="text" required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="tel">Telefone</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="tel" ng-model="checkout.usuario.telefone" type="text" required ui-mask="(99) 9?9999-9999">
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="cep">CEP</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="cep" ng-keyup="checkout.GetCep()" ng-model="checkout.usuario.cep" type="text"
+                  ui-mask="99.999-999" required>
+              </div>
+              <!--input-group-->
+
+              <label class="control-label" for="logradouro">Logradouro</label>
+              <div class="form-group">
+                <input class="form-control input-lg" name="logradouro" ng-model="checkout.usuario.logradouro" type="text" required>
               </div>
               <!--form-group-->
-            </div>
-            <!-- col-sm-9 -->
 
-            <div class="col-sm-3">
-              <label class="control-label" for="estado">Estado</label>
+              <div class="row">
+                <div class="col-sm-3">
+                  <label class="control-label" for="numero">Número</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="numero" ng-model="checkout.usuario.numero" type="text" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-3 -->
+                <div class="col-sm-9">
+                  <label class="control-label" for="complemento">Complemento</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="complemento" ng-model="checkout.usuario.complemento" type="text">
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-8 -->
+              </div>
+              <!-- row -->
+
+              <label class="control-label" for="bairro">Bairro</label>
               <div class="form-group">
-                <input class="form-control input-lg" name="estado" ng-model="checkout.usuario.estado" type="text" maxlength="2" required>
+                <input class="form-control input-lg" name="bairro" ng-model="checkout.usuario.bairro" type="text" required>
               </div>
               <!--form-group-->
-            </div>
-            <!-- col-sm-3 -->
-          </div>
-          <!-- row -->
 
-          <label class="control-label" for="nomeCartao">Nome impresso no cartão</label>
-          <div class="form-group">
-            <input class="form-control input-lg" name="nomeCartao" ng-model="checkout.requisicao.creditCardHolderName" type="text" style="text-transform: uppercase"
-              required>
-          </div>
-          <!--input-group-->
-          <label class="control-label" for="ani">Data de aniversário do titular</label>
-          <div class="form-group">
-            <input class="form-control input-lg " name="ani" ng-model="checkout.aniversario" type="text" ui-mask="99/99/9999" placeholder="dd/mm/aaaa"
-              required>
-          </div>
-          <!--input-group-->
-          <label class="control-label" for="cartao">Número do cartão</label>
-          <div class="form-group">
-            <input class="form-control input-lg cartao" name="cartao" ng-keyup="checkout.GetBrand()" ng-model="checkout.cardDados.cardNumber"
-              ng-style="checkout.imgBrand" type="text" required>
-          </div>
-          <!--input-group-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <label class="control-label" for="cidade">Cidade</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="cidade" ng-model="checkout.usuario.cidade" type="text" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-9 -->
 
-          <p ng-if="checkout.cardDados.cardNumber.length > 8 && !checkout.hasBrand">Cartão inválido</p>
-
-          <div class="row">
-            <div class="col-sm-6">
-              <label class="control-label" for="cidade">Data de expiração</label>
-              <div class="form-group">
-                <input class="form-control input-lg" name="cidade" ng-model="checkout.expericaoCartao" ng-required="checkout.validador.config.hasDueDate"
-                  type="text" ui-date-mask="MM/YY">
+                <div class="col-sm-3">
+                  <label class="control-label" for="estado">Estado</label>
+                  <div class="form-group">
+                    <input class="form-control input-lg" name="estado" ng-model="checkout.usuario.estado" type="text" maxlength="2" required>
+                  </div>
+                  <!--form-group-->
+                </div>
+                <!-- col-sm-3 -->
               </div>
-              <!--form-group-->
-            </div>
-            <!-- col-sm-9 -->
 
-            <div class="col-sm-6">
-              <label class="control-label" for="estado">Código de segurança</label>
-              <div class="form-group">
-                <input class="form-control input-lg" name="estado" ng-maxlength="checkout.validador.cvvSize" ng-model="checkout.cardDados.cvv"
-                  ng-required="checkout.validador.config.hasCvv" type="text">
+              <!-- row -->
+              <div class="form-group" style="margin-bottom: 50px;">
+                <button class="btn btn-submit btn-success" ng-click="checkout.PagarBoleto()" ng-disabled="formPagamentoBoleto.$invalid" type="submit">Finalizar
+                  <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i>
+                </button>
               </div>
-              <!--form-group-->
-            </div>
-            <!-- col-sm-3 -->
-          </div>
-          <!-- row -->
-          <div class="form-group" style="margin-bottom: 50px;">
-            <button class="btn btn-submit btn-success" ng-click="checkout.CreateCardToken()" ng-disabled="formPagamento.$invalid" type="submit">Finalizar <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i></button>
-          </div>
-          <style>
-            .btn-submit {
-              width: 100%;
-              text-align: right;
-              color: #1a4783;
-              background: #41c4ec;
-              font-size: 2.188em;
-              font-weight: bold;
-              text-transform: uppercase;
-            }
-          </style>
 
-        </form>
+            </form>
+          </div>
+        </div>
+        <!-- tab-content -->
+
         <img ng-show="!checkout.carregando || !checkout.hasPaid" src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/avista_estatico_550_70.gif"
           title="Este site aceita pagamentos com os principais bancos, saldo em conta PagSeguro e boleto." alt="Logotipos de meios de pagamento do PagSeguro"
-          style="display: block;margin:auto 50px;">
+          style="display: block;margin: 50px auto;">
         <div class="loader" ng-show="checkout.carregando"></div>
       </div>
       <!--col-sm-8 col-sm-offset-2-->
@@ -181,5 +281,28 @@
     background-repeat: no-repeat;
     background-position: left center;
     padding-left: 68px;
+  }
+
+  .btn-submit {
+    width: 100%;
+    text-align: right;
+    color: #1a4783;
+    background: #41c4ec;
+    font-size: 2.188em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .nav-tabs>li.active>a,
+  .nav-tabs>li.active>a:focus,
+  .nav-tabs>li.active>a:hover {
+    color: #002653;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+
+  .nav-tabs>li>a {
+    font-size: 1.5em;
+    color: #002655;
   }
 </style>
