@@ -1,16 +1,16 @@
 <?php
 $api           = 'https://cooperlink.com.br/desenvolvimento/api.php/';
-$emailSuporte  = 'eduardo@cooperlink.com.br';
+$emailSuporte  = 'financeiro@cooperlink.com.br';
 $emailVendedor = 'eduardo@multiplicarbrasil.com.br';
 $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';
-$tokenVendedor = 'AC10190A53CB4F5C85A3C688C022FC5D';
+$tokenVendedor = '511F036A91AC4E679CA65B32D399DDBB';
 $seletor       = 'testeCooperlink';
 
 if ($seletor == 'producaoCooperlink') {
   $pagseguro     = 'https://ws.pagseguro.uol.com.br/';
-  $tokenVendedor = 'E20D830DE85343C48603A475B530E567';
+  $tokenVendedor = '1410642B185F4DA38DEEFC7ED5C7D2EE';
 }
 
-//E20D830DE85343C48603A475B530E567 - producao
-//AC10190A53CB4F5C85A3C688C022FC5D - teste 
+//1410642B185F4DA38DEEFC7ED5C7D2EE - producao
+//511F036A91AC4E679CA65B32D399DDBB - teste 
