@@ -1,7 +1,7 @@
 <?php
 $api           = 'https://cooperlink.com.br/desenvolvimento/api.php/';
-$emailSuporte  = 'financeiro@cooperlink.com.br';
-$emailVendedor = 'eduardo@multiplicarbrasil.com.br';
+$emailSuporte  = 'eduardo@cooperlink.com.br';
+$emailVendedor = 'financeiro@cooperlink.com.br';
 $host          = "localhost";
 $pagseguro     = 'https://ws.sandbox.pagseguro.uol.com.br/';
 $tokenVendedor = '511F036A91AC4E679CA65B32D399DDBB';
@@ -13,4 +13,4 @@ if ($seletor == 'producaoCooperlink') {
 }
 
 //1410642B185F4DA38DEEFC7ED5C7D2EE - producao
-//511F036A91AC4E679CA65B32D399DDBB - teste 
+//511F036A91AC4E679CA65B32D399DDBB - teste

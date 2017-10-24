@@ -192,7 +192,7 @@ gulp.task('js', function () {
     .pipe(replace('dist/', ''))
     .pipe(replace('src/', ''))
     .pipe(gulp.dest(paths.dist.js))
-    // .pipe(stripDebug())
+    .pipe(stripDebug())
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(rename(names.jsMin))
