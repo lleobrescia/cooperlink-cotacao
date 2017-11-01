@@ -5,7 +5,7 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state','$window', 'CheckConditionService', 'api', 'fipeService', 'toaster'];
+  SemPlacaController.$inject = ['$http', '$rootScope', '$state','$window', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'pipedrive'];
 
   /**
    * @ngdoc controller
@@ -41,7 +41,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function SemPlacaController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster) {
+  function SemPlacaController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster, pipedrive) {
     var vm = this;
 
     $rootScope.usuario = {
@@ -57,8 +57,144 @@
 
     vm.altura          = $window.innerHeight;
     vm.anoEscolhido    = '';
+    vm.estado          = [{
+        "ID": "1",
+        "Sigla": "AC",
+        "Nome": "Acre"
+      },
+      {
+        "ID": "2",
+        "Sigla": "AL",
+        "Nome": "Alagoas"
+      },
+      {
+        "ID": "3",
+        "Sigla": "AM",
+        "Nome": "Amazonas"
+      },
+      {
+        "ID": "4",
+        "Sigla": "AP",
+        "Nome": "Amapá"
+      },
+      {
+        "ID": "5",
+        "Sigla": "BA",
+        "Nome": "Bahia"
+      },
+      {
+        "ID": "6",
+        "Sigla": "CE",
+        "Nome": "Ceará"
+      },
+      {
+        "ID": "7",
+        "Sigla": "DF",
+        "Nome": "Distrito Federal"
+      },
+      {
+        "ID": "8",
+        "Sigla": "ES",
+        "Nome": "Espírito Santo"
+      },
+      {
+        "ID": "9",
+        "Sigla": "GO",
+        "Nome": "Goiás"
+      },
+      {
+        "ID": "10",
+        "Sigla": "MA",
+        "Nome": "Maranhão"
+      },
+      {
+        "ID": "11",
+        "Sigla": "MG",
+        "Nome": "Minas Gerais"
+      },
+      {
+        "ID": "12",
+        "Sigla": "MS",
+        "Nome": "Mato Grosso do Sul"
+      },
+      {
+        "ID": "13",
+        "Sigla": "MT",
+        "Nome": "Mato Grosso"
+      },
+      {
+        "ID": "14",
+        "Sigla": "PA",
+        "Nome": "Pará"
+      },
+      {
+        "ID": "15",
+        "Sigla": "PB",
+        "Nome": "Paraíba"
+      },
+      {
+        "ID": "16",
+        "Sigla": "PE",
+        "Nome": "Pernambuco"
+      },
+      {
+        "ID": "17",
+        "Sigla": "PI",
+        "Nome": "Piauí"
+      },
+      {
+        "ID": "18",
+        "Sigla": "PR",
+        "Nome": "Paraná"
+      },
+      {
+        "ID": "19",
+        "Sigla": "RJ",
+        "Nome": "Rio de Janeiro"
+      },
+      {
+        "ID": "20",
+        "Sigla": "RN",
+        "Nome": "Rio Grande do Norte"
+      },
+      {
+        "ID": "21",
+        "Sigla": "RO",
+        "Nome": "Rondônia"
+      },
+      {
+        "ID": "22",
+        "Sigla": "RR",
+        "Nome": "Roraima"
+      },
+      {
+        "ID": "23",
+        "Sigla": "RS",
+        "Nome": "Rio Grande do Sul"
+      },
+      {
+        "ID": "24",
+        "Sigla": "SC",
+        "Nome": "Santa Catarina"
+      },
+      {
+        "ID": "25",
+        "Sigla": "SE",
+        "Nome": "Sergipe"
+      },
+      {
+        "ID": "26",
+        "Sigla": "SP",
+        "Nome": "São Paulo"
+      },
+      {
+        "ID": "27",
+        "Sigla": "TO",
+        "Nome": "Tocantins"
+      }
+    ];
     vm.carregando      = true;
-    vm.fipePasso       = 'passo1';
+    vm.fipePasso       = 'estado';
     vm.isUber          = false;
     vm.listaAnos       = [];
     vm.listaCarros     = [];
@@ -68,13 +204,20 @@
     vm.modeloEscolhido = '';
     vm.veiculo         = '';
     vm.rejeitados      = [];
+    vm.usuario         = {
+      'email':          '',
+      'estado':         '',
+      'nome':           '',
+      'telefone':       ''
+    };
 
     /**
      * Atribuição das funções no escopo
      */
-    vm.GetAnos    = GetAnos;
-    vm.GetModelos = GetModelos;
-    vm.GetPreco   = GetPreco;
+    vm.GetAnos     = GetAnos;
+    vm.GetModelos  = GetModelos;
+    vm.GetPreco    = GetPreco;
+    vm.SalvarDados = SalvarDados;
 
     Activate();
 
@@ -109,6 +252,47 @@
           timeout: 50000
         });
         console.warn('Passo 1 = >' + error);
+      });
+    }
+
+    function AddInPipedrive() {
+      var deal = {
+        'title': vm.usuario.nome,
+        'person_id': '',
+        'stage_id': 1
+      };
+      var person;
+      var token = '';
+      
+      switch (vm.usuario.estado) {
+        case 'Minas Gerais':
+          token = 'd535ffdcda8a98f665d3a1a2159b7e332513775d';
+          person = {
+            'name': vm.usuario.nome,
+            'email': [vm.usuario.email],
+            'phone': [vm.usuario.telefone],
+            '2cc51f5cb5c89ffd428481a4c296dbf395ce5294': vm.usuario.estado//Campo parsonalizado (estado)
+          };
+          break;
+
+        default:
+          token = '826f5328bd2a1aa1c10626f78d541f8f3172da26';
+          person = {
+            'name': vm.usuario.nome,
+            'email': [vm.usuario.email],
+            'phone': [vm.usuario.telefone],
+            '68ef00258bf9c719624253313124607fa6436745': vm.usuario.estado//Campo parsonalizado (estado)
+          };
+          break;
+      }
+
+      $http.post(pipedrive + 'persons/?api_token=' + token, person).then(function (resp) {
+        deal.person_id = resp.data.data.id;
+        console.log('Pipedrive person ', resp);
+
+        $http.post(pipedrive + 'deals/?api_token=' + token, deal).then(function (resp2) {
+          console.log('Pipedrive deal ', resp2);
+        });
       });
     }
 
@@ -289,6 +473,23 @@
     function GetRejeitados() {
       $http.get(api + 'rejeitado').then(function (resp) {
         vm.rejeitados = php_crud_api_transform(resp.data).rejeitado;
+      });
+    }
+
+    function SalvarDados() {
+      $http.post(api + 'cliente', vm.usuario).then(function (resp) {
+        $rootScope.usuario.idUsuario = resp.data;
+        console.info('Dados salvos ',$rootScope.usuario);
+        AddInPipedrive();
+      }).catch(function (error) {
+        toaster.pop({
+          type   : 'error',
+          title  : 'Erro #701',
+          body   : 'Não foi possível completar a requisição.',
+          timeout: 50000
+        });
+        console.warn('Erro ao salvar dados do usuario = >' + error);
+        $state.go('placa');
       });
     }
   }

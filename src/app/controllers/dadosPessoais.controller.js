@@ -33,9 +33,10 @@
    */
   function DadosPessoaisController($http, $rootScope, $state, api, consultCEP, toaster) {
     var vm = this;
+    var idUsuario;
 
     vm.carregando = false;
-    vm.passo      = 'nome';
+    vm.passo      = 'cpf';
     vm.usuario = {
       'bairro':         '',
       'cep':            '',
@@ -43,13 +44,10 @@
       'complemento':    '',
       'cotacao':        '',
       'cpf':            '',
-      'email':          '',
       'estado':         '',
       'logradouro':     '',
-      'nome':           '',
       'numero':         '',
-      'planoEscolhido': '',
-      'telefone':       ''
+      'planoEscolhido': ''
     };
 
     /**
@@ -68,6 +66,7 @@
       }else{
         vm.usuario.cotacao        = $rootScope.usuario.idCotacao;
         vm.usuario.planoEscolhido = $rootScope.usuario.idPlano;
+        idUsuario                 = $rootScope.usuario.idUsuario;
       }
     }
 
@@ -84,8 +83,7 @@
     }
 
     function SalvarDados() {
-      $http.post(api + 'cliente', vm.usuario).then(function (resp) {
-        $rootScope.usuario.idUsuario = resp.data;
+      $http.put(api + 'cliente/' + idUsuario, vm.usuario).then(function (resp) {
         console.info('Dados salvos ',$rootScope.usuario);
         $state.go('contrato');
 

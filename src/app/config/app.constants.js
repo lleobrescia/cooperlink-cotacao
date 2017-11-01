@@ -18,5 +18,6 @@
     .constant('rastreadorCarro', 15000)
     .constant('rastreadorMoto', 7000)
     .constant('anoCarro', 20)
-    .constant('anoMoto', 2005);
+    .constant('anoMoto', 2005)
+    .constant('pipedrive','https://cooperlink.pipedrive.com/v1/');
 })();

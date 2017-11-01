@@ -1,0 +1,18 @@
+<label class="control-label text-center" for="placa">
+  <span>Selecione seu estado</span>
+</label>
+<div class="input-group">
+  <select class="form-control input-lg" name="modelo" ng-model="placa.usuario.estado" required>
+    <option value="">Estado</option>
+    <!-- not selected / blank option -->
+    <option ng-repeat="item in placa.estado | orderBy: 'Nome' track by $index " value="{{::item.Nome}}" required>{{::item.Nome}}</option>
+  </select>
+
+  <div class="input-group-addon">
+    <button ng-click="placa.fipePasso = 'dadosPessoais'" ng-disabled="!placa.usuario.estado" type="submit">
+      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+  <!--input-group-addon-->
+</div>
+<!--input-group--> 

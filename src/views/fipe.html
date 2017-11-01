@@ -15,6 +15,16 @@
 
           <div class="animate-switch-container form-group" ng-switch on="placa.fipePasso">
 
+            <div class="animate-switch" ng-switch-when="estado">
+              <div ng-include="'fipe/estado.html'"></div>
+            </div>
+            <!--estado-->
+
+            <div class="animate-switch" ng-switch-when="dadosPessoais">
+              <div ng-include="'fipe/dados_pessoais.html'"></div>
+            </div>
+            <!--dadosPessoais-->
+
             <div class="animate-switch" ng-switch-when="passo1">
               <div ng-include="'fipe/passo1.html'"></div>
             </div>
