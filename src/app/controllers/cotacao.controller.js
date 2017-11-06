@@ -5,7 +5,7 @@
     .module('app')
     .controller('CotacaoController', CotacaoController);
 
-  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir', 'projectDev'];
+  CotacaoController.$inject = ['$filter', '$http', '$rootScope', '$state', 'api', 'rastreadorCarro', 'rastreadorMoto', 'toaster', 'projectDir', 'projectDev', 'pipedrive'];
 
   /**
    * @ngdoc controller
@@ -45,10 +45,11 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir, projectDev) {
+  function CotacaoController($filter, $http, $rootScope, $state, api, rastreadorCarro, rastreadorMoto, toaster, projectDir, projectDev, pipedrive ) {
     var carro15   = 15.00;
     var carro30   = 20.00;
     var carro7    = 11.00;
+    var dealID    = '';
     var moto15    = 12.00;
     var moto30    = 15.00;
     var moto7     = 9.00;
@@ -130,6 +131,7 @@
       if (!$rootScope.usuario) {
         $state.go('placa');
       } else {
+        dealID = $rootScope.usuario.deal;
         GetPrecos();
       }
     }
@@ -243,6 +245,7 @@
               default:
                 break;
             }
+            UpdateDeal();
           }
         });
         console.log('Adesao => ',   vm.adesao);
@@ -308,6 +311,7 @@
               default:
                 break;
             }
+            UpdateDeal();
           }
 
         });
@@ -374,6 +378,7 @@
               default:
                 break;
             }
+            UpdateDeal();
           }
 
         });
@@ -440,6 +445,7 @@
               default:
                 break;
             }
+            UpdateDeal();
           }
         });
         console.log('Adesao => ',   vm.adesao);
@@ -717,6 +723,38 @@
         console.log(vm.opcionais.reboque);
         console.log(vm.opcionais.vidros);
         console.log(vm.total);
+    }
+
+    function UpdateDeal() {
+      var deal  = '';
+      var token = '';
+      switch ($rootScope.usuario.estado) {
+        case 'Minas Gerais':
+          token = 'd535ffdcda8a98f665d3a1a2159b7e332513775d';
+          deal = {
+            'value': vm.adesao,
+            'ace9aa91c871c6d1529fa088bb2d4729c9ef81c4': 'R$ '+vm.adesao,
+            '4b41594abadea4fb7ebb61fcec6a4a267c550af7': vm.preco.ouro,
+            '7f5ce4fae3aa79fbf45adaac1a890fb68501f91c': vm.preco.prata,
+            'c26428081cc46c0d68c77192f00b18513af4d824': vm.preco.bronze
+          };
+          break;
+
+        default:
+          token = '826f5328bd2a1aa1c10626f78d541f8f3172da26';
+          deal = {
+            'value': vm.adesao,
+            'dda3c9403fddc931021bf44d2d6bb5394871ae8b': 'R$ '+vm.adesao,
+            '67c549b193487171d0774dc6a0210afef18f72f1': vm.preco.ouro,
+            '3a58eefc2f92efbafe850585055d0cd8fb884dd9': vm.preco.prata,
+            'c87bbad265cbdf653658c09c6bbbc0768b8fb44a': vm.preco.bronze
+          };
+          break;
+      }
+
+      $http.put(pipedrive + 'deals/' + dealID + '/?api_token=' + token, deal).then(function (resp) {
+        console.log('Pipedrive deal update', resp);
+      });
     }
 
   }

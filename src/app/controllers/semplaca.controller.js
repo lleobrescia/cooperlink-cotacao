@@ -5,7 +5,7 @@
     .module('app')
     .controller('SemPlacaController', SemPlacaController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state','$window', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'pipedrive'];
+  SemPlacaController.$inject = ['$http', '$rootScope', '$state', '$window', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'pipedrive'];
 
   /**
    * @ngdoc controller
@@ -43,21 +43,24 @@
    */
   function SemPlacaController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster, pipedrive) {
     var vm = this;
+    var leo = 'leo';
 
     $rootScope.usuario = {
       'codigoTabelaFipe': '',
-      'data'            : '',
-      'disel'           : false,
-      'importado'       : false,
-      'modelo'          : '',
-      'preco'           : '',
-      'taxi'            : false,
-      'veiculo'         : ''
+      'data':             '',
+      'deal':             '',
+      'disel':            false,
+      'estado':           'brasil',
+      'importado':        false,
+      'modelo':           '',
+      'preco':            '',
+      'taxi':             false,
+      'veiculo':          ''
     };
 
-    vm.altura          = $window.innerHeight;
-    vm.anoEscolhido    = '';
-    vm.estado          = [{
+    vm.altura       = $window.innerHeight;
+    vm.anoEscolhido = '';
+    vm.estado = [{
         "ID": "1",
         "Sigla": "AC",
         "Nome": "Acre"
@@ -105,7 +108,7 @@
       {
         "ID": "10",
         "Sigla": "MA",
-        "Nome": "Maranhão"
+        "Nome": "Maranhão" 
       },
       {
         "ID": "11",
@@ -204,11 +207,11 @@
     vm.modeloEscolhido = '';
     vm.veiculo         = '';
     vm.rejeitados      = [];
-    vm.usuario         = {
-      'email':          '',
-      'estado':         '',
-      'nome':           '',
-      'telefone':       ''
+    vm.usuario = {
+      'email':    '',
+      'estado':   '',
+      'nome':     '',
+      'telefone': ''
     };
 
     /**
@@ -256,32 +259,58 @@
     }
 
     function AddInPipedrive() {
-      var deal = {
-        'title': vm.usuario.nome,
-        'person_id': '',
-        'stage_id': 1
-      };
+      var deal;
       var person;
       var token = '';
-      
+
+      $rootScope.usuario.estado = vm.usuario.estado;
+
       switch (vm.usuario.estado) {
         case 'Minas Gerais':
           token = 'd535ffdcda8a98f665d3a1a2159b7e332513775d';
           person = {
-            'name': vm.usuario.nome,
+            'name':  vm.usuario.nome,
             'email': [vm.usuario.email],
             'phone': [vm.usuario.telefone],
-            '2cc51f5cb5c89ffd428481a4c296dbf395ce5294': vm.usuario.estado//Campo parsonalizado (estado)
+            '2cc51f5cb5c89ffd428481a4c296dbf395ce5294': vm.usuario.estado //Campo parsonalizado (estado)
+          };
+          deal = {
+            'title':     vm.usuario.nome,
+            'person_id': '',
+            'stage_id':  1,
+            '258b7d5cf86ad57473eb3dbe64d7dcca65daf2d5': $rootScope.usuario.veiculo,
+            'ef95f5a9f47cd53c037ddce2b04d67036331721f': $rootScope.usuario.modelo,
+            '47dbd96f143b98b35b4a61ed58674fb2f26ad6f7': vm.marcaEscolhida.marca,
+            'eb2119cbebb4f7a2bae1cf5a8fcfddde95cc5508': vm.anoEscolhido.ano,
+            '972181c3b150add2d615edd6acdcd08fdd0843c0': $rootScope.usuario.importado ? 'Sim': 'Não',
+            '8f22047a93ee12281b29bc783f08de314bf795f5': $rootScope.usuario.taxi ? 'Sim': 'Não',
+            '1c20066faf18c40a6b8c005a759579c2b8a8b4bc': $rootScope.usuario.disel ? 'Sim': 'Não',
+            '2ccd17ea1d7ecc8727006907de12fe3ba14fe2c2': $rootScope.usuario.codigoTabelaFipe,
+            '0772a58c3baaced0b9179d03cab515d436ba0a22': 'R$ '+ $rootScope.usuario.preco
           };
           break;
 
         default:
           token = '826f5328bd2a1aa1c10626f78d541f8f3172da26';
           person = {
-            'name': vm.usuario.nome,
+            'name':  vm.usuario.nome,
             'email': [vm.usuario.email],
             'phone': [vm.usuario.telefone],
-            '68ef00258bf9c719624253313124607fa6436745': vm.usuario.estado//Campo parsonalizado (estado)
+            '68ef00258bf9c719624253313124607fa6436745': vm.usuario.estado //Campo parsonalizado (estado)
+          };
+          deal = {
+            'title':     vm.usuario.nome,
+            'person_id': '',
+            'stage_id':  1,
+            'aeddb7951a05180ed6785a697a0a66a43a86bf50': $rootScope.usuario.veiculo,
+            'e4cb5efc6a1a3054d9f9abc9a46ad713ee4ff646': $rootScope.usuario.modelo,
+            '96d2da8799b4642c80018ef5531fdce265967060': vm.marcaEscolhida.marca,
+            'a0f7ce2aa1ccad1d6924c4c271943bac5c94b078': vm.anoEscolhido.ano,
+            'c936add5130f549d30fcafc042b55c13bbed7966': $rootScope.usuario.importado ? 'Sim': 'Não',
+            'dcfda0244349aaf7ebff1b5ced1d455d019ff407': $rootScope.usuario.taxi ? 'Sim': 'Não',
+            'dcaf48d963b86002431f3a4aee7042ccebc727a3': $rootScope.usuario.disel ? 'Sim': 'Não',
+            '79a6a5f577b37d6c66b1c840b2152d5c91d7179d': $rootScope.usuario.codigoTabelaFipe,
+            '44081ae9682eee268633545d939a7b3162f90d2c': 'R$ '+ $rootScope.usuario.preco
           };
           break;
       }
@@ -291,7 +320,9 @@
         console.log('Pipedrive person ', resp);
 
         $http.post(pipedrive + 'deals/?api_token=' + token, deal).then(function (resp2) {
+          $rootScope.usuario.deal = resp2.data.data.id;
           console.log('Pipedrive deal ', resp2);
+          $state.go('cotacao');
         });
       });
     }
@@ -370,27 +401,39 @@
      */
     function GetPreco() {
       vm.anoEscolhido = angular.fromJson(vm.anoEscolhido);
-      
+
       console.info('Passo 4');
-      console.info('Ano escolhido ',vm.anoEscolhido);
+      console.info('Ano escolhido ', vm.anoEscolhido);
       vm.carregando = true;
 
-      var ano = vm.anoEscolhido.ano;
-      var marca = vm.marcaEscolhida.marca;
-      var modelo = vm.modeloEscolhido.modelo;
-      var testeAno = '';
+      var ano         = vm.anoEscolhido.ano;
+      var marca       = vm.marcaEscolhida.marca;
+      var modelo      = vm.modeloEscolhido.modelo;
+      var testeAno    = '';
       var testeModelo = '';
 
       var combustivel = vm.anoEscolhido.combustivel;
 
       //Armazena os dados da consulta para mostrar na tela de cotacao
-      $rootScope.usuario.preco = vm.anoEscolhido.valor.toString();
-      $rootScope.usuario.modelo = vm.modeloEscolhido.modelo;
+      $rootScope.usuario.preco            = vm.anoEscolhido.valor.toString();
+      $rootScope.usuario.modelo           = vm.modeloEscolhido.modelo;
       $rootScope.usuario.codigoTabelaFipe = vm.anoEscolhido.codigo_fipe;
 
       CheckConditionService.Activate(modelo, marca, ano, vm.rejeitados);
 
-      if ($rootScope.usuario.veiculo === 'AUTOMOVEL') {
+      //Verifica se o veiculo eh para trabalho
+      if (vm.isUber) {
+        console.info('Taxi');
+        $rootScope.usuario.taxi = true;
+      }
+
+      //Verifica se o combustivel eh disel
+      if (combustivel.toUpperCase() === 'DISEL') {
+        console.info('Disel');
+        $rootScope.usuario.disel = true;
+      }
+
+      if ($rootScope.usuario.veiculo === 'AUTOMOVEL') { // Verifica os carros
         console.info('Carro');
 
         testeAno = CheckConditionService.CarHasValidYear(); //Valida o ano
@@ -409,38 +452,27 @@
             timeout: 50000
           });
         } else {
-          if (vm.isUber) {
-            console.info('Taxi');
-            $rootScope.usuario.taxi = true;
-            $state.go('cotacao');
+          $http.get(api + 'importado').then(function (resp) {
+            var retorno = php_crud_api_transform(resp.data).importado;
+            var isImportado = false; //marca
 
-          } else if (combustivel.toUpperCase() === 'DISEL') {
-            console.info('Disel');
+            angular.forEach(retorno, function (value, key) {
+              var upperImportado = value.nome.toUpperCase();
 
-            $rootScope.usuario.disel = true;
-            $state.go('cotacao');
-          } else {
-            $http.get(api + 'importado').then(function (resp) {
-              var retorno = php_crud_api_transform(resp.data).importado;
-              var isImportado = false;//marca
-
-              angular.forEach(retorno, function (value, key) {
-                var upperImportado = value.nome.toUpperCase();
-
-                if (marca.toUpperCase() == upperImportado) {
-                  isImportado = true;
-                }
-              });
-
-              if (isImportado) {
-                console.info('Importado');
-                $rootScope.usuario.importado = true;
+              if (marca.toUpperCase() == upperImportado) {
+                isImportado = true;
               }
-              $state.go('cotacao');
             });
-          }
+
+            if (isImportado) {
+              console.info('Importado');
+              $rootScope.usuario.importado = true;
+            }
+            AddInPipedrive();
+          });
+
         }
-      } else if ($rootScope.usuario.veiculo === 'MOTOCICLETA') {
+      } else if ($rootScope.usuario.veiculo === 'MOTOCICLETA') { //Verifica as motos
         console.info('Moto');
 
         testeAno = CheckConditionService.MotoHasValidYear();
@@ -460,7 +492,7 @@
             timeout: 50000
           });
         } else {
-          $state.go('cotacao');
+          AddInPipedrive();
         }
       }
     }
@@ -479,13 +511,12 @@
     function SalvarDados() {
       $http.post(api + 'cliente', vm.usuario).then(function (resp) {
         $rootScope.usuario.idUsuario = resp.data;
-        console.info('Dados salvos ',$rootScope.usuario);
-        AddInPipedrive();
+        console.info('Dados salvos ', $rootScope.usuario);
       }).catch(function (error) {
         toaster.pop({
-          type   : 'error',
-          title  : 'Erro #701',
-          body   : 'Não foi possível completar a requisição.',
+          type:    'error',
+          title:   'Erro #701',
+          body:    'Não foi possível completar a requisição.',
           timeout: 50000
         });
         console.warn('Erro ao salvar dados do usuario = >' + error);
