@@ -28,45 +28,34 @@
 
     $stateProvider
       .state('placa', {
-        controller: 'SemPlacaController',
+        controller: 'InfoBasicController',
         controllerAs: 'placa',
-        templateUrl: 'fipe.html',
+        templateUrl: 'info-basica/info-basica.html',
         url: '/'
       })
-      // .state('fipe', {
-      //   controller: 'SemPlacaController',
-      //   controllerAs: 'placa',
-      //   templateUrl: 'fipe.html',
-      //   url: '/placa-nao-encontrada'
-      // })
       .state('cotacao', {
         controller: 'CotacaoController',
         controllerAs: 'cotacao',
-        templateUrl: 'cotacao.html',
-        url: '/cotacao'
+        templateUrl: 'cotacao/cotacao.html',
+        url: '/resultado'
       })
       .state('dados', {
-        controller: 'DadosPessoaisController',
+        controller: 'CotacaoController',
         controllerAs: 'dados',
-        templateUrl: 'dadosPessoais.html',
+        templateUrl: 'info-avancada/mais.info.html',
         url: '/dados-pessoais'
       })
       .state('contrato', {
         controller: 'ContratoController',
         controllerAs: 'contrato',
-        templateUrl: 'contrato.html',
+        templateUrl: 'contrato/contrato.html',
         url: '/contrato'
       })
       .state('checkout', {
         controller: 'CheckoutController',
         controllerAs: 'checkout',
-        templateUrl: 'checkout.html',
+        templateUrl: 'checkout/checkout.html',
         url: '/checkout'
-      })
-      .state('resposta', {
-        controller: 'RespostaPagSeguroController',
-        controllerAs: 'resposta',
-        url: '/resposta-pagseguro'
       });
   }
 })();

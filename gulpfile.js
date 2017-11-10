@@ -61,7 +61,7 @@ var paths = {
     origin: ['src/'],
     php:    ['src/php/*.php'],
     vendor: ['src/js/**/*.js'],
-    views:  ['src/views/**/*.html']
+    views:  ['src/app/**/*.html']
   },
   dist: {
     css:    'dist/css/',

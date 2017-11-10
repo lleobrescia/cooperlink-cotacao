@@ -3,14 +3,14 @@
 
   angular
     .module('app')
-    .controller('SemPlacaController', SemPlacaController);
+    .controller('InfoBasicController', InfoBasicController);
 
-  SemPlacaController.$inject = ['$http', '$rootScope', '$state', '$window', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'pipedrive'];
+  InfoBasicController.$inject = ['$http', '$rootScope', '$state', '$window', 'CheckConditionService', 'api', 'fipeService', 'toaster', 'pipedrive'];
 
   /**
    * @ngdoc controller
    * @scope {}
-   * @name SemPlacaController
+   * @name InfoBasicController
    * @memberof app
    * @author Leo Brescia <leonardo@leobrescia.com.br>
    * @desc Force opções de veiculos para o usuario escolher a que se adequa a ele e retornar o valor na tabela Fipe
@@ -41,7 +41,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function SemPlacaController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster, pipedrive) {
+  function InfoBasicController($http, $rootScope, $state, $window, CheckConditionService, api, fipeService, toaster, pipedrive) {
     var vm = this;
     var leo = 'leo';
 
@@ -229,7 +229,7 @@
     /**
      * @function Activate
      * @desc Setup docontrolador. Exetuca assim que o controlador inicia
-     * @memberof SemPlacaController
+     * @memberof InfoBasicController
      */
     function Activate() {
       GetRejeitados();
@@ -330,7 +330,7 @@
     /**
      * @function GetAnos
      * @desc Busca os anos do modelo escolhido. Sai do passo3 e vai para o passo4
-     * @memberof SemPlacaController
+     * @memberof InfoBasicController
      */
     function GetAnos() {
       vm.modeloEscolhido = angular.fromJson(vm.modeloEscolhido);
@@ -359,7 +359,7 @@
     /**
      * @function GetModelos
      * @desc Busca os modelos baseado no veiculo e fabricante escolhidos. Sai do passo2 e vai para o passo3
-     * @memberof SemPlacaController
+     * @memberof InfoBasicController
      */
     function GetModelos() {
       vm.marcaEscolhida = angular.fromJson(vm.marcaEscolhida);
@@ -397,7 +397,7 @@
     /**
      * @function GetPreco
      * @desc Ultimo passo antes de mostrar a cotação. Busca o valor na tabela fipe, verifica se o modelo é aceitavel
-     * @memberof SemPlacaController
+     * @memberof InfoBasicController
      */
     function GetPreco() {
       vm.anoEscolhido = angular.fromJson(vm.anoEscolhido);
@@ -500,7 +500,7 @@
     /**
      * @function GetRejeitados
      * @desc Busca no banco de dados os veiculos rejeitados
-     * @memberof SemPlacaController
+     * @memberof InfoBasicController
      */
     function GetRejeitados() {
       $http.get(api + 'rejeitado').then(function (resp) {

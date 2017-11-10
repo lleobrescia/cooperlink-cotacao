@@ -2,53 +2,103 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="padding: 40px 70px;">
       <h2 style="color: #747a80;font-size: 1.250em;margin: 0;">Você selecionou o plano abaixo.</h2>
-      <h1 style="color: #747a80;font-size: 1.813em;"><strong>Agora você gostaria de turbinar sua proteção?</strong></h1>
+      <h1 style="color: #747a80;font-size: 1.813em;">
+        <strong>Agora você gostaria de turbinar sua proteção?</strong>
+      </h1>
       <table class="table cotacoes">
         <tr ng-if="cotacao.planoEscolhido == 'basico'">
           <td>
-            <h3><strong>Plano Básico</strong></h3>
+            <h3>
+              <strong>Plano Básico</strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.total | currency : 'R$ ' }}</span></strong></h3>
+            <h3>
+              <strong>Mensalidade
+                <br>
+                <span>{{cotacao.total | currency : 'R$ ' }}</span>
+              </strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Taxa de adesão <br> <span>{{cotacao.adesao | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Taxa de adesão
+                <br>
+                <span>{{cotacao.adesao | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
         </tr>
 
         <tr ng-if="cotacao.planoEscolhido == 'bronze'">
           <td>
-            <h3 class="bronze"><strong>Plano Bronze</strong></h3>
+            <h3 class="bronze">
+              <strong>Plano Bronze</strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.total | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Mensalidade
+                <br>
+                <span>{{cotacao.total | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Taxa de adesão <br> <span>{{cotacao.adesao | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Taxa de adesão
+                <br>
+                <span>{{cotacao.adesao | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
         </tr>
 
         <tr ng-if="cotacao.planoEscolhido == 'prata'">
           <td>
-            <h3 class="prata"><strong>Plano Prata</strong></h3>
+            <h3 class="prata">
+              <strong>Plano Prata</strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.total | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Mensalidade
+                <br>
+                <span>{{cotacao.total | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Taxa de adesão <br> <span>{{cotacao.adesao | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Taxa de adesão
+                <br>
+                <span>{{cotacao.adesao | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
         </tr>
 
         <tr ng-if="cotacao.planoEscolhido == 'ouro'">
           <td>
-            <h3 class="ouro"><strong>Plano Ouro</strong></h3>
+            <h3 class="ouro">
+              <strong>Plano Ouro</strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Mensalidade <br> <span>{{cotacao.total  | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Mensalidade
+                <br>
+                <span>{{cotacao.total | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
           <td>
-            <h3><strong>Taxa de adesão <br> <span>{{cotacao.adesao | currency : 'R$ '}}</span></strong></h3>
+            <h3>
+              <strong>Taxa de adesão
+                <br>
+                <span>{{cotacao.adesao | currency : 'R$ '}}</span>
+              </strong>
+            </h3>
           </td>
         </tr>
       </table>
@@ -59,7 +109,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="9.00" type="checkbox"> Moto reserva 7 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="9.00"
+                  type="checkbox"> Moto reserva 7 dias
               </label>
             </div>
           </td>
@@ -71,7 +122,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="12.00" type="checkbox"> Moto reserva 15 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="12.00"
+                  type="checkbox"> Moto reserva 15 dias
               </label>
             </div>
           </td>
@@ -83,7 +135,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="15.00" type="checkbox"> Moto reserva 30 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.motoReserva" ng-true-value="15.00"
+                  type="checkbox"> Moto reserva 30 dias
               </label>
             </div>
           </td>
@@ -95,7 +148,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-hide="cotacao.valorFipe > 50001" ng-model="cotacao.opcionaisMoto.vidros" ng-true-value="{{
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-hide="cotacao.valorFipe > 50001" ng-model="cotacao.opcionaisMoto.vidros"
+                  ng-true-value="{{
                   cotacao.valorFipe <= 25000 ? 7.00 : 
                     (cotacao.valorFipe > 25001 && cotacao.valorFipe <= 35000 ? 11.00  : 
                       (cotacao.valorFipe > 35001 && cotacao.valorFipe <= 39000 ? 13.00 :
@@ -104,8 +158,7 @@
                         )
                       )
                     )
-                  }}" type="checkbox"> 
-                    Vidros, fárois, lanternas e retrovisores
+                  }}" type="checkbox"> Vidros, fárois, lanternas e retrovisores
               </label>
             </div>
           </td>
@@ -122,7 +175,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.reboque" ng-true-value="11.90" type="checkbox"> Reboque 1000Km
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.reboque" ng-true-value="11.90"
+                  type="checkbox"> Reboque 1000Km
               </label>
             </div>
           </td>
@@ -134,7 +188,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.rastreador" ng-true-value="55.00" type="checkbox"> Rastreador
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.rastreador" ng-true-value="55.00"
+                  type="checkbox"> Rastreador
               </label>
             </div>
           </td>
@@ -146,7 +201,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.rastreador" ng-true-value="75.00" type="checkbox"> Rastreador e localizador
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.rastreador" ng-true-value="75.00"
+                  type="checkbox"> Rastreador e localizador
               </label>
             </div>
           </td>
@@ -158,7 +214,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.hospital" ng-true-value="6.00" type="checkbox">  Auxilio hospitalar
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionaisMoto.hospital" ng-true-value="6.00"
+                  type="checkbox"> Auxilio hospitalar
               </label>
             </div>
           </td>
@@ -174,7 +231,8 @@
           <td ng-hide="$root.usuario.taxi">
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="11.00" type="checkbox"> Carro reserva 7 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="11.00"
+                  type="checkbox"> Carro reserva 7 dias
               </label>
             </div>
           </td>
@@ -186,7 +244,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="15.00" type="checkbox"> Carro reserva 15 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="15.00"
+                  type="checkbox"> Carro reserva 15 dias
               </label>
             </div>
           </td>
@@ -198,7 +257,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="20.00" type="checkbox"> Carro reserva 30 dias
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.carroReserva" ng-true-value="20.00"
+                  type="checkbox"> Carro reserva 30 dias
               </label>
             </div>
           </td>
@@ -210,7 +270,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.rastreador" ng-true-value="55.00" type="checkbox"> Rastreador
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.rastreador" ng-true-value="55.00"
+                  type="checkbox"> Rastreador
               </label>
             </div>
           </td>
@@ -222,7 +283,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.rastreador" ng-true-value="75.00" type="checkbox"> Rastreador e localizador
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.rastreador" ng-true-value="75.00"
+                  type="checkbox"> Rastreador e localizador
               </label>
             </div>
           </td>
@@ -234,7 +296,8 @@
           <td>
             <div class="checkbox">
               <label>
-                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.reboque" ng-true-value="11.90" type="checkbox"> Reboque 1000Km
+                <input ng-change="cotacao.SomarTotal()" ng-false-value="0.00" ng-model="cotacao.opcionais.reboque" ng-true-value="11.90"
+                  type="checkbox"> Reboque 1000Km
               </label>
             </div>
           </td>
@@ -255,8 +318,7 @@
                       )
                     )
                   )
-                  }}" type="checkbox"> 
-                  Vidros, fárois, lanternas e retrovisores
+                  }}" type="checkbox"> Vidros, fárois, lanternas e retrovisores
               </label>
             </div>
           </td>

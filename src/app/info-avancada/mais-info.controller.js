@@ -3,9 +3,9 @@
 
   angular
     .module('app')
-    .controller('DadosPessoaisController', DadosPessoaisController);
+    .controller('MaisInfoController', MaisInfoController);
 
-  DadosPessoaisController.$inject = ['$http', '$rootScope', '$state', 'api', 'consultCEP', 'toaster'];
+  MaisInfoController.$inject = ['$http', '$rootScope', '$state', 'api', 'consultCEP', 'toaster'];
 
   /**
    * @ngdoc controller
@@ -31,7 +31,7 @@
    * @see Veja [Angular DOC]    {@link https://docs.angularjs.org/guide/controller} Para mais informações
    * @see Veja [John Papa DOC]  {@link https://github.com/johnpapa/angular-styleguide/tree/master/a1#controllers} Para melhores praticas
    */
-  function DadosPessoaisController($http, $rootScope, $state, api, consultCEP, toaster) {
+  function MaisInfoController($http, $rootScope, $state, api, consultCEP, toaster) {
     var vm = this;
     var idUsuario;
 
