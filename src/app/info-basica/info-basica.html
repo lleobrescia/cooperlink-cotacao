@@ -1,0 +1,63 @@
+<section class="bg__azul" id="selecione" ng-init="main.Scroll('selecione')" ng-style="{'min-height': placa.altura + 'px'}">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h1 class="title">Faça uma cotação online em 1 minutinho</h1>
+        <p class="subtitulo">e descubra quanto você irá economizar na proteção do seu veículo vindo para a Cooperlink </p>
+      </div>
+      <!--col-xs-12-->
+    </div>
+    <!--row-->
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <form class="form__passo" name="formPasso" ng-hide="placa.carregando">
+
+          <div class="animate-switch-container form-group" ng-switch on="placa.fipePasso">
+
+            <div class="animate-switch" ng-switch-when="estado">
+              <div ng-include="'info-basica/passos/estado.html'"></div>
+            </div>
+            <!--estado-->
+
+            <div class="animate-switch" ng-switch-when="dadosPessoais">
+              <div ng-include="'info-basica/passos/dados_pessoais.html'"></div>
+            </div>
+            <!--dadosPessoais-->
+
+            <div class="animate-switch" ng-switch-when="passo1">
+              <div ng-include="'info-basica/passos/passo1.html'"></div>
+            </div>
+            <!--passo1-->
+
+            <div class="animate-switch" ng-switch-when="passo2">
+              <div ng-include="'info-basica/passos/passo2.html'"></div>
+            </div>
+            <!--passo2-->
+
+            <div class="animate-switch" ng-switch-when="passo3">
+              <div ng-include="'info-basica/passos/passo3.html'"></div>
+            </div>
+            <!--passo3-->
+
+            <div class="animate-switch" ng-switch-when="passo4">
+              <div ng-include="'info-basica/passos/passo4.html'"></div>
+            </div>
+            <!--passo4-->
+
+            <div class="animate-switch" ng-switch-when="passo5">
+              <div ng-include="'info-basica/passos/passo5.html'"></div>
+            </div>
+            <!--passo5-->
+          </div>
+          <!--form-group-->
+        </form>
+        <div class="loader" ng-show="placa.carregando"></div>
+      </div>
+      <!--col-sm-8 col-sm-offset-2-->
+    </div>
+    <!--row-->
+  </div>
+  <!--container-->
+</section>
+<!--bg__azul-->

@@ -1,0 +1,46 @@
+<section class="row">
+  <div class="col-md-8 col-md-offset-2">
+
+    <div class="form-group">
+      <div class="form-group">
+
+        <div class="form-group">
+          <label class="control-label text-center" for="nome">Qual é o seu nome completo?</label>
+          <input class="form-control input-lg" name="nome" ng-model="placa.usuario.nome" type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label text-center" for="email">Informe seu e-mail</label>
+          <input class="form-control input-lg" name="email" ng-model="placa.usuario.email" type="email" required>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label text-center" for="tel">Informe seu telefone / Whatsapp</label>
+          <input class="form-control input-lg" name="tel" ng-model="placa.usuario.telefone" type="text" ui-mask="(99) 9?9999-9999"
+            required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 50px;">
+          <button class="btn btn-submit btn-success" ng-click="placa.fipePasso = 'passo1'; placa.SalvarDados()" ng-disabled="formPasso.$invalid" type="submit">Continuar
+            <i class="fa fa-arrow-right" aria-hidden="true" style="margin-left: 23px;"></i>
+          </button>
+        </div>
+        <style>
+          .btn-submit {
+            width: 100%;
+            text-align: right;
+            color: #1a4783;
+            background: #41c4ec;
+            font-size: 2.188em;
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+        </style>
+        <span class="help-block text-center hidden-xs hidden-sm">Depois de preencher, tecle
+          <strong>Enter</strong> para continuar.</span>
+      </div>
+      <!--form-group-->
+    </div>
+
+  </div>
+</section>
