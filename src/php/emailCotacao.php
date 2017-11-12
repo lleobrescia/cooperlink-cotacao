@@ -15,7 +15,7 @@ $to               = $data["to"];
 $subject          = "Sua Cotação [ Cooperlink Brasil ]";
 
 $headers = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 $headers .= "From: Cooperlink Brasil <contato@cooperlink.com.br>" . "\r\n";
 
 $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px; padding-bottom: 30px;">
@@ -267,11 +267,9 @@ $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px;
 </div>';
 
 if ($check == 'umapalavrarealmentemuitograndeparaserlembradafeitapormim') {
-  if (mail($to, $subject, $corpo, $headers)) {
-    echo 'true';
-  }
-  else {
-    echo 'false';
-  }
+    if (mail($to, $subject, $corpo, $headers)) {
+        echo 'true';
+    } else {
+        echo 'false';
+    }
 }
-
