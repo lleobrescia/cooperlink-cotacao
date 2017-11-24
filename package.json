@@ -37,5 +37,8 @@
     "jsdoc": "^3.5.3",
     "vinyl-ftp": "^0.6.0",
     "yargs": "^9.0.1"
+  },
+  "dependencies": {
+    "@types/angular": "^1.6.4"
   }
 }
