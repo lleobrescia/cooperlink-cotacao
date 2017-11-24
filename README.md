@@ -40,22 +40,22 @@ npm install gulp-cli -g
 ```
 #### Plugins
 O Gulp utiliza os seguintes plugins: (A instalação deles é feito na seção instalação do desenvolvimento )
-| Plugin            | Link                                              | Descrição                                                                     |
-| ------            | ------                                            |------                                                                         |
-| gulp autoprefixer | https://github.com/sindresorhus/gulp-autoprefixer | Add vendor prefixes to CSS                                                    |
-| gulp concat       | https://github.com/contra/gulp-concat             | Concatenates js files                                                         |
-| vinyl ftp         | https://github.com/morris/vinyl-ftp               | Blazing fast vinyl adapter for FTP                                            |
-| gulp htmlmin      | https://github.com/jonschlinkert/gulp-htmlmin     | Gulp plugin to minify HTML                                                    |
-| gulp html replace | https://github.com/VFK/gulp-html-replace          | Replace build blocks in HTML. Like useref but done right                      |
-| gulp imagemin     | https://github.com/sindresorhus/gulp-imagemin     | Minify PNG, JPEG, GIF and SVG images                                          |
-| gulp ng-annotate  | https://github.com/Kagami/gulp-ng-annotate        | Add angularjs dependency injection annotations                                |
+| Plugin            | Link                                              | Descrição |
+| ------            | ------                                            |------ |
+| gulp autoprefixer | https://github.com/sindresorhus/gulp-autoprefixer | Add vendor prefixes to CSS |
+| gulp concat       | https://github.com/contra/gulp-concat             | Concatenates js files |
+| vinyl ftp         | https://github.com/morris/vinyl-ftp               | Blazing fast vinyl adapter for FTP |
+| gulp htmlmin      | https://github.com/jonschlinkert/gulp-htmlmin     | Gulp plugin to minify HTML |
+| gulp html replace | https://github.com/VFK/gulp-html-replace          | Replace build blocks in HTML. Like useref but done right |
+| gulp imagemin     | https://github.com/sindresorhus/gulp-imagemin     | Minify PNG, JPEG, GIF and SVG images |
+| gulp ng-annotate  | https://github.com/Kagami/gulp-ng-annotate        | Add angularjs dependency injection annotations |
 | gulp php minify   | https://github.com/aquafadas-com/gulp-php-minify  | Gulp.js plug-in minifying PHP source code by removing comments and whitespace |
-| gulp plumber      | https://github.com/floatdrop/gulp-plumber         | Prevent pipe breaking caused by errors from gulp plugins                      |
-| gulp rename       | https://github.com/hparra/gulp-rename             | Provides simple file renaming methods                                         |
-| gulp replace      | https://github.com/lazd/gulp-replace              | A string replace plugin for gulp                                              |
-| gulp shell        | https://github.com/sun-zheng-an/gulp-shell        | A handy command line interface for gulp                                       |
-| gulp uglify       | https://github.com/terinjokes/gulp-uglify         | Minify JavaScript with UglifyJS3                                              |
-| gulp util         | https://github.com/gulpjs/gulp-util               | Utility functions for gulp plugins                                            |
+| gulp plumber      | https://github.com/floatdrop/gulp-plumber         | Prevent pipe breaking caused by errors from gulp plugins |
+| gulp rename       | https://github.com/hparra/gulp-rename             | Provides simple file renaming methods |
+| gulp replace      | https://github.com/lazd/gulp-replace              | A string replace plugin for gulp |
+| gulp shell        | https://github.com/sun-zheng-an/gulp-shell        | A handy command line interface for gulp |
+| gulp uglify       | https://github.com/terinjokes/gulp-uglify         | Minify JavaScript with UglifyJS3 |
+| gulp util         | https://github.com/gulpjs/gulp-util               | Utility functions for gulp plugins |
 
 #### Tasks
 | Tarefa    | Descrição  |
