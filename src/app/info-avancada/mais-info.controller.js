@@ -42,12 +42,10 @@
       'cep':            '',
       'cidade':         '',
       'complemento':    '',
-      'cotacao':        '',
       'cpf':            '',
       'estado':         '',
       'logradouro':     '',
-      'numero':         '',
-      'planoEscolhido': ''
+      'numero':         ''
     };
 
     /**
@@ -63,10 +61,6 @@
     function Activate() {
       if (!$rootScope.usuario) {
         $state.go('placa');
-      }else{
-        vm.usuario.cotacao        = $rootScope.usuario.idCotacao;
-        vm.usuario.planoEscolhido = $rootScope.usuario.idPlano;
-        idUsuario                 = $rootScope.usuario.idUsuario;
       }
     }
 
@@ -83,20 +77,18 @@
     }
 
     function SalvarDados() {
-      $http.put(api + 'cliente/' + idUsuario, vm.usuario).then(function (resp) {
-        console.info('Dados salvos ',$rootScope.usuario);
-        $state.go('contrato');
+      $rootScope.usuario.bairro      = vm.usuario.bairro;
+      $rootScope.usuario.cep         = vm.usuario.cep;
+      $rootScope.usuario.cidade      = vm.usuario.cidade;
+      $rootScope.usuario.complemento = vm.usuario.complemento;
+      $rootScope.usuario.cpf         = vm.usuario.cpf;
+      $rootScope.usuario.estado      = vm.usuario.estado;
+      $rootScope.usuario.logradouro  = vm.usuario.logradouro;
+      $rootScope.usuario.numero      = vm.usuario.numero;
 
-      }).catch(function (error) {
-        toaster.pop({
-          type   : 'error',
-          title  : 'Erro #701',
-          body   : 'Não foi possível completar a requisição.',
-          timeout: 50000
-        });
-        console.warn('Erro ao salvar dados do usuario = >' + error);
-        $state.go('placa');
-      });
+      console.info('Dados salvos ',$rootScope.usuario);
+      $state.go('contrato');
+
     }
   }
 })();

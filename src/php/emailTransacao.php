@@ -5,7 +5,7 @@ require('php_crud_api_transform.php');
 
 $data = json_decode(file_get_contents('php://input'), true);  //Recebe JSON
 
-$retorno = httpGet($api . "cliente?include=planoescolhido,cotacao&filter=idCliente,eq," . $data["id"]);
+$retorno = httpGet($api . "cp_produto?include=cp_cliente,cp_dados&filter=id,eq," . $data["id"]);
 $retorno = json_decode($retorno, true);
 $retorno = php_crud_api_transform($retorno);
 
@@ -44,75 +44,101 @@ $corpo = '<div style="background-color: #f4f4f4; width: 100%; padding-top: 30px;
             <table align="center" style="width: 600px">
               <tr>
                 <td>Data</td>
-                <td>' . $cliente['cadastro'] . '</td>
+                <td>' . $cliente['cp_cliente'][0]['cadastro'] . '</td>
               </tr>
               <tr>
                 <td>IP</td>
                 <td>
-                  ' . $cliente['planoescolhido'][0]['ip'] . '
+                  ' . $cliente['cp_cliente'][0]['ip'] . '
                 </td>
               </tr>
               <tr>
                 <td>Nome</td>
-                <td>' . $cliente['nome'] . '</td>
+                <td>' . $cliente['cp_cliente'][0]['nome'] . '</td>
               </tr>
               <tr>
                 <td>CPF</td>
-                <td>' . $cliente['cpf'] . '</td>
+                <td>' . $cliente['cp_cliente'][0]['cp_dados'][0]['cpf'] . '</td>
               </tr>
               <tr>
                 <td>E-mail</td>
-                <td>' . $cliente['email'] . '</td>
+                <td>' . $cliente['cp_cliente'][0]['email'] . '</td>
               </tr>
               <tr>
                 <td>Telefone</td>
-                <td>' . $cliente['telefone'] . '</td>
+                <td>' . $cliente['cp_cliente'][0]['cp_dados'][0]['telefone'] . '</td>
               </tr>
               <tr>
                 <td>Endereço</td>
-                <td>' . $cliente['logradouro'] . ', ' . $cliente['numero'] . ' - ' . $cliente['complemento'] . ' - ' . $cliente['bairro'] . ',
-                  ' . $cliente['cidade'] . ', ' . $cliente['estado'] . ' - ' . $cliente['cep'] . '
-                </td> 
+                <td>' . $cliente['cp_cliente'][0]['cp_dados'][0]['logradouro'] . ', ' . $cliente['cp_cliente'][0]['cp_dados'][0]['numero'] . ' - ' . $cliente['cp_cliente'][0]['cp_dados'][0]['complemento'] . ' - ' . $cliente['cp_cliente'][0]['cp_dados'][0]['bairro'] . ',
+                  ' . $cliente['cp_cliente'][0]['cp_dados'][0]['cidade'] . ', ' . $cliente['cp_cliente'][0]['cp_dados'][0]['estado'] . ' - ' . $cliente['cp_cliente'][0]['cp_dados'][0]['cidade'] . '
+                </td>
               </tr>
               <tr>
                 <td>Código FIPE</td>
-                <td>' . $cliente['planoescolhido'][0]['fipe'] . '</td>
+                <td>' . $cliente['codigoFipe'] . '</td>
               </tr>
               <tr>
                 <td>Valor FIPE</td>
-                <td>' . $cliente['cotacao'][0]['valor'] . '</td>
+                <td>' . $cliente['valorFipe'] . '</td>
+              </tr>
+              <tr>
+              <td>Fabricante</td>
+                <td>' . $cliente['fabricante'] . '</td>
               </tr>
               <tr>
                 <td>Modelo</td>
-                <td>' . $cliente['planoescolhido'][0]['modelo'] . '</td>
+                <td>' . $cliente['modelo'] . '</td>
               </tr>
               <tr>
                 <td>Veículo</td>
-                <td>' . $cliente['planoescolhido'][0]['veiculo'] . '</td>
+                <td>' . $cliente['veiculo'] . '</td>
               </tr>
               <tr>
-                <td>Tipo de Veículo</td>
-                <td>' . $cliente['planoescolhido'][0]['tipoVeiculo'] . '</td>
-              </tr>
+                <td>Importado</td>';
+
+              if ($cliente['importado'] == 0) {
+                $corpo .= '<td>Não</td>';
+              } else {
+                $corpo .= '<td>Sim</td>';
+              }
+
+              $corpo .= '</tr>
+                                    <td>Uber/Taxi</td>';
+
+              if ($cliente['trabalho'] == 0) {
+                $corpo .= '<td>Não</td>';
+              } else {
+                $corpo .= '<td>Sim</td>';
+              }
+
+              $corpo .= '</tr>
+
+              <td>Disel</td>';
+
+              if ($cliente['disel'] == 0) {
+                $corpo .= '<td>Não</td>';
+              } else {
+                $corpo .= '<td>Sim</td>';
+              }
+
+              $corpo .= '</tr>
+
               <tr>
                 <td>Plano</td>
-                <td>' . $cliente['planoescolhido'][0]['plano'] . '</td>
+                <td>' . $cliente['plano'] . '</td>
               </tr>
               <tr>
                 <td>Adesão</td>
-                <td>' . $cliente['planoescolhido'][0]['adesao'] . '</td>
-              </tr>
-              <tr>
-                <td>Franquia</td>
-                <td>' . $cliente['planoescolhido'][0]['franquia'] . '</td>
+                <td>' . $cliente['adesao'] . '</td>
               </tr>
               <tr>
                 <td>Mensalidade</td>
-                <td>' . $cliente['planoescolhido'][0]['mensalidade'] . '</td>
+                <td>' . $cliente['mensalidade'] . '</td>
               </tr>
               <tr>
                 <td>Opcionais</td>
-                <td>' . $cliente['planoescolhido'][0]['opcionais'] . '</td>
+                <td>' . $cliente['opcionais'] . '</td>
               </tr>
             </table>
           </td>

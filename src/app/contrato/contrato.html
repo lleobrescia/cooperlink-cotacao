@@ -8,7 +8,11 @@
   </section>
   <!-- row -->
 
-  <section class="row">
+  <section ng-show="contrato.carregando" style="margin-bottom: 100px;">
+    <div class="loader"></div>
+  </section>
+
+  <section class="row" ng-hide="contrato.carregando">
     <div class="col-xs-12">
       <table class="table cotacoes">
         <tr ng-if="$root.usuario.plano == 'basico'">
@@ -110,7 +114,7 @@
     </div>
   </section>
 
-  <section class="row">
+  <section class="row" ng-hide="contrato.carregando">
     <div class="col-xs-12">
       <div style="padding: 10px;height: 578px;overflow-y: scroll;border: solid thin #dbdbdc;margin-bottom: 64px;">
         <p>A qualidade de Associado do SISTEMA NACIONAL DE PROTEÇÃO DE PESSOAS - SINAPPE, possuidora dos direitos de propriedade
@@ -156,7 +160,7 @@
     </div>
   </section>
 
-  <section class="row" style="margin-bottom:80px;">
+  <section class="row" style="margin-bottom:80px;" ng-hide="contrato.carregando">
     <form action="">
       <div class="col-xs-12">
         <div class="checkbox" style="display: inline-block;">

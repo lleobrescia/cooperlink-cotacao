@@ -33,6 +33,12 @@
         templateUrl: 'info-basica/info-basica.html',
         url: '/'
       })
+      .state('verificar', {
+        controller: 'VerificarController',
+        controllerAs: 'verificar',
+        templateUrl: 'verificar/verificar.html',
+        url: '/checar-veiculo'
+      })
       .state('cotacao', {
         controller: 'CotacaoController',
         controllerAs: 'cotacao',
@@ -40,9 +46,9 @@
         url: '/resultado'
       })
       .state('dados', {
-        controller: 'CotacaoController',
+        controller: 'MaisInfoController',
         controllerAs: 'dados',
-        templateUrl: 'info-avancada/mais.info.html',
+        templateUrl: './info-avancada/mais.info.html',
         url: '/dados-pessoais'
       })
       .state('contrato', {

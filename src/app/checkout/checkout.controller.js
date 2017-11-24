@@ -379,11 +379,19 @@
     }
 
     function GetDadosUsuario() {
-      $http.get(api + 'cliente/' + $rootScope.usuario.idUsuario).then(function (resp) {
-        console.log('cliente => ', resp);
-        vm.usuario = resp.data;
-        console.log('usuario => ', vm.usuario);
-      });
+      vm.usuario = {
+        'bairro': $rootScope.usuario.bairro,
+        'cep': $rootScope.usuario.cep,
+        'cidade': $rootScope.usuario.cidade,
+        'complemento': $rootScope.usuario.complemento,
+        'cpf': $rootScope.usuario.cpf,
+        'email': $rootScope.usuario.email,
+        'estado': $rootScope.usuario.estado,
+        'logradouro': $rootScope.usuario.logradouro,
+        'nome': $rootScope.usuario.nome,
+        'numero': $rootScope.usuario.numero,
+        'telefone': $rootScope.usuario.telefone
+      };
     }
 
     function GetMeiosPagamento() {
@@ -410,10 +418,10 @@
       var tel = vm.usuario.telefone;
 
       // Dados do plano
-      requisicaoBoleto.itemId1 = $rootScope.usuario.idCotacao;
+      requisicaoBoleto.itemId1 = $rootScope.usuario.idProduto;
       requisicaoBoleto.itemDescription1 = 'Adesão do plano ' + $rootScope.usuario.plano + '. Para o modelo ' + $rootScope.usuario.modelo;
       requisicaoBoleto.itemAmount1 = ($filter('number')($rootScope.usuario.vlorAdesao, 2)).replace(',', '.');
-      requisicaoBoleto.reference = $rootScope.usuario.idUsuario;
+      requisicaoBoleto.reference = $rootScope.usuario.idProduto;
 
       // Dados do comprador
       requisicaoBoleto.senderName = vm.usuario.nome;
@@ -447,13 +455,13 @@
         console.log(retorno);
 
         var transacao = {
-          'cliente': '',
+          'idProduto': $rootScope.usuario.idProduto,
+          'idRegiao': $rootScope.usuario.idRegiao,
+          'idAfiliado': $rootScope.usuario.idAfiliado || null,
           'codigo': '',
-          'criacao': '',
-          'descricao': '',
+          'cadastro': '',
           'pagamento': '',
-          'status': '',
-          'valor': ''
+          'status': ''
         };
         var erros = $(retorno).find('errors').find('error') || null;
 
@@ -511,13 +519,10 @@
               break;
           }
 
-          transacao.cliente = $(retorno).find('transaction').find('reference')[0].textContent || null;
           transacao.codigo = $(retorno).find('transaction').find('code')[0].textContent || null;
-          transacao.criacao = $filter('date')(hoje, 'yyyy-MM-dd HH:mm:ss', '+0300');
-          transacao.descricao = $(retorno).find('transaction').find('items').find('item').find('description')[0].textContent || null;
+          transacao.cadastro = $filter('date')(hoje, 'yyyy-MM-dd HH:mm:ss', '+0300');
           transacao.pagamento = pagamento;
           transacao.status = status;
-          transacao.valor = $(retorno).find('transaction').find('items').find('item').find('amount')[0].textContent || null;
 
           $http.post(api + 'transacao', transacao).then(function (resp) {
             vm.carregando = false;
@@ -545,10 +550,10 @@
       var tel = vm.usuario.telefone;
 
       // Dados do plano
-      requisicao.itemId1 = $rootScope.usuario.idCotacao;
+      requisicao.itemId1 = $rootScope.usuario.idProduto;
       requisicao.itemDescription1 = 'Adesão do plano ' + $rootScope.usuario.plano + '. Para o modelo ' + $rootScope.usuario.modelo;
       requisicao.itemAmount1 = requisicao.installmentValue = ($filter('number')($rootScope.usuario.vlorAdesao, 2)).replace(',', '.');
-      requisicao.reference = $rootScope.usuario.idUsuario;
+      requisicao.reference = $rootScope.usuario.idProduto;
 
       // Dados do comprador
       requisicao.senderName = requisicao.creditCardHolderName = vm.usuario.nome;
@@ -583,13 +588,13 @@
         console.log(retorno);
 
         var transacao = {
-          'cliente': '',
+          'idProduto': $rootScope.usuario.idProduto,
+          'idRegiao': $rootScope.usuario.idRegiao,
+          'idAfiliado': $rootScope.usuario.idAfiliado || null,
           'codigo': '',
-          'criacao': '',
-          'descricao': '',
+          'cadastro': '',
           'pagamento': '',
-          'status': '',
-          'valor': ''
+          'status': ''
         };
         var erros = $(retorno).find('errors').find('error') || null;
 
@@ -647,13 +652,11 @@
               break;
           }
 
-          transacao.cliente = $(retorno).find('transaction').find('reference')[0].textContent || null;
+
           transacao.codigo = $(retorno).find('transaction').find('code')[0].textContent || null;
           transacao.criacao = $filter('date')(hoje, 'yyyy-MM-dd HH:mm:ss', '+0300');
-          transacao.descricao = $(retorno).find('transaction').find('items').find('item').find('description')[0].textContent || null;
           transacao.pagamento = pagamento;
           transacao.status = status;
-          transacao.valor = $(retorno).find('transaction').find('items').find('item').find('amount')[0].textContent || null;
 
           $http.post(api + 'transacao', transacao).then(function (resp) {
             vm.carregando = false;
