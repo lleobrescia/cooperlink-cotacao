@@ -272,7 +272,7 @@
         vm.hasRastreador = true;
       }
 
-      $http.get(api + 'cp_valor?filter[]=idregiao,eq,' + idRegiao + ',filter[]=segmento,eq,' + segmento).then(function (resp) {
+      $http.get(api + 'cp_valor?filter[]=segmento,eq,' + segmento + '&filter[]=idRegiao,eq,' + idRegiao).then(function (resp) {
         var valores = php_crud_api_transform(resp.data).cp_valor;
 
         //Pega o valor de cada plano
