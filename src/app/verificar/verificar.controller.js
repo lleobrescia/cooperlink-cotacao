@@ -25,7 +25,7 @@
         $state.go('placa');
       } else {
         ano = $rootScope.usuario.ano;
-        marca = $rootScope.usuario.marca;
+        marca = $rootScope.usuario.fabricante;
         modelo = $rootScope.usuario.modelo;
 
         GetRejeitados();
