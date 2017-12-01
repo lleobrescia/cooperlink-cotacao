@@ -48,7 +48,7 @@
       .state('dados', {
         controller: 'MaisInfoController',
         controllerAs: 'dados',
-        templateUrl: './info-avancada/mais.info.html',
+        templateUrl: 'info-avancada/mais.info.html',
         url: '/dados-pessoais'
       })
       .state('contrato', {
